@@ -1,3 +1,23 @@
-<h1>
-  {{title}}
-</h1>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">LeqtureQ</a>
+    </div>
+    <div *ngIf="isLoggedIn" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a (click)="logout()" style="cursor: pointer;">Logout</a></li>
+      </ul>
+    </div>
+    <div *ngIf="!isLoggedIn" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a (click)="login()" style="cursor: pointer;">Sign In</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a (click)="register()" style="cursor: pointer;">Register</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="app-content">
+  <router-outlet></router-outlet>
+</div>

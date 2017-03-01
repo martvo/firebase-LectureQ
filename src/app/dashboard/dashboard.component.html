@@ -1,0 +1,35 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-7 col-md-offset-6">
+      <div class="bs-example bs-example" id="messages">
+      <div #scrollMe class='bs-example' id='messages'>
+
+        <!-- Point: 1 -->
+        <div *ngFor="let message of messages | async">
+
+          <!-- Point: 2 -->
+          <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
+            <p>{{ message.message }}
+
+                <button type='button' class='up-vote' style='right: 20px'>^<div>{{message.votes}}</div>
+                </button>
+
+            </p>
+            <div class="author">
+              {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <figure class="highlight">
+
+        <!-- Point: 3 -->
+        <input type="textarea" class="message-text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
+        <a class="send-message" (click)="sendMessage()">SEND</a>
+
+      </figure>
+    </div>
+  </div>
+</div>
