@@ -1,8 +1,6 @@
-
 <div class="container">
   <div class="row">
     <div class="col-md-7 col-md-offset-6">
-      <div class="bs-example bs-example" id="messages">
       <div #scrollMe class='bs-example' id='messages'>
 
         <!-- Point: 1 -->
@@ -11,17 +9,16 @@
           <!-- Point: 2 -->
           <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
             <p>{{ message.message }}
-
-                <button type='button' class='up-vote' style='right: 20px'>^<div>{{message.votes}}</div>
-                </button>
-
+              <button type='button' class='up-vote' style='right: 20px'>^<div>{{message.votes}}</div>
+              </button>
             </p>
             <div class="author">
               {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
+              <a *ngIf="!isMe(message.email)" type='edit' class='edit-text' style="cursor: pointer;">Edit</a>
+              <a *ngIf="!isMe(message.email)" type='delete' class='delete-text' style="cursor: pointer;">Delete</a>
             </div>
           </div>
         </div>
-      </div>
       </div>
       <figure class="highlight">
 

@@ -10,10 +10,10 @@ import { FirebaseListObservable } from 'angularfire2';
 })
 
 export class DashboardComponent implements OnInit, AfterViewChecked {
-  private myScrollContainer: ElementRef;
-
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   public newMessage: string;
   public messages: FirebaseListObservable<any>;
+  public me: boolean;
 
   constructor(public afService: AF) {
     this.messages = this.afService.messages;
@@ -49,11 +49,11 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch(err) {
-      console.log('Scroll to bottom failed!');
+    console.log("Scroll to bottom failed!")
     }
   }
 
   upvote() {
-    
+
   }
 }
