@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'register', component: RegistrationPageComponent },
-  { path: '', component: FrontscreenComponent }
+  { path: '', component: FrontscreenComponent },
 ];
 
 @NgModule({
@@ -34,7 +34,7 @@ const routes: Routes = [
     RegistrationPageComponent,
     LoginPageComponent,
     DashboardComponent,
-    FrontscreenComponent
+    FrontscreenComponent,
   ],
   imports: [
     BrowserModule,

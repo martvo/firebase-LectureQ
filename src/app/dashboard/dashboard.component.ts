@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { AF } from '../../providers/af';
 import { FirebaseListObservable } from 'angularfire2';
 
@@ -15,12 +16,20 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   public messages: FirebaseListObservable<any>;
   public me: boolean;
 
-  constructor(public afService: AF) {
+  constructor(public afService: AF, private router: Router) {
     this.messages = this.afService.messages;
   }
 
   ngOnInit() {
 
+  }
+
+  edit() {
+
+  }
+
+  delete(key: string) {
+    this.messages.remove(key);
   }
 
   sendMessage(){

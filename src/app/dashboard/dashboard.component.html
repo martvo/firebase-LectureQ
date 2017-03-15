@@ -7,15 +7,15 @@
         <div *ngFor="let message of messages | async">
 
           <!-- Point: 2 -->
-          <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
+          <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)" style="cursor: pointer;" (click)="checkMessage()">
             <p>{{ message.message }}
               <button type='button' class='up-vote' style='right: 20px'>^<div>{{message.votes}}</div>
               </button>
             </p>
             <div class="author">
               {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
-              <a *ngIf="!isMe(message.email)" type='edit' class='edit-text' style="cursor: pointer;">Edit</a>
-              <a *ngIf="!isMe(message.email)" type='delete' class='delete-text' style="cursor: pointer;">Delete</a>
+              <a *ngIf="!isMe(message.email)" type='edit' class='edit-text' style="cursor: pointer;" (click)="edit()">Edit</a>
+              <a *ngIf="!isMe(message.email)" type='delete' class='delete-text' style="cursor: pointer;" (click)="delete(message.$key)">Delete</a>
             </div>
           </div>
         </div>
