@@ -14,6 +14,9 @@
 #messages {
   background-color: #2d384a !important;
 }
+.message {
+  width: 95%;
+}
 .author {
   font-size: 12px;
 }
@@ -34,7 +37,7 @@
   color: #333;
   word-break: break-all;
   word-wrap: break-word;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 98%;
@@ -48,10 +51,10 @@
   color: #333;
   word-break: break-all;
   word-wrap: break-word;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 95%;
+  width: 93%;
 }
 p {
   font-size: 16px;
@@ -89,5 +92,5 @@ p {
   border-radius: 4px;
 }
 .up-vote {
-  margin: 0px 0px 5px 50px;
+  position: right;
 }

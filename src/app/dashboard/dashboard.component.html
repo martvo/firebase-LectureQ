@@ -13,7 +13,7 @@
               <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)">^<div>{{message.votes}}</div>
               </button>
             </p>
-            <p *ngIf="!message.edit">{{ message.message }}
+            <p *ngIf="!message.edit" class="message">{{ message.message }}
               <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)">^<div>{{message.votes}}</div>
               </button>
             </p>
