@@ -40,7 +40,8 @@ sendMessage(text) {
     timestamp: Date.now(),
     votes: 0,
     displayName: this.displayName,
-    email: this.email
+    email: this.email,
+    likes: []
   };
   this.messages.push(message);
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AF } from '../../providers/af';
-import { FirebaseListObservable } from 'angularfire2';
+import { FirebaseListObservable, AngularFire } from 'angularfire2';
 
 @Component({
   moduleId: module.id,
@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   public messages: FirebaseListObservable<any>;
   public me: boolean;
 
-  constructor(public afService: AF, private router: Router) {
+  constructor(public afService: AF, private router: Router, public af: AngularFire) {
     this.messages = this.afService.messages;
   }
 
@@ -62,7 +62,9 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  upvote() {
-
+  upvote(key: string, votes: number) {
+    //var message = this.af.database.list('messages', {query: {orderByChild: 'key', equalsTo: key}})
+    //this.messages.update(key, {likes: message.likes.push(this.afService.email)});
+    this.messages.update(key, {votes: votes + 1});
   }
 }

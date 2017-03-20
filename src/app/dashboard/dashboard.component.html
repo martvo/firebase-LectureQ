@@ -7,9 +7,9 @@
         <div *ngFor="let message of messages | async">
 
           <!-- Point: 2 -->
-          <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)" style="cursor: pointer;" (click)="checkMessage()">
+          <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
             <p>{{ message.message }}
-              <button type='button' class='up-vote' style='right: 20px'>^<div>{{message.votes}}</div>
+              <button type='button' class='up-vote' style='right: 20px' (click)="upvote(message.$key, message.votes)">^<div>{{message.votes}}</div>
               </button>
             </p>
             <div class="author">
