@@ -1,6 +1,9 @@
 <div class="container">
   <div class="row">
     <div class="col-md-7 col-md-offset-6">
+      <select>
+        <option *ngFor="let course of courses | async" >{{course.name}}</option>
+      </select>
       <div #scrollMe class='bs-example' id='messages'>
 
         <!-- Point: 1 -->

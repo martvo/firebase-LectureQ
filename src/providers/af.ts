@@ -7,9 +7,11 @@ export class AF {
   public displayName: string;
   public users: FirebaseListObservable<any>;
   public messages: FirebaseListObservable<any>;
+  public courses: FirebaseListObservable<any>;
 
   constructor(public af: AngularFire) {
     this.messages = this.af.database.list('messages');
+    this.courses = this.af.database.list('courses');
   }
   /**
    * Logs in the user
@@ -33,6 +35,13 @@ export class AF {
    * @param model
    * @returns {firebase.Promise<void>}
    */
+addCourse(courseName){
+  var course = {
+    name: courseName,
+    timestamp: Date.now()
+  }
+  this.courses.push(course);
+}
 
 sendMessage(text) {
   var message = {

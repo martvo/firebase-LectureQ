@@ -14,10 +14,12 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   public newMessage: string;
   public messages: FirebaseListObservable<any>;
+  public courses: FirebaseListObservable<any>;
   public me: boolean;
 
   constructor(public afService: AF, private router: Router, public af: AngularFire) {
     this.messages = this.afService.messages;
+    this.courses = this.afService.courses;
   }
 
   ngOnInit() {
