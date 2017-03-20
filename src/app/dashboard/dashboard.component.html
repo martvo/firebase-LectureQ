@@ -8,12 +8,13 @@
 
           <!-- Point: 2 -->
           <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
-            <p *ngIf="message.edit"><input type="textarea" [(ngModel)]=editMessage (keyup.enter)="sendEdit(message.$key)">
-              <button type='button' class='up-vote' style='right: 20px' (click)="upvote(message.$key, message.votes)">^<div>{{message.votes}}</div>
+            <p *ngIf="message.edit">
+              <input type="textarea" class="message-edit" [(ngModel)]=editMessage (keyup.enter)="sendEdit(message.$key)">
+              <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)">^<div>{{message.votes}}</div>
               </button>
             </p>
             <p *ngIf="!message.edit">{{ message.message }}
-              <button type='button' class='up-vote' style='right: 20px' (click)="upvote(message.$key, message.votes)">^<div>{{message.votes}}</div>
+              <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)">^<div>{{message.votes}}</div>
               </button>
             </p>
             <div class="author">

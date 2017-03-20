@@ -78,4 +78,8 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     this.editMessage = "";
   }
 
+  //må fikse så at vi får en større inputfelt når vi trykker på edit
+  //eller så må alt flyttes ned i send og vi sletter meldingen, men votes beholdes fortsatt
+  //flytt alle funksjoner som har med firebase og gjøre over i af.ts!!!!
+
 }
