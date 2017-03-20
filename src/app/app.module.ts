@@ -34,7 +34,7 @@ const routes: Routes = [
     RegistrationPageComponent,
     LoginPageComponent,
     DashboardComponent,
-    FrontscreenComponent,
+    FrontscreenComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +44,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes)
   ],
   providers: [AF],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+
 })
 export class AppModule { }

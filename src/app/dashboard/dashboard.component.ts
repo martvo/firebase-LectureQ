@@ -13,6 +13,7 @@ import { FirebaseListObservable, AngularFire } from 'angularfire2';
 export class DashboardComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   public newMessage: string;
+  public editMessage: string;
   public messages: FirebaseListObservable<any>;
   public me: boolean;
 
@@ -21,10 +22,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-
-  }
-
-  edit() {
 
   }
 
@@ -67,4 +64,18 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     //this.messages.update(key, {likes: message.likes.push(this.afService.email)});
     this.messages.update(key, {votes: votes + 1});
   }
+
+  edit(key: string, edit: boolean, m: string) {
+    this.editMessage = m;
+    if(!edit)
+      this.messages.update(key, {edit: true});
+    else
+      this.messages.update(key, {edit: false});
+  }
+
+  sendEdit(key: string){
+    this.messages.update(key, {message: this.editMessage, edit: false});
+    this.editMessage = "";
+  }
+
 }
