@@ -13,6 +13,7 @@ import { FirebaseListObservable, AngularFire } from 'angularfire2';
 export class DashboardComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   public newMessage: string;
+  public newQuestion: string;
   public messages: FirebaseListObservable<any>;
   public me: boolean;
 
@@ -35,6 +36,13 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   sendMessage(){
     this.afService.sendMessage(this.newMessage);
     this.newMessage = '';
+  }
+
+  askQuestion(){
+    //this.afService.sendMessage(this.newQuestion);
+    //this.newQuestion = '';
+    this.afService.askQuestion(this.newQuestion);
+    this.newQuestion = '';
   }
 
   isYou(email) {
