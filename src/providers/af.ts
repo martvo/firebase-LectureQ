@@ -98,7 +98,8 @@ sendMessage(text) {
     votes: 0,
     displayName: this.displayName,
     email: this.email,
-    likes: []
+    likes: [],
+    edit: false
   };
   this.messages.push(message);
 }

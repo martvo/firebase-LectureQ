@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   public newMessage: string;
   public newQuestion: string;
+  public editMessage: string;
   public messages: FirebaseListObservable<any>;
   public me: boolean;
   public questionLog;
@@ -28,10 +29,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.afService.setCourse("TDT4140");
-  }
-
-  edit() {
-
   }
 
   delete(key: string) {
@@ -87,4 +84,22 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     //this.messages.update(key, {likes: message.likes.push(this.afService.email)});
     this.messages.update(key, {votes: votes + 1});
   }
+
+  edit(key: string, edit: boolean, m: string) {
+    this.editMessage = m;
+    if(!edit)
+      this.messages.update(key, {edit: true});
+    else
+      this.messages.update(key, {edit: false});
+  }
+
+  sendEdit(key: string){
+    this.messages.update(key, {message: this.editMessage, edit: false});
+    this.editMessage = "";
+  }
+
+  //må fikse så at vi får en større inputfelt når vi trykker på edit
+  //eller så må alt flyttes ned i send og vi sletter meldingen, men votes beholdes fortsatt
+  //flytt alle funksjoner som har med firebase og gjøre over i af.ts!!!!
+
 }
