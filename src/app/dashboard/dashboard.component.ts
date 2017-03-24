@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     this.messages.remove(key);
   }
 
-  sendMessage(){
+  sendMessage() {
     this.afService.sendMessage(this.newMessage);
     this.newMessage = '';
   }
@@ -56,15 +56,15 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
 
   isYou(email) {
     if(email == this.afService.email)
-      return true;
-    else
       return false;
+    else
+      return true;
   }
   isMe(email) {
     if(email == this.afService.email)
-      return false;
-    else
       return true;
+    else
+      return false;
   }
 
   ngAfterViewChecked() {
@@ -93,7 +93,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
       this.messages.update(key, {edit: false});
   }
 
-  sendEdit(key: string){
+  sendEdit(key: string) {
     this.messages.update(key, {message: this.editMessage, edit: false});
     this.editMessage = "";
   }

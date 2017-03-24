@@ -12,6 +12,8 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AF } from '../providers/af';
 import { FrontscreenComponent } from './frontscreen/frontscreen.component';
+import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
+import { LecturerDashboardComponent } from './lecturer-dashboard/lecturer-dashboard.component';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDWUtLOkA-E2uKUIjzjL_Rxlxt4uMcSwNM",
@@ -26,6 +28,8 @@ const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'register', component: RegistrationPageComponent },
   { path: '', component: FrontscreenComponent },
+  { path: 'studentDashboard', component: StudentDashboardComponent },
+  { path: 'lecturerDashboard', component: LecturerDashboardComponent },
 ];
 
 @NgModule({
@@ -35,6 +39,8 @@ const routes: Routes = [
     LoginPageComponent,
     DashboardComponent,
     FrontscreenComponent
+    StudentDashboardComponent,
+    LecturerDashboardComponent
   ],
   imports: [
     BrowserModule,

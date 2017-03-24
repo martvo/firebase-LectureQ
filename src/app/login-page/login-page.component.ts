@@ -23,13 +23,33 @@ export class LoginPageComponent {
 
   loginWithEmail(event, email, password) {
     event.preventDefault();
-    this.afService.loginWithEmail(email, password).then(() => {
-      this.router.navigate(['dashboard']);
-    }).catch((error: any) => {
-      if (error) {
-        this.error = error;
-        console.log(this.error);
-      }
-    });
+    //this.afService.users.subscribe()
+    this.afService.getUsers().subscribe(items => {
+      items.forEach(item => {
+        if (email == item.email) {
+          if (item.role == "student") {
+            this.afService.loginWithEmail(email, password).then(() => {
+              this.router.navigate(['studentDashboard']);
+            }).catch((error: any) => {
+              if (error) {
+                this.error = error;
+                console.log(this.error);
+              }
+            });
+
+          }
+          if (item.role == "lecturer") {
+            this.afService.loginWithEmail(email, password).then(() => {
+              this.router.navigate(['lecturerDashboard']);
+            }).catch((error: any) => {
+              if (error) {
+                this.error = error;
+                console.log(this.error);
+              }
+            });
+          }
+        }
+      })
+    })
   }
 }

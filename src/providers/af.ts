@@ -11,9 +11,11 @@ export class AF {
   public questions: FirebaseListObservable<any>;
   public items;
 
+
   constructor(public af: AngularFire) {
     this.messages = this.af.database.list('messages');
     this.questions = this.af.database.list('questions');
+    this.users = this.af.database.list('userRoles');
     //this.stopWordRemoval("hello what is love");
   }
   /**
@@ -152,6 +154,17 @@ sendMessage(text) {
         'all',
         'almost',
         'alone',
+  registerRole(uid, email, role) {
+    var userRole = {
+      email: email,
+      role: role,
+    }
+    this.users.push(userRole);
+  }
+
+  getUsers() {
+    return this.af.database.list('userRoles');
+  }
         'along',
         'already',
         'also',
