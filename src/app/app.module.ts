@@ -38,7 +38,7 @@ const routes: Routes = [
     RegistrationPageComponent,
     LoginPageComponent,
     DashboardComponent,
-    FrontscreenComponent
+    FrontscreenComponent,
     StudentDashboardComponent,
     LecturerDashboardComponent
   ],

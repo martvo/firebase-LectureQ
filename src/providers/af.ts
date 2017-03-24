@@ -142,6 +142,19 @@ sendMessage(text) {
         method: AuthMethods.Password,
       });
   }
+
+  registerRole(uid, email, role) {
+    var userRole = {
+      email: email,
+      role: role,
+    }
+    this.users.push(userRole);
+  }
+
+  getUsers() {
+    return this.af.database.list('userRoles');
+  }
+  
   removeStopWords(words){
     var stopWords = new Array(
         'a',
@@ -154,17 +167,6 @@ sendMessage(text) {
         'all',
         'almost',
         'alone',
-  registerRole(uid, email, role) {
-    var userRole = {
-      email: email,
-      role: role,
-    }
-    this.users.push(userRole);
-  }
-
-  getUsers() {
-    return this.af.database.list('userRoles');
-  }
         'along',
         'already',
         'also',
