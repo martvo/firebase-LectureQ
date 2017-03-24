@@ -8,8 +8,10 @@ export class AF {
   public users: FirebaseListObservable<any>;
   public messages: FirebaseListObservable<any>;
 
+
   constructor(public af: AngularFire) {
     this.messages = this.af.database.list('messages');
+    this.users = this.af.database.list('userRoles');
   }
   /**
    * Logs in the user
@@ -84,4 +86,15 @@ sendMessage(text) {
       });
   }
 
+  registerRole(uid, email, role) {
+    var userRole = {
+      email: email,
+      role: role,
+    }
+    this.users.push(userRole);
+  }
+
+  getRole(email) {
+    return this.af.database.list('userRoles');
+  }
 }

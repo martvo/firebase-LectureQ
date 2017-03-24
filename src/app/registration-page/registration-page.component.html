@@ -6,15 +6,24 @@
 <div class="modal-dialog">
   <div class="registermodal-container">
     <h1>Register</h1><br>
-    <form class="form-signin" (submit)="register($event, name.value, email.value, password.value)">
+    <form class="form-signin">
       <label for="name" class="sr-only">Name</label>
       <input #name type="text" id="name" class="form-control" placeholder="Name" required="">
       <label for="email" class="sr-only">Email address</label>
       <input #email type="email" id="email" class="form-control" placeholder="Email address" required="" autofocus="">
       <label for="inputPassword" class="sr-only">Password</label>
       <input #password type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+      <label for="confirmPassword" class="sr-only">Repeat Password</label>
+      <input #repeatedpassword type="password" id="repeatedPassword" class="form-control" placeholder="Repeat Password" required="">
       <br>
-      <button  class="btn btn-md btn-primary btn-block" type="submit">Register</button>
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-md btn-primary btn-block" (click)="registerStudent($event, name.value, email.value, password.value, repeatedpassword.value)">Register as Student</button>
+        </div>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-md btn-primary btn-block" (click)="registerLecturer($event, name.value, email.value, password.value, repeatedpassword.value)">Register as Lecturer</button>
+        </div>
+      </div>
     </form>
   </div>
 </div>
