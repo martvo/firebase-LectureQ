@@ -1,8 +1,11 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-5 col-lg-offset-1">
-      <div class="bs-example">
-
+      <div class="bs-example" id = "questions">
+        <div *ngFor="let question of questionLog" >
+          <p>{{question.questionText}}</p>
+          <p>{{question.answer}}</p>
+        </div>
       </div>
       <figure class="highlight">
 

@@ -5,11 +5,15 @@ import {AngularFire, AuthProviders, AuthMethods, FirebaseListObservable} from 'a
 export class AF {
   public email: string;
   public displayName: string;
+  public course: string;
   public users: FirebaseListObservable<any>;
   public messages: FirebaseListObservable<any>;
+  public questions: FirebaseListObservable<any>;
+  public items;
 
   constructor(public af: AngularFire) {
     this.messages = this.af.database.list('messages');
+    this.questions = this.af.database.list('questions');
     //this.stopWordRemoval("hello what is love");
   }
   /**
@@ -34,20 +38,57 @@ export class AF {
    * @param model
    * @returns {firebase.Promise<void>}
    */
-
-sendQuestion(question, answer, course){
-  var words = question.split(" ");
-  var words = removeStopWords(words);
-  var question = {
-    question: words,
-    answer: answer
+initialQuestion(){
+  var index = "TDT4140";
+  var q = {
+    tags: ["What", "love"],
+    answer: "nei"
   }
+  this.af.database.list("/questions/" + index).push(q);
 }
 
-askQuestion(question){
+setCourse(course){
+  this.course = course;
+  this.af.database.list("/questions/" + this.course).subscribe(items =>{
+    this.items = items;
+  });
+}
+
+sendQuestion(question, answer){
   var words = question.split(" ");
-  words = this.removeStopWords(words);
-  console.log(words);
+  var words = this.removeStopWords(words);
+  var q = {
+      tags: words,
+      answer: answer
+  }
+  this.af.database.list("/questions/" + this.course).push(q);
+}
+
+
+askQuestion(question){
+  //this.sendQuestion("What is love", "Baby don't hurt me");
+  var words = question.split(" ");
+  var words = this.removeStopWords(words);
+  var bestItem = null;
+  var bestValue = 0;
+  this.items.forEach(item => {
+    var localValue = 0;
+    item.tags.forEach(tag => {
+      words.forEach(word =>{
+        if(word == tag){
+          localValue += 1;
+        }
+      });
+      if(localValue > bestValue){
+        bestItem = item;
+        bestValue = localValue
+      }
+    });
+  });
+  if(bestItem != null){
+    return bestItem.answer;
+  }
+  return bestItem;
 }
 
 sendMessage(text) {

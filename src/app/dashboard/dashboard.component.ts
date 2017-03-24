@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild } from '@ang
 import { Router } from '@angular/router';
 import { AF } from '../../providers/af';
 import { FirebaseListObservable, AngularFire } from 'angularfire2';
+import { Question } from './question';
 
 @Component({
   moduleId: module.id,
@@ -16,13 +17,17 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   public newQuestion: string;
   public messages: FirebaseListObservable<any>;
   public me: boolean;
+  public questionLog;
+  public questionCount;
 
   constructor(public afService: AF, private router: Router, public af: AngularFire) {
     this.messages = this.afService.messages;
+    this.questionLog = [];
+    this.questionCount = 0;
   }
 
   ngOnInit() {
-
+    this.afService.setCourse("TDT4140");
   }
 
   edit() {
@@ -38,11 +43,18 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     this.newMessage = '';
   }
 
+  setCourse(course){
+    this.afService.setCourse(course);
+  }
+
   askQuestion(){
-    //this.afService.sendMessage(this.newQuestion);
-    //this.newQuestion = '';
-    this.afService.askQuestion(this.newQuestion);
-    this.newQuestion = '';
+    var result = this.afService.askQuestion(this.newQuestion);
+    if(result == null){
+      result = "No answer found :(";
+    }
+    this.questionLog.push(new Question(this.questionCount,this.newQuestion,result));
+    this.questionCount += 1;
+    this.newQuestion = "";
   }
 
   isYou(email) {
