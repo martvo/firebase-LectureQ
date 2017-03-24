@@ -16,7 +16,6 @@ export class AF {
     this.messages = this.af.database.list('messages');
     this.questions = this.af.database.list('questions');
     this.users = this.af.database.list('userRoles');
-    //this.stopWordRemoval("hello what is love");
   }
   /**
    * Logs in the user
@@ -40,14 +39,6 @@ export class AF {
    * @param model
    * @returns {firebase.Promise<void>}
    */
-initialQuestion(){
-  var index = "TDT4140";
-  var q = {
-    tags: ["What", "love"],
-    answer: "nei"
-  }
-  this.af.database.list("/questions/" + index).push(q);
-}
 
 setCourse(course){
   this.course = course;
@@ -68,7 +59,6 @@ sendQuestion(question, answer){
 
 
 askQuestion(question){
-  //this.sendQuestion("What is love", "Baby don't hurt me");
   var words = question.split(" ");
   var words = this.removeStopWords(words);
   var bestItem = null;
@@ -154,7 +144,7 @@ sendMessage(text) {
   getUsers() {
     return this.af.database.list('userRoles');
   }
-  
+
   removeStopWords(words){
     var stopWords = new Array(
         'a',
