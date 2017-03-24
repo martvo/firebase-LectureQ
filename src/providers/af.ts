@@ -94,7 +94,7 @@ sendMessage(text) {
     this.users.push(userRole);
   }
 
-  getRole(email) {
+  getUsers() {
     return this.af.database.list('userRoles');
   }
 }

@@ -24,7 +24,7 @@ export class LoginPageComponent {
   loginWithEmail(event, email, password) {
     event.preventDefault();
     //this.afService.users.subscribe()
-    this.afService.getRole(email).subscribe(items => {
+    this.afService.getUsers().subscribe(items => {
       items.forEach(item => {
         if (email == item.email) {
           if (item.role == "student") {
