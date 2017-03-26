@@ -17,6 +17,7 @@ export class AF {
     this.questions = this.af.database.list('questions');
     this.users = this.af.database.list('userRoles');
   }
+
   /**
    * Logs in the user
    * @returns {firebase.Promise<FirebaseAuthState>}
@@ -27,11 +28,27 @@ export class AF {
       method: AuthMethods.Popup,
     });
   }
-  /**
-   * Logs out the current user
-   */
+
+  //Logsout the current user
   logout() {
     return this.af.auth.logout();
+  }
+
+  /**
+   * pushes a new message to the messages array with nessasary fields
+   * (FirebaseListObservable<any>)
+   */
+  sendMessage(text) {
+    var message = {
+      message: text,
+      timestamp: Date.now(),
+      votes: 0,
+      displayName: this.displayName,
+      email: this.email,
+      likes: [],
+      edit: false
+    };
+    this.messages.push(message);
   }
 
   /**
@@ -39,6 +56,13 @@ export class AF {
    * @param model
    * @returns {firebase.Promise<void>}
    */
+   registerUser(email, password) {
+     console.log(email)
+     return this.af.auth.createUser({
+       email: email,
+       password: password
+     });
+   }
 
 setCourse(course){
   this.course = course;
@@ -83,26 +107,6 @@ askQuestion(question){
   return bestItem;
 }
 
-sendMessage(text) {
-  var message = {
-    message: text,
-    timestamp: Date.now(),
-    votes: 0,
-    displayName: this.displayName,
-    email: this.email,
-    likes: [],
-    edit: false
-  };
-  this.messages.push(message);
-}
-
-  registerUser(email, password) {
-    console.log(email)
-    return this.af.auth.createUser({
-      email: email,
-      password: password
-    });
-  }
   /**
    * Saves information to display to screen when user is logged in
    * @param uid
@@ -114,14 +118,14 @@ sendMessage(text) {
       name: name,
       email: email,
     });
-   /**
-   * Logs the user in using their Email/Password combo
-   * @param email
-   * @param password
-   * @returns {firebase.Promise<FirebaseAuthState>}
-   */
  }
 
+ /**
+ * Logs the user in using their Email/Password combo
+ * @param email
+ * @param password
+ * @returns {firebase.Promise<FirebaseAuthState>}
+ */
   loginWithEmail(email, password) {
     return this.af.auth.login({
         email: email,
@@ -133,7 +137,12 @@ sendMessage(text) {
       });
   }
 
-  registerRole(uid, email, role) {
+  /**
+   * pushes a new userRole tupple to the userRoles array with nessasary fields
+   * {FirebaseListObservable<any>}
+   * used for differentiating lecturers from students etc.
+   */
+  registerRole(email, role) {
     var userRole = {
       email: email,
       role: role,
@@ -141,6 +150,9 @@ sendMessage(text) {
     this.users.push(userRole);
   }
 
+  /**
+   * @returns {firebase.Promise<void>}
+   */
   getUsers() {
     return this.af.database.list('userRoles');
   }
@@ -585,5 +597,9 @@ sendMessage(text) {
       }
     }
     return words;
+  }
+
+  getMessages(key) {
+    return this.af.database.list('/messages/' + key);
   }
 }
