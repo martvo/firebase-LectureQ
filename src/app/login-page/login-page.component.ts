@@ -28,12 +28,13 @@ export class LoginPageComponent {
      * waits for answer from the database before
      * continuing with the login process
      */
-    this.afService.getUsers().subscribe(items => {
+    var sub = this.afService.getUsers().subscribe(items => {
       items.forEach(item => {
         if (email == item.email) {
-          if (item.role == "student") { // logs user in as a student
+          if (item.role == "student") {            // logs user in as a student
             this.afService.loginWithEmail(email, password).then(() => {
               this.router.navigate(['studentDashboard']);
+              sub.unsubscribe;
             }).catch((error: any) => {
               if (error) {
                 this.error = error;
@@ -42,9 +43,10 @@ export class LoginPageComponent {
             });
 
           }
-          if (item.role == "lecturer") { // losg user in as a lecturer
+          if (item.role == "lecturer") {          // losg user in as a lecturer
             this.afService.loginWithEmail(email, password).then(() => {
               this.router.navigate(['lecturerDashboard']);
+              sub.unsubscribe;
             }).catch((error: any) => {
               if (error) {
                 this.error = error;

@@ -82,22 +82,32 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   upvote(key: string, votes: number) {
     //var message = this.af.database.list('messages', {query: {orderByChild: 'key', equalsTo: key}})
     //this.messages.update(key, {likes: message.likes.push(this.afService.email)});
-    /*this.afService.getMessages(key).subscribe(items => {
+    var sub = this.afService.getMessages(key).subscribe(items => {
       items.forEach(item => {
+        console.log(item)
         if (item.$key == "likes") {
           item.forEach(user => {
+            console.log(user)
             if (user == this.afService.email) {
-              return;
+              console.log("kan ikke like to ganger!!")
+              sub.unsubscribe;
             }
           })
+          // in the forEach item loop and if item.$key == "likes"
           this.messages.update(key, {votes: votes + 1});
           item.push(this.afService.email);
           this.messages.update(key, {likes: item})
-          console.log(item)
+          console.log("Du er ikke i listen 'likes'")
+          sub.unsubscribe;
         }
       })
-    })*/
-    this.messages.update(key, {votes: votes + 1});
+      // in the items subscription
+      this.messages.update(key, {votes: votes + 1});
+      console.log("Ingen lister med nøkkel 'likes'")
+      this.messages.update(key, {likes: [this.afService.email]});
+      sub.unsubscribe;
+    })
+    //this.messages.update(key, {votes: votes + 1});
   }
 
   edit(key: string, edit: boolean, m: string) {
