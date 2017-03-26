@@ -62,6 +62,21 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   upvote(key: string, votes: number) {
     //var message = this.af.database.list('messages', {query: {orderByChild: 'key', equalsTo: key}})
     //this.messages.update(key, {likes: message.likes.push(this.afService.email)});
+    /*this.afService.getMessages(key).subscribe(items => {
+      items.forEach(item => {
+        if (item.$key == "likes") {
+          item.forEach(user => {
+            if (user == this.afService.email) {
+              return;
+            }
+          })
+          this.messages.update(key, {votes: votes + 1});
+          item.push(this.afService.email);
+          this.messages.update(key, {likes: item})
+          console.log(item)
+        }
+      })
+    })*/
     this.messages.update(key, {votes: votes + 1});
   }
 

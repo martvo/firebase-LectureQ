@@ -15,19 +15,23 @@ export class LoginPageComponent {
 
   loginWithGoogle() {
     this.afService.loginWithGoogle().then((data) => {
-      //send thm to the homepage if they are logged in
+      //send them to the homepage if they are logged in
       //this.afService.addUserInfo();
       this.router.navigate(['dashboard']);
     })
   }
 
+  // logs the user inn with email and password
   loginWithEmail(event, email, password) {
     event.preventDefault();
-    //this.afService.users.subscribe()
+    /**
+     * waits for answer from the database before
+     * continuing with the login process
+     */
     this.afService.getUsers().subscribe(items => {
       items.forEach(item => {
         if (email == item.email) {
-          if (item.role == "student") {
+          if (item.role == "student") { // logs user in as a student
             this.afService.loginWithEmail(email, password).then(() => {
               this.router.navigate(['studentDashboard']);
             }).catch((error: any) => {
@@ -38,7 +42,7 @@ export class LoginPageComponent {
             });
 
           }
-          if (item.role == "lecturer") {
+          if (item.role == "lecturer") { // losg user in as a lecturer
             this.afService.loginWithEmail(email, password).then(() => {
               this.router.navigate(['lecturerDashboard']);
             }).catch((error: any) => {

@@ -14,7 +14,7 @@ export class RegistrationPageComponent  {
 
   constructor(private afService: AF, private router: Router) {}
 
-  //registers the user and logs them in
+  //registers the user as a student and logs them in
   registerStudent(event, name, email, password, repeatedpassword) {
     event.preventDefault();
     if (!this.checkPassword(password, repeatedpassword)) {
@@ -23,7 +23,7 @@ export class RegistrationPageComponent  {
     }
     this.afService.registerUser(email, password).then((user) => {
       this.afService.saveUserInfoFromForm(user.uid, name, email).then(() => {
-        this.afService.registerRole(user.uid, email, "student");
+        this.afService.registerRole(email, "student");
         this.router.navigate(['studentDashboard']);
       }).catch((error) => {
         this.error = error;
@@ -34,6 +34,7 @@ export class RegistrationPageComponent  {
     });
   }
 
+  //registrates the user as a lecturer and logs them in
   registerLecturer(event, name, email, password, repeatedpassword) {
     event.preventDefault();
     if (!this.checkPassword(password, repeatedpassword)) {
@@ -43,7 +44,7 @@ export class RegistrationPageComponent  {
     this.afService.registerUser(email, password).then((user) => {
       this.afService.saveUserInfoFromForm(user.uid, name, email).then(() => {
         console.log("skal vi registrere rolle?")
-        this.afService.registerRole(user.uid, email, "lecturer");
+        this.afService.registerRole(email, "lecturer");
         this.router.navigate(['lecturerDashboard']);
       }).catch((error) => {
         this.error = error;
@@ -54,6 +55,9 @@ export class RegistrationPageComponent  {
     });
   }
 
+  /**
+   * Checks for equal passwords
+   */
   checkPassword(password, repeatedpassword) {
     if (password != repeatedpassword)
       return false;
