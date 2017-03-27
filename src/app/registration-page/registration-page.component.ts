@@ -23,7 +23,7 @@ export class RegistrationPageComponent  {
     }
     this.afService.registerUser(email, password).then((user) => {
       this.afService.saveUserInfoFromForm(user.uid, name, email).then(() => {
-        this.afService.registerRole(email, "student");
+        this.afService.registerRole(email, "students");
         this.router.navigate(['studentDashboard']);
       }).catch((error) => {
         this.error = error;
@@ -43,8 +43,7 @@ export class RegistrationPageComponent  {
     }
     this.afService.registerUser(email, password).then((user) => {
       this.afService.saveUserInfoFromForm(user.uid, name, email).then(() => {
-        console.log("skal vi registrere rolle?")
-        this.afService.registerRole(email, "lecturer");
+        this.afService.registerRole(email, "lecturers");
         this.router.navigate(['lecturerDashboard']);
       }).catch((error) => {
         this.error = error;

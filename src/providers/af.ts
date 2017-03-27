@@ -6,16 +6,22 @@ export class AF {
   public email: string;
   public displayName: string;
   public course: string;
-  public users: FirebaseListObservable<any>;
+  public students: FirebaseListObservable<any>;
+  public lecturers: FirebaseListObservable<any>;
+  public userRoles: FirebaseListObservable<any>;
   public messages: FirebaseListObservable<any>;
   public questions: FirebaseListObservable<any>;
+  public courses: FirebaseListObservable<any>;
   public items;
 
 
   constructor(public af: AngularFire) {
     this.messages = this.af.database.list('messages');
     this.questions = this.af.database.list('questions');
-    this.users = this.af.database.list('userRoles');
+    this.students = this.af.database.list('userRoles/students');
+    this.lecturers = this.af.database.list('userRoles/lecturers');
+    this.userRoles = this.af.database.list('userRoles');
+    this.courses = this.af.database.list('courses');
   }
 
   /**
@@ -144,17 +150,56 @@ askQuestion(question){
    */
   registerRole(email, role) {
     var userRole = {
-      email: email,
-      role: role,
+      email: email
     }
-    this.users.push(userRole);
+    if (role == "students") {
+      this.students.push(userRole);
+    }
+    if (role == "lecturers") {
+      this.lecturers.push(userRole);
+    }
   }
 
   /**
    * @returns {firebase.Promise<void>}
    */
-  getUsers() {
-    return this.af.database.list('userRoles');
+  getUsers(role) {
+    return this.af.database.list('userRoles/' + role);
+  }
+
+  /**
+   * @returns {firebase.Promise<void>}
+   */
+  getCourses() {
+    return this.af.database.list('courses');
+  }
+
+  addCourse(email, name, code, co_lecturer) {
+    if (co_lecturer != "") {
+      this.lecturers.forEach(items => {
+        items.forEach(item => {
+          if (item.email == co_lecturer) {
+            var course = {
+              owner: email,
+              courseName: name,
+              courseCode: code,
+              timestamp: Date.now(),
+              co_lecturer: co_lecturer
+            }
+            this.courses.push(course);
+          }
+        })
+      })
+    }
+    if (co_lecturer == "") {
+      var course = {
+        owner: email,
+        courseName: name,
+        courseCode: code,
+        timestamp: Date.now(),
+      }
+      this.courses.push(course);
+    }
   }
 
   removeStopWords(words){
