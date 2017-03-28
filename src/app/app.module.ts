@@ -14,14 +14,7 @@ import { AF } from '../providers/af';
 import { FrontscreenComponent } from './frontscreen/frontscreen.component';
 import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
 import { LecturerDashboardComponent } from './lecturer-dashboard/lecturer-dashboard.component';
-
-export const firebaseConfig = {
-  apiKey: "AIzaSyDWUtLOkA-E2uKUIjzjL_Rxlxt4uMcSwNM",
-  authDomain: "fir-lectureq.firebaseapp.com",
-  databaseURL: "https://fir-lectureq.firebaseio.com",
-  storageBucket: "fir-lectureq.appspot.com",
-  messagingSenderId: "937804058730"
-};
+import {firebaseConfig} from './config';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
