@@ -51,6 +51,10 @@ export class AF {
     this.messages.push(message);
   }
 
+  removeMessage(key){
+    this.messages.remove(key);
+  }
+
   /**
    * Calls the AngularFire2 service to register a new user
    * @param model
@@ -83,8 +87,8 @@ sendQuestion(question, answer){
 
 
 askQuestion(question){
-  var words = question.split(" ");
-  var words = this.removeStopWords(words);
+  var words = this.removeStopWords(question);
+  console.log(words);
   var results = [];
 
   this.items.forEach(item => {
@@ -95,13 +99,15 @@ askQuestion(question){
           localValue += 1;
         }
       });
-      results.push({question: item, score: localValue});
+      if(localValue > 0){
+        results.push({question: item, score: localValue});
+      }
     });
   });
+
   results.sort(function(a,b) {
       return a.score - b.score;
   });
-  console.log(results);
   return results;
 }
 
@@ -156,6 +162,9 @@ askQuestion(question){
   }
 
   removeStopWords(words){
+    words = words.toLowerCase();
+    words = words.replace(/[-+()!?.,'*]/g, '');
+    words = words.split(" ");
     var stopWords = new Array(
         'a',
         'about',

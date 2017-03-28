@@ -53,22 +53,15 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     if(this.newQuestion != ""){
       var result = this.afService.askQuestion(this.newQuestion);
       var answer = "";
-      if(result == []){
+      if(result.length == 0){
         answer = "No answer found :(";
         this.hasAnswer = false;
       }
       else{
         var firstAnswer = result.pop();
-        if(firstAnswer.score > 0){
-          this.hasAnswer = true;
-          answer = firstAnswer.question.answer;
-          this.previousResults = result;
-        }
-        else{
-          answer = "No answer found :(";
-          this.hasAnswer = false;
-          this.previousResults = [];
-        }
+        this.hasAnswer = true;
+        answer = firstAnswer.question.answer;
+        this.previousResults = result;
       }
       this.bubbleLog.push(new Bubble(this.bubbleCount,this.newQuestion,false));
       this.bubbleCount += 1;
@@ -79,22 +72,27 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   answeredQuestion(isAnswered){
+    console.log(this.previousResults);
     var answer = ""
     if(isAnswered){
+      this.bubbleLog.push(new Bubble(this.bubbleCount,"Thats the perfect answer!",false));
+      this.bubbleCount += 1;
+
       this.hasAnswer = false;
       answer = "That's nice :)"
       this.previousResults = [];
     }
     else{
-      if(this.previousResults != []){
+
+      this.bubbleLog.push(new Bubble(this.bubbleCount,"Not the answer i was looking for",false));
+      this.bubbleCount += 1;
+
+      if(this.previousResults.length > 0){
         var result = this.previousResults.pop();
-        if(result.score > 0){
-          answer = result.question.answer;
-        }
-        else{
-          answer = "Your question does not match any existing questions";
-          this.hasAnswer = false;
-        }
+        answer = result.question.answer;
+
+        this.bubbleLog.push(new Bubble(this.bubbleCount, "How about:",true));
+        this.bubbleCount += 1;
       }
       else{
         answer = "Your question does not match any existing questions";
