@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild } from '@ang
 import { Router } from '@angular/router';
 import { AF } from '../../providers/af';
 import { FirebaseListObservable, AngularFire } from 'angularfire2';
-import { Question } from './question';
+import { Bubble } from './bubble';
 
 @Component({
   moduleId: module.id,
@@ -18,13 +18,16 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   public editMessage: string;
   public messages: FirebaseListObservable<any>;
   public me: boolean;
-  public questionLog;
-  public questionCount;
+
+  public bubbleLog;
+  public bubbleCount;
+  public hasAnswer: boolean;
 
   constructor(public afService: AF, private router: Router, public af: AngularFire) {
     this.messages = this.afService.messages;
-    this.questionLog = [];
-    this.questionCount = 0;
+    this.bubbleLog = [new Bubble(0,"Please ask me a question",true)];
+    this.bubbleCount = 1;
+    this.hasAnswer = false;
   }
 
   ngOnInit() {
@@ -45,13 +48,30 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   askQuestion(){
-    var result = this.afService.askQuestion(this.newQuestion);
-    if(result == null){
-      result = "No answer found :(";
+    if(this.newQuestion != ""){
+      var result = this.afService.askQuestion(this.newQuestion);
+      if(result == null){
+        result = "No answer found :(";
+        this.hasAnswer = false;
+      }
+      else{
+        this.hasAnswer = true;
+      }
+      this.bubbleLog.push(new Bubble(this.bubbleCount,this.newQuestion,false));
+      this.bubbleCount += 1;
+      this.bubbleLog.push(new Bubble(this.bubbleCount,result,true));
+      this.bubbleCount += 1;
+      this.newQuestion = "";
     }
-    this.questionLog.push(new Question(this.questionCount,this.newQuestion,result));
-    this.questionCount += 1;
-    this.newQuestion = "";
+  }
+
+  answeredQuestion(isAnswered){
+    if(isAnswered){
+      this.hasAnswer = false;
+    }
+    else{
+
+    }
   }
 
   isYou(email) {
