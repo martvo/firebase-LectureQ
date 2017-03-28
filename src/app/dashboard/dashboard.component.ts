@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   delete(key: string) {
-    this.messages.remove(key);
+    this.afService.removeMessage(key);
   }
 
   sendMessage() {
