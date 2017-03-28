@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
 
   public bubbleLog;
   public bubbleCount;
+  public previousResults;
   public hasAnswer: boolean;
 
   constructor(public afService: AF, private router: Router, public af: AngularFire) {
@@ -28,6 +29,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     this.bubbleLog = [new Bubble(0,"Please ask me a question",true)];
     this.bubbleCount = 1;
     this.hasAnswer = false;
+    this.previousResults = [];
   }
 
   ngOnInit() {
@@ -56,8 +58,17 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
         this.hasAnswer = false;
       }
       else{
-        this.hasAnswer = true;
-        answer = result[0].question.answer;
+        var firstAnswer = result.pop();
+        if(firstAnswer.score > 0){
+          this.hasAnswer = true;
+          answer = firstAnswer.question.answer;
+          this.previousResults = result;
+        }
+        else{
+          answer = "No answer found :(";
+          this.hasAnswer = false;
+          this.previousResults = [];
+        }
       }
       this.bubbleLog.push(new Bubble(this.bubbleCount,this.newQuestion,false));
       this.bubbleCount += 1;
@@ -68,12 +79,30 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   answeredQuestion(isAnswered){
+    var answer = ""
     if(isAnswered){
       this.hasAnswer = false;
+      answer = "That's nice :)"
+      this.previousResults = [];
     }
     else{
-
+      if(this.previousResults != []){
+        var result = this.previousResults.pop();
+        if(result.score > 0){
+          answer = result.question.answer;
+        }
+        else{
+          answer = "Your question does not match any existing questions";
+          this.hasAnswer = false;
+        }
+      }
+      else{
+        answer = "Your question does not match any existing questions";
+        this.hasAnswer = false;
+      }
     }
+    this.bubbleLog.push(new Bubble(this.bubbleCount,answer,true));
+    this.bubbleCount += 1;
   }
 
   isYou(email) {
