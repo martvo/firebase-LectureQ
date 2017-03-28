@@ -160,11 +160,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   edit(key: string, edit: boolean, m: string) {
-    this.editMessage = m;
-    if(!edit)
-      this.messages.update(key, {edit: true});
-    else
-      this.messages.update(key, {edit: false});
+    this.afService.editMessage(key,edit,m);
   }
 
   sendEdit(key: string) {

@@ -51,6 +51,18 @@ export class AF {
     this.messages.push(message);
   }
 
+  editMessage(key, edit, m){
+    this.editMessage = m;
+    if(!edit)
+      this.messages.update(key, {edit: true});
+    else
+      this.messages.update(key, {edit: false});
+  }
+
+  sendEdit(key){
+    
+  }
+
   removeMessage(key){
     this.messages.remove(key);
   }
