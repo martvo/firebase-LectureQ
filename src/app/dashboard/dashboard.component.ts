@@ -50,16 +50,18 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   askQuestion(){
     if(this.newQuestion != ""){
       var result = this.afService.askQuestion(this.newQuestion);
-      if(result == null){
-        result = "No answer found :(";
+      var answer = "";
+      if(result == []){
+        answer = "No answer found :(";
         this.hasAnswer = false;
       }
       else{
         this.hasAnswer = true;
+        answer = result[0].question.answer;
       }
       this.bubbleLog.push(new Bubble(this.bubbleCount,this.newQuestion,false));
       this.bubbleCount += 1;
-      this.bubbleLog.push(new Bubble(this.bubbleCount,result,true));
+      this.bubbleLog.push(new Bubble(this.bubbleCount,answer,true));
       this.bubbleCount += 1;
       this.newQuestion = "";
     }

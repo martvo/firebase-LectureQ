@@ -85,8 +85,8 @@ sendQuestion(question, answer){
 askQuestion(question){
   var words = question.split(" ");
   var words = this.removeStopWords(words);
-  var bestItem = null;
-  var bestValue = 0;
+  var results = [];
+
   this.items.forEach(item => {
     var localValue = 0;
     item.tags.forEach(tag => {
@@ -95,16 +95,14 @@ askQuestion(question){
           localValue += 1;
         }
       });
-      if(localValue > bestValue){
-        bestItem = item;
-        bestValue = localValue
-      }
+      results.push({question: item, score: localValue});
     });
   });
-  if(bestItem != null){
-    return bestItem.answer;
-  }
-  return bestItem;
+  results.sort(function(a,b) {
+      return b.score - a.score;
+  });
+  console.log(results);
+  return results;
 }
 
   /**
