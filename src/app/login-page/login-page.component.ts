@@ -28,34 +28,65 @@ export class LoginPageComponent {
      * waits for answer from the database before
      * continuing with the login process
      */
-    var sub = this.afService.getUsers().subscribe(items => {
-      items.forEach(item => {
-        if (email == item.email) {
-          if (item.role == "student") {            // logs user in as a student
-            this.afService.loginWithEmail(email, password).then(() => {
-              this.router.navigate(['studentDashboard']);
-              sub.unsubscribe;
-            }).catch((error: any) => {
-              if (error) {
-                this.error = error;
-                console.log(this.error);
-              }
-            });
+     var sub1 = this.afService.getUsers("students").subscribe(items => {
+       items.forEach(item => {
+         if (item.email == email) {
+           this.afService.loginWithEmail(email, password).then(() => {
+             this.router.navigate(['studentDashboard']);
+             sub2.unsubscribe;
+             return;
+           })
+         }
+       })
+     })
 
-          }
-          if (item.role == "lecturer") {          // losg user in as a lecturer
-            this.afService.loginWithEmail(email, password).then(() => {
-              this.router.navigate(['lecturerDashboard']);
-              sub.unsubscribe;
-            }).catch((error: any) => {
-              if (error) {
-                this.error = error;
-                console.log(this.error);
+     var sub2 = this.afService.getUsers("lecturers").subscribe(items => {
+       items.forEach(item => {
+         if (item.email == email) {
+           this.afService.loginWithEmail(email, password).then(() => {
+             this.router.navigate(['lecturerDashboard']);
+             sub2.unsubscribe;
+             return;
+           })
+         }
+       })
+     })
+     /**
+    var sub = this.afService.getUsers("students").subscribe(items => {
+      items.forEach(item => {
+        console.log(item)
+        if (item.$key == "students") {
+          item.forEach(user => {        // logs user in as a student
+            if (user == email) {
+              this.afService.loginWithEmail(email, password).then(() => {
+                this.router.navigate(['studentDashboard']);
+                sub.unsubscribe;
+              }).catch((error: any) => {
+                if (error) {
+                  this.error = error;
+                  console.log(this.error);
               }
             });
+            }
+          })
+          if (item.$key == "lecturers") {      // losg user in as a lecturer
+            item.forEach(user => {
+              if (user == email) {
+                this.afService.loginWithEmail(email, password).then(() => {
+                  this.router.navigate(['lecturerDashboard']);
+                  sub.unsubscribe;
+                }).catch((error: any) => {
+                  if (error) {
+                    this.error = error;
+                    console.log(this.error);
+                  }
+                });
+              }
+            })
           }
         }
       })
     })
+    */
   }
 }

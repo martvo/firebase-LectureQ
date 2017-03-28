@@ -32,7 +32,7 @@ export class AppComponent {
             this.afService.email = auth.auth.email;
           }
           this.isLoggedIn = true;
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['lecturerDashboard']);
         }
       }
     );
