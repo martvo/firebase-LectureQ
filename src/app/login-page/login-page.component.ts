@@ -32,6 +32,7 @@ export class LoginPageComponent {
        items.forEach(item => {
          if (item.email == email) {
            this.afService.loginWithEmail(email, password).then(() => {
+             this.afService.setUserRole("student");
              this.router.navigate(['studentDashboard']);
              sub2.unsubscribe;
              return;
@@ -44,6 +45,7 @@ export class LoginPageComponent {
        items.forEach(item => {
          if (item.email == email) {
            this.afService.loginWithEmail(email, password).then(() => {
+             this.afService.setUserRole("lecturer");
              this.router.navigate(['lecturerDashboard']);
              sub2.unsubscribe;
              return;

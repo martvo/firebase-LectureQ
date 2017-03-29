@@ -14,7 +14,7 @@ import { AF } from '../providers/af';
 import { FrontscreenComponent } from './frontscreen/frontscreen.component';
 import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
 import { LecturerDashboardComponent } from './lecturer-dashboard/lecturer-dashboard.component';
-import {firebaseConfig} from './config';
+import { firebaseConfig } from './config';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },

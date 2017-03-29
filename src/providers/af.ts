@@ -5,6 +5,8 @@ import {AngularFire, AuthProviders, AuthMethods, FirebaseListObservable} from 'a
 export class AF {
   public email: string;
   public displayName: string;
+  // course variable is used to identify the current course for easy access to
+  // that courses questions and chat
   public course: string;
   public students: FirebaseListObservable<any>;
   public lecturers: FirebaseListObservable<any>;
@@ -12,11 +14,13 @@ export class AF {
   public messages: FirebaseListObservable<any>;
   public questions: FirebaseListObservable<any>;
   public courses: FirebaseListObservable<any>;
+  // role variable used for identifying users role
+  public role: string;
   public items;
 
 
+
   constructor(public af: AngularFire) {
-    this.messages = this.af.database.list('messages');
     this.questions = this.af.database.list('questions');
     this.students = this.af.database.list('userRoles/students');
     this.lecturers = this.af.database.list('userRoles/lecturers');
@@ -66,7 +70,7 @@ export class AF {
   }
 
   sendEdit(key){
-    
+
   }
 
   removeMessage(key){
@@ -86,8 +90,10 @@ export class AF {
      });
    }
 
+//set the current course for easy access to propper chat and question
 setCourse(course){
   this.course = course;
+  this.messages = this.af.database.list('chats/' + this.course);
   this.af.database.list("/questions/" + this.course).subscribe(items =>{
     this.items = items;
   });
@@ -216,6 +222,21 @@ askQuestion(question){
       }
       this.courses.push(course);
     }
+  }
+
+// @returns this.course<string>
+  getCurrentCourse() {
+    return this.course;
+  }
+
+  // sets role of user
+  setUserRole(role) {
+    this.role = role;
+  }
+
+  // @retunrs this.role<string>
+  getUserRole() {
+    return this.role;
   }
 
   removeStopWords(words){
@@ -664,6 +685,6 @@ askQuestion(question){
   }
 
   getMessages(key) {
-    return this.af.database.list('/messages/' + key);
+    return this.af.database.list('chats/' + this.course + '/' + key);
   }
 }

@@ -29,9 +29,15 @@ export class LecturerDashboardComponent implements OnInit {
   }
 
   addCourse(event, courseName, courseCode, co_lecturer) {
-    this.afService.addCourse(this.afService.email, courseName, courseCode, co_lecturer);
+    var courseCodeUpper = courseCode.toUpperCase();
+    this.afService.addCourse(this.afService.email, courseName, courseCodeUpper, co_lecturer);
   }
 
+  goToDashboard(course) {
+    this.afService.setCourse(course);
+    this.router.navigate(['dashboard']);
+  }
 
-
+  //fikse slik at når man reloader siden så blir rollen i af satt til lecturer
+  //hvis man er logget inn, gjør det samme med student 
 }

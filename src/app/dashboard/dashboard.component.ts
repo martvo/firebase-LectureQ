@@ -33,7 +33,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    this.afService.setCourse("TDT4140");
   }
 
   delete(key: string) {
@@ -155,12 +154,35 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   edit(key: string, edit: boolean, m: string) {
-    this.afService.editMessage(key,edit,m);
+    this.editMessage = m;
+    this.afService.editMessage(key, edit, m);
   }
 
   sendEdit(key: string) {
     this.messages.update(key, {message: this.editMessage, edit: false});
     this.editMessage = "";
+  }
+
+  getRole() {
+    return this.afService.getUserRole();
+  }
+
+  isStudent() {
+    if (this.getRole() == "student") {
+      return true;
+    } else
+      return false;
+  }
+
+  isLecturer() {
+    if (this.getRole() == "lecturer") {
+      return true;
+    } else
+      return false;
+  }
+
+  endSession() {
+    this.router.navigate(['lecturerDashboard']);
   }
 
   //må fikse så at vi får en større inputfelt når vi trykker på edit

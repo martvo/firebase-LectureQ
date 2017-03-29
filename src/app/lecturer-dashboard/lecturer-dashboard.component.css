@@ -1,5 +1,10 @@
-.add-subject.container {
-  width: 50%;
+.add-subject-container {
+  width: 80%;
   height: 50%;
   margin: 0 auto;
+  padding-top: 30px;
+}
+
+.myCourses {
+  width: 80%;
 }
