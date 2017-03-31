@@ -13,7 +13,10 @@ export class AF {
   public userRoles: FirebaseListObservable<any>;
   public messages: FirebaseListObservable<any>;
   public questions: FirebaseListObservable<any>;
+  // courses is used for leturers
   public courses: FirebaseListObservable<any>;
+  // sCourses is used for students
+  public sCourses: FirebaseListObservable<any>;
   // role variable used for identifying users role
   public role: string;
   public items;
@@ -26,6 +29,7 @@ export class AF {
     this.lecturers = this.af.database.list('userRoles/lecturers');
     this.userRoles = this.af.database.list('userRoles');
     this.courses = this.af.database.list('courses');
+    this.sCourses = this.af.database.list('userRoles/students')
   }
 
   /**
@@ -196,7 +200,7 @@ askQuestion(question){
     return this.af.database.list('courses');
   }
 
-  addCourse(email, name, code, co_lecturer) {
+  addLCourse(email, name, code, co_lecturer) {
     if (co_lecturer != "") {
       this.lecturers.forEach(items => {
         items.forEach(item => {
@@ -224,6 +228,41 @@ askQuestion(question){
     }
   }
 
+  addSCourses(code: string) {
+    var x = 0;
+    var usefulKey;
+    this.sCourses.forEach(items => {
+      items.forEach(item => {
+        if (item.courses == null && item.email == this.email) {
+          console.log("No list with key 'courses'")
+          usefulKey = item.$key;
+          this.sCourses.update(usefulKey, {courses: [code]})
+          x++;
+        }
+        if (item.courses != null && item.email == this.email && x < 1) {
+          // inside the courses array
+          usefulKey = item.$key;
+          item.courses.forEach(c => {
+            if (c == code) {
+              console.log("Course already added")
+              x++;
+            }
+          })
+          // in the forEach item loop and if (item.course != null)
+          if (x < 1) {
+            console.log("Course added!")
+            console.log("Liste vi ønsker å pushe til: " + item.courses)
+            console.log("Ønsker å pushe: " + code)
+            item.courses.push(code);
+            console.log("etter å ha pushet: " + item.courses)
+            this.sCourses.update(usefulKey, {courses: item.courses});
+            x++;
+          }
+        }
+      })
+    })
+  }
+
 // @returns this.course<string>
   getCurrentCourse() {
     return this.course;
@@ -237,6 +276,38 @@ askQuestion(question){
   // @retunrs this.role<string>
   getUserRole() {
     return this.role;
+  }
+
+  // removes a students course
+  removeSCourse(code: string, email: string) {
+    var usefulKey;
+    var x = 0;
+    this.sCourses.forEach(items => {
+      items.forEach(item => {
+          if (item.email == email && x < 1) {
+            x++;
+            item.courses.splice(item.courses.indexOf(code), 1);
+            console.log(item.courses)
+            this.sCourses.update(item.$key, {courses: item.courses});
+          }
+      });
+    })
+  }
+
+  // mothode for lecturers to remove a course
+  // removes the course for all students who is attendign the course aswell
+  removeLCourse(course, key: string) {
+    this.courses.remove(key);
+    // removes the course from students list of courses
+    this.sCourses.forEach(items => {
+      items.forEach(item => {
+        if (item.courses != null && (item.courses.indexOf(course.courseCode) != -1)) {
+          item.courses.splice(item.courses.indexOf(course.courseCode), 1);
+          console.log("her")
+          this.sCourses.update(item.$key, {courses: item.courses});
+        }
+      })
+    })
   }
 
   removeStopWords(words){

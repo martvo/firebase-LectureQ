@@ -7,12 +7,11 @@
           <div *ngFor="let course of myCourses">
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
               <div class="edit" role="group">
-                <button class="btn btn-md btn-primary btn-block" type="button" (click)="goToDashboard(course.courseCode)">{{course.courseCode}}
+                <button class="btn btn-md btn-primary btn-block" type="button" (click)="goToDashboard(course)">{{course}}
                 </button>
               </div>
               <div class="btn-group" role="group">
-                <button type='button' class='btn btn-default'><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </button>
+                <button type='button' class='btn btn-md btn-primary btn-block' (click)="removeSCourse(course)">Remove</button>
               </div>
             </div><br>
           </div>
@@ -27,7 +26,15 @@
           <span class="input-group-btn">
             <button class="btn btn-md btn-primary btn-block" type="search" (click)="searchForCourse(courseCode.value)">Search!</button>
           </span>
-        </form>
+        </form><hr>
+        <div *ngFor="let searchedCourse of searchedCourses">
+          <form class="form-inline">
+            <div class="form-group">
+              <label class="sr-only">Email</label>
+              <p class="form-control-static">{{searchedCourse}}</p>
+            </div>
+            <button type="submit" class="btn btn-md btn-primary" (click)="addSCourse(searchedCourse)">Add</button>
+          </form><br>
       </div>
     </div>
   </div>

@@ -15,22 +15,30 @@ export class LecturerDashboardComponent implements OnInit {
 
   constructor(public afService: AF, private router: Router) {
     this.myCourses = [];
+    this.updateMyCourses();
+  }
+
+  ngOnInit() {
+  }
+
+  updateMyCourses() {
+    this.myCourses = [];
     this.courses = this.afService.getCourses();
     this.courses.subscribe(courses => {
       courses.forEach(course => { // each course object
-        if (course.owner == this.afService.email) {
+        if (course.owner == this.afService.email || course.co_lecturer == this.afService.email) {
           this.myCourses.push(course);
         }
       })
     });
   }
 
-  ngOnInit() {
-  }
-
-  addCourse(event, courseName, courseCode, co_lecturer) {
-    var courseCodeUpper = courseCode.toUpperCase();
-    this.afService.addCourse(this.afService.email, courseName, courseCodeUpper, co_lecturer);
+  addLCourse(event, courseName, courseCode, co_lecturer) {
+    if (courseName != "" && courseCode != "") {
+      var courseCodeUpper = courseCode.toUpperCase();
+      this.afService.addLCourse(this.afService.email, courseName, courseCodeUpper, co_lecturer);
+      this.updateMyCourses();
+    }
   }
 
   goToDashboard(course) {
@@ -38,6 +46,13 @@ export class LecturerDashboardComponent implements OnInit {
     this.router.navigate(['dashboard']);
   }
 
+  removeLCourse(course, key: string) {
+    this.afService.removeLCourse(course, key);
+    console.log("course removed")
+    this.updateMyCourses();
+    //husk at faget må fjernes hos studentene også
+  }
+
   //fikse slik at når man reloader siden så blir rollen i af satt til lecturer
-  //hvis man er logget inn, gjør det samme med student 
+  //hvis man er logget inn, gjør det samme med student
 }

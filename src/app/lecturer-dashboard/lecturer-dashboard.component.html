@@ -5,13 +5,17 @@
       <div class="myCourses">
         <div #scrollMe class="courses" id="myCourses">
           <div *ngFor="let course of myCourses">
-            <div class="btn-group btn-group-justified" role="group" aria-label="...">
-              <div class="edit" role="group">
-                <button class="btn btn-md btn-primary btn-block" type="button" (click)="goToDashboard(course.courseCode)">{{course.courseCode}}
+            <div class="btn-group btn-group" role="group" aria-label="...">
+              <div class="btn-group" role="group">
+                <button class="btn btn-group btn-md btn-primary btn-block" type="button" (click)="goToDashboard(course.courseCode)">{{course.courseCode}}
                 </button>
               </div>
               <div class="btn-group" role="group">
-                <button type='button' class='btn btn-default'><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                <button type='button' class='btn btn-default'>Edit
+                </button>
+              </div>
+              <div class="btn-group" role="group">
+                <button type='button' class='btn btn-default' (click)="removeLCourse(course, course.$key)">Remove
                 </button>
               </div>
             </div><br>
@@ -29,7 +33,7 @@
           <label for="email" class="sr-only">Co-Lecturer</label>
           <input #email type="coop-email" id="email" class="form-control" placeholder="f.eks. lecture@ntnu.no (optional)">
           <br>
-          <button class="btn btn-md btn-primary btn-block" type="addSubject" (click)="addCourse($event, courseName.value, courseCode.value, email.value)">Add Course</button>
+          <button class="btn btn-md btn-primary btn-block" type="addSubject" (click)="addLCourse($event, courseName.value, courseCode.value, email.value)">Add Course</button>
         </form>
         <hr>
     </div>
