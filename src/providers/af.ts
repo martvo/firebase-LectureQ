@@ -201,66 +201,70 @@ askQuestion(question){
   }
 
   addLCourse(email, name, code, co_lecturer) {
-    if (co_lecturer != "") {
-      this.lecturers.forEach(items => {
-        items.forEach(item => {
-          if (item.email == co_lecturer) {
-            var course = {
-              owner: email,
-              courseName: name,
-              courseCode: code,
-              timestamp: Date.now(),
-              co_lecturer: co_lecturer
+    if (this.role == "lecturer") {
+      if (co_lecturer != "") {
+        this.lecturers.forEach(items => {
+          items.forEach(item => {
+            if (item.email == co_lecturer) {
+              var course = {
+                owner: email,
+                courseName: name,
+                courseCode: code,
+                timestamp: Date.now(),
+                co_lecturer: co_lecturer
+              }
+              this.courses.push(course);
             }
-            this.courses.push(course);
-          }
+          })
         })
-      })
-    }
-    if (co_lecturer == "") {
-      var course = {
-        owner: email,
-        courseName: name,
-        courseCode: code,
-        timestamp: Date.now(),
       }
-      this.courses.push(course);
+      if (co_lecturer == "") {
+        var course = {
+          owner: email,
+          courseName: name,
+          courseCode: code,
+          timestamp: Date.now(),
+        }
+        this.courses.push(course);
+      }
     }
   }
 
   addSCourses(code: string) {
-    var x = 0;
-    var usefulKey;
-    this.sCourses.forEach(items => {
-      items.forEach(item => {
-        if (item.courses == null && item.email == this.email) {
-          console.log("No list with key 'courses'")
-          usefulKey = item.$key;
-          this.sCourses.update(usefulKey, {courses: [code]})
-          x++;
-        }
-        if (item.courses != null && item.email == this.email && x < 1) {
-          // inside the courses array
-          usefulKey = item.$key;
-          item.courses.forEach(c => {
-            if (c == code) {
-              console.log("Course already added")
-              x++;
-            }
-          })
-          // in the forEach item loop and if (item.course != null)
-          if (x < 1) {
-            console.log("Course added!")
-            console.log("Liste vi ønsker å pushe til: " + item.courses)
-            console.log("Ønsker å pushe: " + code)
-            item.courses.push(code);
-            console.log("etter å ha pushet: " + item.courses)
-            this.sCourses.update(usefulKey, {courses: item.courses});
+    if (this.role == "student") {
+      var x = 0;
+      var usefulKey;
+      this.sCourses.forEach(items => {
+        items.forEach(item => {
+          if (item.courses == null && item.email == this.email) {
+            console.log("No list with key 'courses'")
+            usefulKey = item.$key;
+            this.sCourses.update(usefulKey, {courses: [code]})
             x++;
           }
-        }
+          if (item.courses != null && item.email == this.email && x < 1) {
+            // inside the courses array
+            usefulKey = item.$key;
+            item.courses.forEach(c => {
+              if (c == code) {
+                console.log("Course already added")
+                x++;
+              }
+            })
+            // in the forEach item loop and if (item.course != null)
+            if (x < 1) {
+              console.log("Course added!")
+              console.log("Liste vi ønsker å pushe til: " + item.courses)
+              console.log("Ønsker å pushe: " + code)
+              item.courses.push(code);
+              console.log("etter å ha pushet: " + item.courses)
+              this.sCourses.update(usefulKey, {courses: item.courses});
+              x++;
+            }
+          }
+        })
       })
-    })
+    }
   }
 
 // @returns this.course<string>
@@ -280,34 +284,44 @@ askQuestion(question){
 
   // removes a students course
   removeSCourse(code: string, email: string) {
-    var usefulKey;
-    var x = 0;
-    this.sCourses.forEach(items => {
-      items.forEach(item => {
-          if (item.email == email && x < 1) {
-            x++;
-            item.courses.splice(item.courses.indexOf(code), 1);
-            console.log(item.courses)
-            this.sCourses.update(item.$key, {courses: item.courses});
-          }
-      });
-    })
+    if (this.role == "student") {
+      var usefulKey;
+      var x = 0;
+      this.sCourses.forEach(items => {
+        items.forEach(item => {
+            if (item.email == email && x < 1) {
+              x++;
+              item.courses.splice(item.courses.indexOf(code), 1);
+              console.log(item.courses)
+              this.sCourses.update(item.$key, {courses: item.courses});
+            }
+        });
+      })
+    }
   }
 
   // mothode for lecturers to remove a course
   // removes the course for all students who is attendign the course aswell
   removeLCourse(course, key: string) {
-    this.courses.remove(key);
-    // removes the course from students list of courses
-    this.sCourses.forEach(items => {
-      items.forEach(item => {
-        if (item.courses != null && (item.courses.indexOf(course.courseCode) != -1)) {
-          item.courses.splice(item.courses.indexOf(course.courseCode), 1);
-          console.log("her")
-          this.sCourses.update(item.$key, {courses: item.courses});
-        }
+    if (this.role == "lecturer") {
+      this.courses.remove(key);
+      // removes the course from students list of courses
+      this.sCourses.forEach(items => {
+        items.forEach(item => {
+          if (item.courses != null && (item.courses.indexOf(course.courseCode) != -1)) {
+            item.courses.splice(item.courses.indexOf(course.courseCode), 1);
+            console.log("her")
+            this.sCourses.update(item.$key, {courses: item.courses});
+          }
+        })
       })
-    })
+    }
+  }
+
+  // removes all messages from a given course
+  removeAllMessages(course) {
+    console.log(course)
+    this.af.database.list("chats/" + course).remove();
   }
 
   removeStopWords(words){

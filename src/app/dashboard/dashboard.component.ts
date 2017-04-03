@@ -183,6 +183,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
 
   endSession() {
     this.router.navigate(['lecturerDashboard']);
+    this.afService.removeAllMessages(this.afService.course);
   }
 
   //må fikse så at vi får en større inputfelt når vi trykker på edit

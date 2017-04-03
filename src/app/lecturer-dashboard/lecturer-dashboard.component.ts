@@ -47,6 +47,7 @@ export class LecturerDashboardComponent implements OnInit {
   }
 
   removeLCourse(course, key: string) {
+    this.afService.removeAllMessages(course.courseCode);
     this.afService.removeLCourse(course, key);
     console.log("course removed")
     this.updateMyCourses();
