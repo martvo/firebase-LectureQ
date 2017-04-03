@@ -26,7 +26,7 @@ export class LecturerDashboardComponent implements OnInit {
     this.courses = this.afService.getCourses();
     this.courses.subscribe(courses => {
       courses.forEach(course => { // each course object
-        if (course.owner == this.afService.email || course.co_lecturer == this.afService.email) {
+        if (course.owner == this.afService.user.email || course.co_lecturer == this.afService.user.email) {
           this.myCourses.push(course);
         }
       })
@@ -36,7 +36,7 @@ export class LecturerDashboardComponent implements OnInit {
   addLCourse(event, courseName, courseCode, co_lecturer) {
     if (courseName != "" && courseCode != "") {
       var courseCodeUpper = courseCode.toUpperCase();
-      this.afService.addLCourse(this.afService.email, courseName, courseCodeUpper, co_lecturer);
+      this.afService.addLCourse(this.afService.user.email, courseName, courseCodeUpper, co_lecturer);
       this.updateMyCourses();
     }
   }

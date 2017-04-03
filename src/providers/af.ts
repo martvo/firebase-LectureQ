@@ -3,8 +3,8 @@ import {AngularFire, AuthProviders, AuthMethods, FirebaseListObservable} from 'a
 
 @Injectable()
 export class AF {
-  public email: string;
-  public displayName: string;
+  //public email: string;
+  //public displayName: string;
   // course variable is used to identify the current course for easy access to
   // that courses questions and chat
   public course: string;
@@ -13,13 +13,16 @@ export class AF {
   public userRoles: FirebaseListObservable<any>;
   public messages: FirebaseListObservable<any>;
   public questions: FirebaseListObservable<any>;
+
   // courses is used for leturers
   public courses: FirebaseListObservable<any>;
   // sCourses is used for students
   public sCourses: FirebaseListObservable<any>;
   // role variable used for identifying users role
   public role: string;
+
   public items;
+  public user;
 
 
 
@@ -29,7 +32,7 @@ export class AF {
     this.lecturers = this.af.database.list('userRoles/lecturers');
     this.userRoles = this.af.database.list('userRoles');
     this.courses = this.af.database.list('courses');
-    this.sCourses = this.af.database.list('userRoles/students')
+    this.sCourses = this.af.database.list('userRoles/students');
   }
 
   /**
@@ -48,6 +51,25 @@ export class AF {
     return this.af.auth.logout();
   }
 
+  setUserObject(uid){
+    this.af.database.list('/newUsers/' + uid, { preserveSnapshot: true}).subscribe(user =>{
+      this.user = user;
+      var courseList = [];
+      if(this.user[0].length > 1){
+        this.user[0].forEach(element => {
+            courseList.push(element);
+        });
+      }
+      this.user["courseList"] = courseList;
+      this.user["uid"] = uid;
+    });
+  }
+
+  updateStudentCourse(){
+    this.af.database.object("/newUsers/" + this.user.uid+ "/courses").set(this.user.courseList);
+  }
+
+
   /**
    * pushes a new message to the messages array with nessasary fields
    * (FirebaseListObservable<any>)
@@ -57,8 +79,8 @@ export class AF {
       message: text,
       timestamp: Date.now(),
       votes: 0,
-      displayName: this.displayName,
-      email: this.email,
+      displayName: this.user.name,
+      email: this.user.email,
       likes: [],
       edit: false
     };
@@ -145,10 +167,12 @@ askQuestion(question){
    * @param model
    * @returns {firebase.Promise<void>}
    */
-  saveUserInfoFromForm(uid, name, email) {
-    return this.af.database.object('registeredUsers/' + uid).set({
+  saveUserInfoFromForm(uid, name, email,isLecturer) {
+    return this.af.database.object('newUsers/' + uid).set({
       name: name,
       email: email,
+      isLecturer: isLecturer,
+      //courses: [] Not necesarry
     });
  }
 
@@ -236,13 +260,13 @@ askQuestion(question){
       var usefulKey;
       this.sCourses.forEach(items => {
         items.forEach(item => {
-          if (item.courses == null && item.email == this.email) {
+          if (item.courses == null && item.email == this.user.email) {
             console.log("No list with key 'courses'")
             usefulKey = item.$key;
             this.sCourses.update(usefulKey, {courses: [code]})
             x++;
           }
-          if (item.courses != null && item.email == this.email && x < 1) {
+          if (item.courses != null && item.email == this.user.email && x < 1) {
             // inside the courses array
             usefulKey = item.$key;
             item.courses.forEach(c => {

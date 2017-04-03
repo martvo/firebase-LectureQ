@@ -18,10 +18,10 @@
       <br>
       <div class="btn-group btn-group-justified" role="group" aria-label="...">
         <div class="btn-group" role="group">
-          <button type="button" class="btn btn-md btn-primary btn-block" (click)="registerStudent($event, name.value, email.value, password.value, repeatedpassword.value)">Register as Student</button>
+          <button type="button" class="btn btn-md btn-primary btn-block" (click)="register($event, name.value, email.value, password.value, repeatedpassword.value,false)">Register as Student</button>
         </div>
         <div class="btn-group" role="group">
-          <button type="button" class="btn btn-md btn-primary btn-block" (click)="registerLecturer($event, name.value, email.value, password.value, repeatedpassword.value)">Register as Lecturer</button>
+          <button type="button" class="btn btn-md btn-primary btn-block" (click)="register($event, name.value, email.value, password.value, repeatedpassword.value,true)">Register as Lecturer</button>
         </div>
       </div>
     </form>

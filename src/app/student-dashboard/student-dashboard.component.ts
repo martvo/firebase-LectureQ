@@ -15,19 +15,34 @@ export class StudentDashboardComponent implements OnInit {
   public searchedCourses;
 
   constructor(public afService: AF, private router: Router) {
-    this.courses = this.afService.getUsers('students');
-    this.myCourses = [];
-    this.updateMyCourses();
+    while(typeof this.afService.user == 'undefined'){
+
+    }
+    console.log(this.afService.user);
   }
 
   ngOnInit() {
+    console.log(this.afService.user);
   }
 
-  updateMyCourses() {
+  addCourse(course: string){
+    if(!(this.afService.user.courseList.includes(course))){
+      this.afService.user.courseList.push(course);
+      this.afService.updateStudentCourse();
+    }
+  }
+
+  removeCourse(course: string){
+    this.afService.user.courseList.remove(course);
+    this.afService.updateStudentCourse();
+  }
+
+  /*
+  updateMyCourses2() {
     this.myCourses = [];
     this.courses.subscribe(items => {
       items.forEach(item => {
-        if (item.email == this.afService.email) {
+        if (item.email == this.afService.user.email) {
           if (item.courses != null) {
             for (let entry of item.courses) {
               this.myCourses.push(entry);
@@ -40,9 +55,10 @@ export class StudentDashboardComponent implements OnInit {
 
   removeSCourse(code: string) {
     console.log("removing course")
-    this.afService.removeSCourse(code, this.afService.email);
+    this.afService.removeSCourse(code, this.afService.user.email);
     this.updateMyCourses();
   }
+  */
 
   goToDashboard(course: string) {
     this.afService.setCourse(course);
@@ -61,7 +77,7 @@ export class StudentDashboardComponent implements OnInit {
       })
     });
   }
-
+  /*
   addSCourse(course: string) {
     this.afService.addSCourses(course);
     this.updateMyCourses();
@@ -69,13 +85,13 @@ export class StudentDashboardComponent implements OnInit {
     /**var usefulKey;
     var sub = this.afService.getUsers("students").subscribe(items => {
       items.forEach(item => {
-        if (item.courses == null && item.email == this.afService.email) {
+        if (item.courses == null && item.email == this.afService.user.email) {
           console.log("No list with key 'courses'")
           usefulKey = item.$key;
           this.courses.update(usefulKey, {courses: [course]})
           sub.unsubscribe;
         }
-        if (item.courses != null && item.email == this.afService.email) {
+        if (item.courses != null && item.email == this.afService.user.email) {
           // inside the courses array
           usefulKey = item.$key;
           item.courses.forEach(c => {
@@ -95,6 +111,7 @@ export class StudentDashboardComponent implements OnInit {
         }
       })
     })
-    */
+
   }
+  */
 }

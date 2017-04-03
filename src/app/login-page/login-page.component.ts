@@ -28,6 +28,9 @@ export class LoginPageComponent {
      * waits for answer from the database before
      * continuing with the login process
      */
+     var login = this.afService.loginWithEmail(email,password);
+     console.log(login);
+
      var sub1 = this.afService.getUsers("students").subscribe(items => {
        items.forEach(item => {
          if (item.email == email) {

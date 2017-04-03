@@ -24,15 +24,18 @@ export class AppComponent {
         else {
           console.log("Successfully Logged in.");
           if(auth.google) {
-            this.afService.displayName = auth.google.displayName;
-            this.afService.email = auth.google.email;
+            //this.afService.displayName = auth.google.displayName;
+            //this.afService.email = auth.google.email;
           }
           else {
-            this.afService.displayName = auth.auth.email;
-            this.afService.email = auth.auth.email;
+            //this.afService.displayName = auth.auth.email;
+            //this.afService.email = auth.auth.email;
+            if(typeof this.afService.user == 'undefined'){
+              this.afService.setUserObject(auth.auth.uid);
+            }
           }
           this.isLoggedIn = true;
-          this.router.navigate(['lecturerDashboard']);
+          //this.router.navigate(['lecturerDashboard']);
         }
       }
     );

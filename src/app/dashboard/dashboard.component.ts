@@ -103,13 +103,13 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   isYou(email) {
-    if(email == this.afService.email)
+    if(email == this.afService.user.email)
       return false;
     else
       return true;
   }
   isMe(email) {
-    if(email == this.afService.email)
+    if(email == this.afService.user.email)
       return true;
     else
       return false;
@@ -132,14 +132,14 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
       items.forEach(item => {
         if (item.$key == "likes") {
           item.forEach(user => {
-            if (user == this.afService.email) {
+            if (user == this.afService.user.email) {
               console.log("kan ikke like to ganger!!")
               sub.unsubscribe;
             }
           })
           // in the forEach item loop and if item.$key == "likes"
           this.messages.update(key, {votes: votes + 1});
-          item.push(this.afService.email);
+          item.push(this.afService.user.email);
           this.messages.update(key, {likes: item})
           console.log("Du er ikke i listen 'likes'")
           sub.unsubscribe;
@@ -148,7 +148,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
       // in the items subscription
       this.messages.update(key, {votes: votes + 1});
       console.log("Ingen lister med nøkkel 'likes'")
-      this.messages.update(key, {likes: [this.afService.email]});
+      this.messages.update(key, {likes: [this.afService.user.email]});
       sub.unsubscribe;
     })
   }
