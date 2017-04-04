@@ -35,7 +35,7 @@
         <div #scrollMe class='bs-example' id='messages'>
 
           <!-- Point: 1 -->
-          <div *ngIf="afService.user">
+          <div *ngIf="afService.isLoggedIn()">
             <div *ngFor="let message of afService.messages | async">
               <!-- Point: 2 -->
               <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">

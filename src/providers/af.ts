@@ -34,7 +34,7 @@ export class AF {
   }
 
   isLoggedIn(){
-    return this.af.auth;
+    return this.user;
   }
 
   /**
