@@ -4,14 +4,10 @@ html, body{
 }
 
 body {
-  background: url(../img/background.jpg) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-attachment: fixed;
-  margin: 0;
-  height: 100%;
+  background: url(../img/background.jpg) no-repeat center center;
+  width: 100%;
+  max-width: 3000px; /* YOUR BG MAX SIZE */
+  background-size: 100%;
 }
 
 * {
@@ -27,7 +23,7 @@ body {
 
 .main{
   position: relative;
-  top: 120px;
+  top: 100px;
   text-align: center;
 }
 
@@ -35,7 +31,7 @@ body {
   font-weight: 600px;
   font-size: 70px;
   margin-top: 0;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .main h2{
@@ -79,25 +75,25 @@ body {
   font-size: 20px;
   line-height: 20px;
   padding: 0 50px;
-  margin-bottom: 15%;
-}
-
-.clearfix{
-  clear: both;
 }
 
 .footer{
   background-color: #333;
-  position: relative;
+  position: fixed;
   bottom: 0;
-  padding-top: 15px;
-  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 5px;
   width: 100%;
+  margin-top: 0;
 }
 
 .footer p{
   font-size: 11px;
   text-transform: uppercase;
-  color: white;
+  color: DarkGrey;
   text-align: center;
+}
+
+.clearfix{
+  clear: both;
 }
