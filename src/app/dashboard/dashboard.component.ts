@@ -155,6 +155,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
 
   edit(key: string, edit: boolean, m: string) {
     this.editMessage = m;
+    console.log("edit")
     this.afService.editMessage(key, edit, m);
   }
 
@@ -182,8 +183,12 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   endSession() {
-    this.router.navigate(['lecturerDashboard']);
+    this.goBack();
     this.afService.removeAllMessages(this.afService.course);
+  }
+
+  goBack() {
+    this.router.navigate([this.afService.role + 'Dashboard']);
   }
 
   //må fikse så at vi får en større inputfelt når vi trykker på edit
