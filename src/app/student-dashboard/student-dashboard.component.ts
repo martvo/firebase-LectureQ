@@ -11,18 +11,14 @@ import { FirebaseListObservable, AngularFire } from 'angularfire2';
 export class StudentDashboardComponent implements OnInit {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   public courses: FirebaseListObservable<any>;
-  public myCourses;
+  //public myCourses;
   public searchedCourses;
 
   constructor(public afService: AF, private router: Router) {
-    while(typeof this.afService.user == 'undefined'){
-
-    }
-    console.log(this.afService.user);
   }
 
   ngOnInit() {
-    console.log(this.afService.user);
+
   }
 
   addCourse(course: string){
