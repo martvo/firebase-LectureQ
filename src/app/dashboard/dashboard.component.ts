@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AF } from '../../providers/af';
 import { FirebaseListObservable, AngularFire } from 'angularfire2';
 import { Bubble } from './bubble';
@@ -16,7 +16,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   public newMessage: string;
   public newQuestion: string;
   public editMessage: string;
-  public messages: FirebaseListObservable<any>;
   public me: boolean;
 
   public bubbleLog;
@@ -24,8 +23,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   public previousResults;
   public hasAnswer: boolean;
 
-  constructor(public afService: AF, private router: Router, public af: AngularFire) {
-    this.messages = this.afService.messages;
+  constructor(public afService: AF, private router: Router, public af: AngularFire, private route: ActivatedRoute) {
     this.bubbleLog = [new Bubble(0,"Please ask me a question",true)];
     this.bubbleCount = 1;
     this.hasAnswer = false;
@@ -33,6 +31,12 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    var sub = this.route
+      .queryParams
+      .subscribe(params => {
+        // Defaults to error if no query param provided.
+        this.afService.setCourse(params['course'] || "error");
+      });
   }
 
   delete(key: string) {
@@ -138,17 +142,17 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
             }
           })
           // in the forEach item loop and if item.$key == "likes"
-          this.messages.update(key, {votes: votes + 1});
+          this.afService.messages.update(key, {votes: votes + 1});
           item.push(this.afService.user.email);
-          this.messages.update(key, {likes: item})
+          this.afService.messages.update(key, {likes: item})
           console.log("Du er ikke i listen 'likes'")
           sub.unsubscribe;
         }
       })
       // in the items subscription
-      this.messages.update(key, {votes: votes + 1});
+      this.afService.messages.update(key, {votes: votes + 1});
       console.log("Ingen lister med nøkkel 'likes'")
-      this.messages.update(key, {likes: [this.afService.user.email]});
+      this.afService.messages.update(key, {likes: [this.afService.user.email]});
       sub.unsubscribe;
     })
   }
@@ -159,7 +163,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   sendEdit(key: string) {
-    this.messages.update(key, {message: this.editMessage, edit: false});
+    this.afService.messages.update(key, {message: this.editMessage, edit: false});
     this.editMessage = "";
   }
 

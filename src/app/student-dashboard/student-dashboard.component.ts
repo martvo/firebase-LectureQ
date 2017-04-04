@@ -58,7 +58,7 @@ export class StudentDashboardComponent implements OnInit {
 
   goToDashboard(course: string) {
     this.afService.setCourse(course);
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['dashboard/'],{ queryParams:{ course: course }});
   }
 
   searchForCourse(course: string) {

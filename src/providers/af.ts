@@ -24,10 +24,6 @@ export class AF {
   public items;
   public user;
 
-  public testList;
-
-
-
   constructor(public af: AngularFire) {
     this.questions = this.af.database.list('questions');
     this.students = this.af.database.list('userRoles/students');
@@ -35,7 +31,6 @@ export class AF {
     this.userRoles = this.af.database.list('userRoles');
     this.courses = this.af.database.list('courses');
     this.sCourses = this.af.database.list('userRoles/students');
-    this.testList = [];
   }
 
   isLoggedIn(){
@@ -59,11 +54,11 @@ export class AF {
   }
 
   setUserObject(uid){
-    this.af.database.list('/newUsers/' + uid).subscribe(user =>{
+    this.af.database.object('/newUsers/' + uid).subscribe(user =>{
       this.user = user;
       var courseList = [];
-      if(this.user[0].length > 0){
-        this.user[0].forEach(element => {
+      if(this.user.courses.length > 0){
+        this.user.courses.forEach(element => {
             courseList.push(element);
         });
       }

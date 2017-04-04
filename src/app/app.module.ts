@@ -18,6 +18,7 @@ import { firebaseConfig } from './config';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard:course', component: DashboardComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'register', component: RegistrationPageComponent },
   { path: '', component: FrontscreenComponent },
