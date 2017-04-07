@@ -65,12 +65,13 @@ export class StudentDashboardComponent implements OnInit {
     this.searchedCourses = [];
     var stringLength = course.length;
     course = course.toUpperCase();
-    var allCourses = this.afService.getCourses().subscribe(items => {
-      items.forEach(item => {
-        if (course == item.courseCode.slice(0, stringLength)) {
-          this.searchedCourses.push(item.courseCode);
+    this.afService.courses.forEach(items => {
+      for (let item of items) {
+        console.log(item)
+        if (course == item.$key.slice(0, stringLength)) {
+          this.searchedCourses.push(item.$key);
         }
-      })
+      }
     });
   }
   /*
