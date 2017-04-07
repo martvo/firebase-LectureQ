@@ -29,7 +29,8 @@ export class StudentDashboardComponent implements OnInit {
   }
 
   removeCourse(course: string){
-    this.afService.user.courseList.remove(course);
+    var index = this.afService.user.courseList.indexOf(course);
+    this.afService.user.courseList.splice(index,1);
     this.afService.updateCourse();
   }
 
