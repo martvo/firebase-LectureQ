@@ -21,7 +21,7 @@ export class RegistrationPageComponent  {
       return;
     }
     this.afService.registerUser(email, password).then((user) => {
-      this.afService.saveUserInfoFromForm(user.uid, name, email,isLecturer).then(() => {
+      this.afService.saveUserInfoFromForm(user.uid, name, email, isLecturer).then(() => {
         if(isLecturer){
           this.router.navigate(['lecturerDashboard']);
         }
@@ -36,7 +36,7 @@ export class RegistrationPageComponent  {
       console.log(this.error);
     });
   }
-  
+
   /*
   //registers the user as a student and logs them in
   registerStudent(event, name, email, password, repeatedpassword) {

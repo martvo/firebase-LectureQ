@@ -28,34 +28,8 @@ export class LoginPageComponent {
      * waits for answer from the database before
      * continuing with the login process
      */
-     var login = this.afService.loginWithEmail(email,password);
-     console.log(login);
-
-     var sub1 = this.afService.getUsers("students").subscribe(items => {
-       items.forEach(item => {
-         if (item.email == email) {
-           this.afService.loginWithEmail(email, password).then(() => {
-             this.afService.setUserRole("student");
-             this.router.navigate(['studentDashboard']);
-             sub2.unsubscribe;
-             return;
-           })
-         }
-       })
-     })
-
-     var sub2 = this.afService.getUsers("lecturers").subscribe(items => {
-       items.forEach(item => {
-         if (item.email == email) {
-           this.afService.loginWithEmail(email, password).then(() => {
-             this.afService.setUserRole("lecturer");
-             this.router.navigate(['lecturerDashboard']);
-             sub2.unsubscribe;
-             return;
-           })
-         }
-       })
-     })
+     this.afService.loginWithEmail(email,password).then(() => {
+     });
      /**
     var sub = this.afService.getUsers("students").subscribe(items => {
       items.forEach(item => {

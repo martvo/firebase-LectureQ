@@ -50,14 +50,15 @@ export class AF {
 
   //Logsout the current user
   logout() {
+    this.user;
     return this.af.auth.logout();
   }
 
   setUserObject(uid){
-    this.af.database.object('/newUsers/' + uid).subscribe(user =>{
+    this.af.database.object('/newUsers/' + uid).subscribe(user => {
       this.user = user;
       var courseList = [];
-      if(this.user.courses.length > 0){
+      if(this.user.courses){
         this.user.courses.forEach(element => {
             courseList.push(element);
         });
@@ -67,10 +68,9 @@ export class AF {
     });
   }
 
-  updateStudentCourse(){
-    this.af.database.object("/newUsers/" + this.user.uid+ "/courses").set(this.user.courseList);
+  updateCourse(){
+    this.af.database.object("newUsers/" + this.user.uid + "/courses").set(this.user.courseList);
   }
-
 
   /**
    * pushes a new message to the messages array with nessasary fields
@@ -227,70 +227,67 @@ askQuestion(question){
   }
 
   addLCourse(email, name, code, co_lecturer) {
-    if (this.role == "lecturer") {
-      if (co_lecturer != "") {
-        this.lecturers.forEach(items => {
-          items.forEach(item => {
-            if (item.email == co_lecturer) {
-              var course = {
-                owner: email,
-                courseName: name,
-                courseCode: code,
-                timestamp: Date.now(),
-                co_lecturer: co_lecturer
-              }
-              this.courses.push(course);
-            }
-          })
-        })
-      }
-      if (co_lecturer == "") {
-        var course = {
-          owner: email,
-          courseName: name,
-          courseCode: code,
-          timestamp: Date.now(),
-        }
-        this.courses.push(course);
-      }
-    }
-  }
-
-  addSCourses(code: string) {
-    if (this.role == "student") {
-      var x = 0;
-      var usefulKey;
-      this.sCourses.forEach(items => {
+    console.log("i af")
+    if (co_lecturer != "") {
+      this.af.database.list("newUsers").subscribe(items => {
         items.forEach(item => {
-          if (item.courses == null && item.email == this.user.email) {
-            console.log("No list with key 'courses'")
-            usefulKey = item.$key;
-            this.sCourses.update(usefulKey, {courses: [code]})
-            x++;
-          }
-          if (item.courses != null && item.email == this.user.email && x < 1) {
-            // inside the courses array
-            usefulKey = item.$key;
-            item.courses.forEach(c => {
-              if (c == code) {
-                console.log("Course already added")
-                x++;
-              }
-            })
-            // in the forEach item loop and if (item.course != null)
-            if (x < 1) {
-              console.log("Course added!")
-              console.log("Liste vi ønsker å pushe til: " + item.courses)
-              console.log("Ønsker å pushe: " + code)
-              item.courses.push(code);
-              console.log("etter å ha pushet: " + item.courses)
-              this.sCourses.update(usefulKey, {courses: item.courses});
-              x++;
+          if (item.isLecturer && item.email == co_lecturer && co_lecturer != this.user.email) {
+            var course = {
+              owner: email,
+              courseName: name,
+              courseCode: code,
+              timestamp: Date.now(),
+              co_lecturer: [co_lecturer]
             }
+            this.courses.push(course);
           }
         })
       })
     }
+    if (co_lecturer == "") {
+      var course = {
+        owner: email,
+        courseName: name,
+        courseCode: code,
+        timestamp: Date.now(),
+      }
+      this.courses.push(course);
+    }
+  }
+
+  addSCourses(code: string) {
+    var x = 0;
+    var usefulKey;
+    this.sCourses.forEach(items => {
+      items.forEach(item => {
+        if (item.courses == null && item.email == this.user.email) {
+          console.log("No list with key 'courses'")
+          usefulKey = item.$key;
+          this.sCourses.update(usefulKey, {courses: [code]})
+          x++;
+        }
+        if (item.courses != null && item.email == this.user.email && x < 1) {
+          // inside the courses array
+          usefulKey = item.$key;
+          item.courses.forEach(c => {
+            if (c == code) {
+              console.log("Course already added")
+              x++;
+            }
+          })
+          // in the forEach item loop and if (item.course != null)
+          if (x < 1) {
+            console.log("Course added!")
+            console.log("Liste vi ønsker å pushe til: " + item.courses)
+            console.log("Ønsker å pushe: " + code)
+            item.courses.push(code);
+            console.log("etter å ha pushet: " + item.courses)
+            this.sCourses.update(usefulKey, {courses: item.courses});
+            x++;
+          }
+        }
+      })
+    })
   }
 
 // @returns this.course<string>

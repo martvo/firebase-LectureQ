@@ -24,13 +24,13 @@ export class StudentDashboardComponent implements OnInit {
   addCourse(course: string){
     if(!(this.afService.user.courseList.includes(course))){
       this.afService.user.courseList.push(course);
-      this.afService.updateStudentCourse();
+      this.afService.updateCourse();
     }
   }
 
   removeCourse(course: string){
     this.afService.user.courseList.remove(course);
-    this.afService.updateStudentCourse();
+    this.afService.updateCourse();
   }
 
   /*

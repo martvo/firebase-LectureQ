@@ -33,11 +33,20 @@ export class LecturerDashboardComponent implements OnInit {
     });
   }
 
-  addLCourse(event, courseName, courseCode, co_lecturer) {
-    if (courseName != "" && courseCode != "") {
-      var courseCodeUpper = courseCode.toUpperCase();
-      this.afService.addLCourse(this.afService.user.email, courseName, courseCodeUpper, co_lecturer);
-      this.updateMyCourses();
+  addLCourse(event, courseName: string, courseCode: string, co_lecturer: string) {
+    courseCode = courseCode.toUpperCase();
+    if(courseName != "" && courseCode != "") {
+      if (this.afService.user.courseList == null) {
+        this.afService.user.courseList.push(courseCode);
+        this.afService.updateCourse();
+        this.afService.addLCourse(this.afService.user.email, courseName, courseCode, co_lecturer);
+      } else {
+        if (!this.afService.user.courseList.includes(courseCode)) {
+          this.afService.user.courseList.push(courseCode);
+          this.afService.addLCourse(this.afService.user.email, courseName, courseCode, co_lecturer);
+          this.afService.updateCourse();
+        }
+      }
     }
   }
 
