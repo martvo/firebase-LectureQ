@@ -19,6 +19,7 @@ export class AppComponent {
         if(auth == null) {
           console.log("Not Logged in.");
           this.isLoggedIn = false;
+          this.afService.user = null;
           this.router.navigate(['']);
         }
         else {
@@ -30,7 +31,7 @@ export class AppComponent {
           else {
             //this.afService.displayName = auth.auth.email;
             //this.afService.email = auth.auth.email;
-            if(typeof this.afService.user == 'undefined'){
+            if(this.afService.user == null){
               this.afService.setUserObject(auth.auth.uid);
             }
           }

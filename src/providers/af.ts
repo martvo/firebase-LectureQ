@@ -31,6 +31,7 @@ export class AF {
     this.userRoles = this.af.database.list('userRoles');
     this.courses = this.af.database.list('courses');
     this.sCourses = this.af.database.list('userRoles/students');
+    console.log(this.user);
   }
 
   isLoggedIn(){

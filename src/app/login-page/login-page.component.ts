@@ -13,6 +13,15 @@ export class LoginPageComponent {
 
   constructor(public afService: AF, private router: Router) {}
 
+  redirectAfterLogin(){
+    if(this.afService.user.isLecturer){
+      this.router.navigate(['lecturerDashboard']);
+    }
+    else{
+      this.router.navigate(['studenDashboard']);
+    }
+  }
+
   loginWithGoogle() {
     this.afService.loginWithGoogle().then((data) => {
       //send them to the homepage if they are logged in
