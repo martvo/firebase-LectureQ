@@ -38,17 +38,6 @@ export class AF {
     return this.user;
   }
 
-  /**
-   * Logs in the user
-   * @returns {firebase.Promise<FirebaseAuthState>}
-   */
-  loginWithGoogle() {
-    return this.af.auth.login({
-      provider: AuthProviders.Google,
-      method: AuthMethods.Popup,
-    });
-  }
-
   //Logsout the current user
   logout() {
     this.user;

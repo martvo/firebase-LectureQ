@@ -24,19 +24,11 @@ export class AppComponent {
         }
         else {
           console.log("Successfully Logged in.");
-          if(auth.google) {
-            //this.afService.displayName = auth.google.displayName;
-            //this.afService.email = auth.google.email;
+          if(this.afService.user == null){
+            this.afService.setUserObject(auth.auth.uid);
           }
-          else {
-            //this.afService.displayName = auth.auth.email;
-            //this.afService.email = auth.auth.email;
-            if(this.afService.user == null){
-              this.afService.setUserObject(auth.auth.uid);
-            }
-          }
+
           this.isLoggedIn = true;
-          //this.router.navigate(['lecturerDashboard']);
         }
       }
     );

@@ -15,5 +15,5 @@ export class FrontscreenComponent implements OnInit {
 
   register() {
     this.router.navigate(['register']);
-}
+  }
 }
