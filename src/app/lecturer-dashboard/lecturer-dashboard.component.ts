@@ -11,41 +11,21 @@ import { FirebaseListObservable, AngularFire } from 'angularfire2';
 export class LecturerDashboardComponent implements OnInit {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   public courses: FirebaseListObservable<any>;
-  public myCourses;
 
   constructor(public afService: AF, private router: Router) {
-    this.myCourses = [];
-    this.updateMyCourses();
+
   }
 
   ngOnInit() {
   }
 
-  updateMyCourses() {
-    this.myCourses = [];
-    this.courses = this.afService.getCourses();
-    this.courses.subscribe(courses => {
-      courses.forEach(course => { // each course object
-        if (course.owner == this.afService.user.email || course.co_lecturer == this.afService.user.email) {
-          this.myCourses.push(course);
-        }
-      })
-    });
-  }
-
   addLCourse(event, courseName: string, courseCode: string, co_lecturer: string) {
     courseCode = courseCode.toUpperCase();
     if(courseName != "" && courseCode != "") {
-      if (this.afService.user.courseList == null) {
+      if (!this.afService.user.courseList.includes(courseCode)) {
         this.afService.user.courseList.push(courseCode);
-        this.afService.updateCourse();
         this.afService.addLCourse(this.afService.user.email, courseName, courseCode, co_lecturer);
-      } else {
-        if (!this.afService.user.courseList.includes(courseCode)) {
-          this.afService.user.courseList.push(courseCode);
-          this.afService.addLCourse(this.afService.user.email, courseName, courseCode, co_lecturer);
-          this.afService.updateCourse();
-        }
+        this.afService.updateCourse();
       }
     }
   }
@@ -55,11 +35,10 @@ export class LecturerDashboardComponent implements OnInit {
     this.router.navigate(['dashboard']);
   }
 
-  removeLCourse(course, key: string) {
-    this.afService.removeAllMessages(course.courseCode);
-    this.afService.removeLCourse(course, key);
+  removeLCourse(course) {
+    this.afService.removeAllMessages(course);
+    this.afService.removeLCourse(course);
     console.log("course removed")
-    this.updateMyCourses();
     //husk at faget må fjernes hos studentene også
   }
 

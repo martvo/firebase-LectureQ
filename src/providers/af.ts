@@ -227,7 +227,6 @@ askQuestion(question){
   }
 
   addLCourse(email, name, code, co_lecturer) {
-    console.log("i af")
     if (co_lecturer != "") {
       this.af.database.list("newUsers").subscribe(items => {
         items.forEach(item => {
@@ -235,11 +234,10 @@ askQuestion(question){
             var course = {
               owner: email,
               courseName: name,
-              courseCode: code,
               timestamp: Date.now(),
               co_lecturer: [co_lecturer]
             }
-            this.courses.push(course);
+            this.af.database.object("courses/" + code).set(course);
           }
         })
       })
@@ -248,10 +246,9 @@ askQuestion(question){
       var course = {
         owner: email,
         courseName: name,
-        courseCode: code,
         timestamp: Date.now(),
       }
-      this.courses.push(course);
+      this.af.database.object("courses/" + code).set(course);
     }
   }
 
@@ -325,20 +322,19 @@ askQuestion(question){
 
   // mothode for lecturers to remove a course
   // removes the course for all students who is attendign the course aswell
-  removeLCourse(course, key: string) {
-    if (this.role == "lecturer") {
-      this.courses.remove(key);
-      // removes the course from students list of courses
-      this.sCourses.forEach(items => {
-        items.forEach(item => {
-          if (item.courses != null && (item.courses.indexOf(course.courseCode) != -1)) {
-            item.courses.splice(item.courses.indexOf(course.courseCode), 1);
-            console.log("her")
-            this.sCourses.update(item.$key, {courses: item.courses});
+  removeLCourse(course) {
+    this.courses.remove(course);
+    // removing the course from every student
+    this.af.database.list("newUsers").subscribe(items => {
+      items.forEach(item => {
+        if (item.courses) {
+          if (item.courses.includes(course)) {
+            item.courses.splice(item.courses.indexOf(course), 1);
+            this.af.database.list("newUsers").update(item.$key, {courses: item.courses});
           }
-        })
+        }
       })
-    }
+    })
   }
 
   // removes all messages from a given course
