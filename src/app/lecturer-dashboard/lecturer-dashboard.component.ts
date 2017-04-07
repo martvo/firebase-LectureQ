@@ -32,7 +32,7 @@ export class LecturerDashboardComponent implements OnInit {
 
   goToDashboard(course) {
     this.afService.setCourse(course);
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['dashboard/'],{ queryParams:{ course: course }});
   }
 
   removeLCourse(course) {

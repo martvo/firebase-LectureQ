@@ -1,41 +1,41 @@
-<div class="container-fluid">
-  <div class="row">
-    <div >
-      <div class="col-lg-5 col-lg-offset-1">
-        <div class="bs-example" id = "questions">
-          <div *ngFor="let bubble of bubbleLog" >
-            <div *ngIf="bubble.isFrom == false">
-              <div class="question">
-                <p>{{bubble.text}}</p>
+<div *ngIf="afService.user">
+  <div class="container-fluid">
+    <div class="row">
+      <div *ngIf="isStudent()">
+        <div class="col-lg-5 col-lg-offset-1">
+          <div class="bs-example" id = "questions">
+            <div *ngFor="let bubble of bubbleLog" >
+              <div *ngIf="bubble.isFrom == false">
+                <div class="question">
+                  <p>{{bubble.text}}</p>
+                </div>
               </div>
-            </div>
-            <div *ngIf="bubble.isFrom == true" >
-              <div class="response">
-                <p>{{bubble.text}}</p>
+              <div *ngIf="bubble.isFrom == true" >
+                <div class="response">
+                  <p>{{bubble.text}}</p>
+                </div>
               </div>
             </div>
           </div>
+          <figure class="highlight">
+
+            <!-- Point: 3 -->
+            <input type="textarea" class="question-text" [(ngModel)]="newQuestion" (keyup.enter)="askQuestion()">
+            <a class="ask-question" (click)="askQuestion()">Ask Question</a>
+            <div *ngIf="hasAnswer == true">
+              <p>Does this answer your question?</p>
+              <a class="ask-question" (click)="answeredQuestion(true)">Yes</a>
+              <a class="ask-question" (click)="answeredQuestion(false)">No</a>
+            </div>
+
+          </figure>
         </div>
-        <figure class="highlight">
-
-          <!-- Point: 3 -->
-          <input type="textarea" class="question-text" [(ngModel)]="newQuestion" (keyup.enter)="askQuestion()">
-          <a class="ask-question" (click)="askQuestion()">Ask Question</a>
-          <div *ngIf="hasAnswer == true">
-            <p>Does this answer your question?</p>
-            <a class="ask-question" (click)="answeredQuestion(true)">Yes</a>
-            <a class="ask-question" (click)="answeredQuestion(false)">No</a>
-          </div>
-
-        </figure>
       </div>
-    </div>
-    <div>
-      <div class="col-md-5 col-lg-offset-0">
-        <div #scrollMe class='bs-example' id='messages'>
+      <div *ngIf="isStudent()">
+        <div class="col-md-5 col-lg-offset-0">
+          <div #scrollMe class='bs-example' id='messages'>
 
-          <!-- Point: 1 -->
-          <div *ngIf="afService.isLoggedIn()">
+            <!-- Point: 1 -->
             <div *ngFor="let message of afService.messages | async">
               <!-- Point: 2 -->
               <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
@@ -45,12 +45,10 @@
                 <p *ngIf="!message.edit" class="message">{{ message.message }}
                   <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">{{message.votes}}</span>
                   </button>
-
                 </p>
                 <p *ngIf="message.edit && !isMe(message.email)" class="message">{{ message.message }}
                   <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">{{message.votes}}</span>
                   </button>
-
                 </p>
                 <div class="author">
                   {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
@@ -59,46 +57,46 @@
                 </div>
               </div>
             </div>
-        </div>
-        </div>
-        <figure class="highlight">
+          </div>
+          <figure class="highlight">
 
-          <!-- Point: 3 -->
-          <input type="textarea" class="message-text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
-          <a class="send-message" (click)="sendMessage()">SEND</a>
+            <!-- Point: 3 -->
+            <input type="textarea" class="message-text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
+            <a class="send-message" (click)="sendMessage()">SEND</a>
 
-        </figure>
+          </figure>
+        </div>
       </div>
-    </div>
-    <div *ngIf="isLecturer() == true">
-      <div class="col-md-8 col-lg-offset-2">
-        <div #scrollMe class='bs-example' id='messages'>
+      <div *ngIf="isLecturer()">
+        <div class="col-md-8 col-lg-offset-2">
+          <div #scrollMe class='bs-example' id='messages'>
 
-          <!-- Point: 1 -->
-          <div *ngFor="let message of messages | async">
+            <!-- Point: 1 -->
+            <div *ngFor="let message of afService.messages | async">
 
-            <!-- Point: 2 -->
-            <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
-              <p *ngIf="message.edit && isMe(message.email)">
-                <input type="textarea" class="message-edit" [(ngModel)]=editMessage (keyup.enter)="sendEdit(message.$key)">
-              </p>
-              <p *ngIf="!message.edit" class="message">{{ message.message }}
-                <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">{{message.votes}}</span>
-                </button>
-              </p>
-              <p *ngIf="message.edit && !isMe(message.email)" class="message">{{ message.message }}
-                <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">{{message.votes}}</span>
-                </button>
-              </p>
-              <div class="author">
-                {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
-                <a *ngIf="isMe(message.email)" type='edit' class='edit-text' style="cursor: pointer;" (click)="edit(message.$key, message.edit, message.message)">Edit</a>
-                <a *ngIf="isMe(message.email)" type='delete' class='delete-text' style="cursor: pointer;" (click)="delete(message.$key)">Delete</a>
+              <!-- Point: 2 -->
+              <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
+                <p *ngIf="message.edit && isMe(message.email)">
+                  <input type="textarea" class="message-edit" [(ngModel)]=editMessage (keyup.enter)="sendEdit(message.$key)">
+                </p>
+                <p *ngIf="!message.edit" class="message">{{ message.message }}
+                  <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">{{message.votes}}</span>
+                  </button>
+                </p>
+                <p *ngIf="message.edit && !isMe(message.email)" class="message">{{ message.message }}
+                  <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">{{message.votes}}</span>
+                  </button>
+                </p>
+                <div class="author">
+                  {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
+                  <a *ngIf="isMe(message.email)" type='edit' class='edit-text' style="cursor: pointer;" (click)="edit(message.$key, message.edit, message.message)">Edit</a>
+                  <a *ngIf="isMe(message.email)" type='delete' class='delete-text' style="cursor: pointer;" (click)="delete(message.$key)">Delete</a>
+                </div>
               </div>
             </div>
           </div>
+          <button class="btn btn-md btn-primary btn-block" type="button" (click)="endSession()">End Session</button>
         </div>
-        <button class="btn btn-md btn-primary btn-block" type="button" (click)="endSession()">End Session</button>
       </div>
     </div>
   </div>

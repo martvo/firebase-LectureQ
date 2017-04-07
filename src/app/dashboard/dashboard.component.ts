@@ -172,14 +172,14 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   isStudent() {
-    if (this.getRole() == "student") {
+    if (!this.afService.user.isLecturer) {
       return true;
     } else
       return false;
   }
 
   isLecturer() {
-    if (this.getRole() == "lecturer") {
+    if (this.afService.user.isLecturer) {
       return true;
     } else
       return false;
