@@ -31,7 +31,6 @@ export class AF {
     this.userRoles = this.af.database.list('userRoles');
     this.courses = this.af.database.list('courses');
     this.sCourses = this.af.database.list('userRoles/students');
-    console.log(this.user);
   }
 
   isLoggedIn(){
@@ -73,26 +72,14 @@ export class AF {
       votes: 0,
       displayName: this.user.name,
       email: this.user.email,
-      likes: [],
-      edit: false
+      likes: []
     };
     this.messages.push(message);
   }
 
-  editMessage(key, edit, m){
-    this.editMessage = m;
-    if(!edit)
-      this.messages.update(key, {edit: true});
-    else
-      this.messages.update(key, {edit: false});
-  }
-
-  sendEdit(key){
-
-  }
-
   removeMessage(key){
-    this.messages.remove(key);
+    this.af.database.object("chats/" + this.course + "/" + key).remove();
+    //this.messages.remove(key);
   }
 
   /**
@@ -108,50 +95,52 @@ export class AF {
      });
    }
 
-//set the current course for easy access to propper chat and question
-setCourse(course){
-  this.course = course;
-  this.messages = this.af.database.list('chats/' + this.course);
-  this.af.database.list("/questions/" + this.course).subscribe(items =>{
-    this.items = items;
-  });
-}
+   //set the current course for easy access to propper chat and question
+   setCourse(course){
+     this.course = course;
+     this.messages = this.af.database.list('chats/' + this.course);
+     this.af.database.list("/questions/" + this.course).subscribe(items =>{
+       this.items = items;
+     });
+   }
 
-sendQuestion(question, answer){
-  var words = question.split(" ");
-  var words = this.removeStopWords(words);
-  var q = {
-      tags: words,
-      answer: answer
-  }
-  this.af.database.list("/questions/" + this.course).push(q);
-}
+   // adds a question to the given course
+   addQuestion(course: string, question: string, answer: string){
+     if (course != null) {
+       var words = this.removeStopWords(question);
+       var q = {
+         tags: words,
+         answer: answer
+       }
+       this.af.database.list("/questions/" + course).push(q);
+     }
+   }
 
 
-askQuestion(question){
-  var words = this.removeStopWords(question);
-  console.log(words);
-  var results = [];
+   askQuestion(question){
+     var words = this.removeStopWords(question);
+     console.log(words);
+     var results = [];
 
-  this.items.forEach(item => {
-    var localValue = 0;
-    item.tags.forEach(tag => {
-      words.forEach(word =>{
-        if(word == tag){
-          localValue += 1;
-        }
-      });
-      if(localValue > 0){
-        results.push({question: item, score: localValue});
-      }
+     this.items.forEach(item => {
+       var localValue = 0;
+       item.tags.forEach(tag => {
+         words.forEach(word =>{
+           if(word == tag){
+             localValue += 1;
+           }
+         });
+         if(localValue > 0){
+           results.push({question: item, score: localValue});
+         }
+       });
+     });
+
+    results.sort(function(a,b) {
+        return a.score - b.score;
     });
-  });
-
-  results.sort(function(a,b) {
-      return a.score - b.score;
-  });
-  return results;
-}
+    return results;
+  }
 
   /**
    * Saves information to display to screen when user is logged in
@@ -242,72 +231,9 @@ askQuestion(question){
     }
   }
 
-  addSCourses(code: string) {
-    var x = 0;
-    var usefulKey;
-    this.sCourses.forEach(items => {
-      items.forEach(item => {
-        if (item.courses == null && item.email == this.user.email) {
-          console.log("No list with key 'courses'")
-          usefulKey = item.$key;
-          this.sCourses.update(usefulKey, {courses: [code]})
-          x++;
-        }
-        if (item.courses != null && item.email == this.user.email && x < 1) {
-          // inside the courses array
-          usefulKey = item.$key;
-          item.courses.forEach(c => {
-            if (c == code) {
-              console.log("Course already added")
-              x++;
-            }
-          })
-          // in the forEach item loop and if (item.course != null)
-          if (x < 1) {
-            console.log("Course added!")
-            console.log("Liste vi ønsker å pushe til: " + item.courses)
-            console.log("Ønsker å pushe: " + code)
-            item.courses.push(code);
-            console.log("etter å ha pushet: " + item.courses)
-            this.sCourses.update(usefulKey, {courses: item.courses});
-            x++;
-          }
-        }
-      })
-    })
-  }
-
-// @returns this.course<string>
+  // @returns this.course<string>
   getCurrentCourse() {
     return this.course;
-  }
-
-  // sets role of user
-  setUserRole(role) {
-    this.role = role;
-  }
-
-  // @retunrs this.role<string>
-  getUserRole() {
-    return this.role;
-  }
-
-  // removes a students course
-  removeSCourse(code: string, email: string) {
-    if (this.role == "student") {
-      var usefulKey;
-      var x = 0;
-      this.sCourses.forEach(items => {
-        items.forEach(item => {
-            if (item.email == email && x < 1) {
-              x++;
-              item.courses.splice(item.courses.indexOf(code), 1);
-              console.log(item.courses)
-              this.sCourses.update(item.$key, {courses: item.courses});
-            }
-        });
-      })
-    }
   }
 
   // mothode for lecturers to remove a course
@@ -325,12 +251,35 @@ askQuestion(question){
         }
       })
     })
+    // removing all the questions for the given course
+    this.questions.remove(course);
   }
 
   // removes all messages from a given course
   removeAllMessages(course) {
     console.log(course)
     this.af.database.list("chats/" + course).remove();
+  }
+
+  // uppdates the like couter for a given messages
+  likeMessage(key: string, votes: number): void {
+    const sub = this.af.database.object("chats/" + this.course + "/" + key);
+    sub.subscribe(item => {
+      if (item.likes) {
+        if (item.likes.includes(this.user.email)) {
+          console.log("kan ikke like to ganger!!")
+        } else {
+          this.messages.update(key, {votes: votes + 1});
+          item.likes.push(this.user.email)
+          console.log(item.likes)
+          this.messages.update(key, {likes: item.likes})
+        }
+      } else {
+        this.messages.update(key, {votes: votes + 1});
+        this.messages.update(key, {likes: [this.user.email]});
+        console.log("Ingen lister med nøkkel 'likes'")
+      }
+    })
   }
 
   removeStopWords(words){

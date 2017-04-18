@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AF } from '../../providers/af';
 import { FirebaseListObservable, AngularFire } from 'angularfire2';
 import { Bubble } from './bubble';
+import { EditMessageModalComponent } from '../edit-message-modal/edit-message-modal.component';
 
 @Component({
   moduleId: module.id,
@@ -13,15 +14,21 @@ import { Bubble } from './bubble';
 
 export class DashboardComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  @ViewChild(EditMessageModalComponent)
+  public readonly modal: EditMessageModalComponent;
+
   public newMessage: string;
   public newQuestion: string;
-  public editMessage: string;
   public me: boolean;
 
   public bubbleLog;
   public bubbleCount;
   public previousResults;
   public hasAnswer: boolean;
+
+  // used for modal
+  private modalMessage: string;
+  private modalMessageKey: string;
 
   constructor(public afService: AF, private router: Router, public af: AngularFire, private route: ActivatedRoute) {
     this.bubbleLog = [new Bubble(0,"Please ask me a question",true)];
@@ -37,6 +44,38 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
         // Defaults to error if no query param provided.
         this.afService.setCourse(params['course'] || "error");
       });
+  }
+
+  goBack(): void {
+    if (this.afService.user) {
+      if (this.afService.user.isLecturer) {
+        this.router.navigate(['lecturerDashboard']);
+      } else {
+        this.router.navigate(['studentDashboard']);
+      }
+    } else {
+      this.router.navigate(['']);
+    }
+  }
+
+  show(key: string, message: string) {
+    this.modalMessage = message;
+    this.modalMessageKey = key;
+    this.modal.show();
+  }
+
+  hide() {
+    this.modalMessage = null;
+    this.modalMessageKey = null;
+    this.modal.hide();
+  }
+
+  getModalMessageKey(): string {
+    return this.modalMessageKey;
+  }
+
+  getModalMessage(): string {
+    return this.modalMessage;
   }
 
   delete(key: string) {
@@ -132,6 +171,8 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   upvote(key: string, votes: number) {
+    this.afService.likeMessage(key, votes);
+    /**
     var sub = this.afService.getMessages(key).subscribe(items => {
       items.forEach(item => {
         if (item.$key == "likes") {
@@ -155,20 +196,12 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
       this.afService.messages.update(key, {likes: [this.afService.user.email]});
       sub.unsubscribe;
     })
+    */
   }
 
-  edit(key: string, edit: boolean, m: string) {
-    this.editMessage = m;
-    this.afService.editMessage(key, edit, m);
-  }
-
-  sendEdit(key: string) {
-    this.afService.messages.update(key, {message: this.editMessage, edit: false});
-    this.editMessage = "";
-  }
-
-  getRole() {
-    return this.afService.getUserRole();
+  sendEdit(key: string, message: string) {
+    this.afService.messages.update(key, {message: message});
+    this.modal.hide();
   }
 
   isStudent() {
