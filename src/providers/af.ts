@@ -23,6 +23,7 @@ export class AF {
 
   public items;
   public user;
+  public messageList;
 
   constructor(public af: AngularFire) {
     this.questions = this.af.database.list('questions');
@@ -95,10 +96,30 @@ export class AF {
      });
    }
 
+   upvote(key){
+     var message = this.messageList[key];
+     if(message.likes != undefined){
+       if(!message.likes.includes(this.user.email)){
+         message.votes = message.votes + 1;
+         message.likes.push(this.user.email);
+       }
+     }
+     else{
+       message.likes = [this.user.email];
+       message.votes = message.votes +1;
+     }
+     //this.messageList[key] = message; //Maybe useless
+     this.af.database.object("chats/" + this.course + "/" + key).update(message);
+   }
+
    //set the current course for easy access to propper chat and question
    setCourse(course){
      this.course = course;
      this.messages = this.af.database.list('chats/' + this.course);
+
+    this.af.database.object('chats/' + this.course).subscribe(item => {
+        this.messageList = item;
+     });
      this.af.database.list("/questions/" + this.course).subscribe(items =>{
        this.items = items;
      });

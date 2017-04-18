@@ -171,7 +171,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   upvote(key: string, votes: number) {
-    this.afService.likeMessage(key, votes);
+    this.afService.upvote(key);
     /**
     var sub = this.afService.getMessages(key).subscribe(items => {
       items.forEach(item => {
