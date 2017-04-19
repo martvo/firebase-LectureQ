@@ -268,16 +268,19 @@ export class AF {
       if (item.likes) {
         if (item.likes.includes(this.user.email)) {
           console.log("kan ikke like to ganger!!")
+          return;
         } else {
           this.messages.update(key, {votes: votes + 1});
           item.likes.push(this.user.email)
           console.log(item.likes)
           this.messages.update(key, {likes: item.likes})
+          return;
         }
       } else {
         this.messages.update(key, {votes: votes + 1});
         this.messages.update(key, {likes: [this.user.email]});
         console.log("Ingen lister med nøkkel 'likes'")
+        return;
       }
     })
   }
