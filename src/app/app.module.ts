@@ -17,6 +17,7 @@ import { LecturerDashboardComponent } from './lecturer-dashboard/lecturer-dashbo
 import { firebaseConfig } from './config';
 import { EditCourseModalComponent } from './edit-course-modal/edit-course-modal.component';
 import { EditMessageModalComponent } from './edit-message-modal/edit-message-modal.component';
+import { SortOnLikePipe } from './sort-on-like.pipe';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -38,7 +39,8 @@ const routes: Routes = [
     StudentDashboardComponent,
     LecturerDashboardComponent,
     EditCourseModalComponent,
-    EditMessageModalComponent
+    EditMessageModalComponent,
+    SortOnLikePipe
   ],
   imports: [
     BrowserModule,

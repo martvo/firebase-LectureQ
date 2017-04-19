@@ -12,36 +12,41 @@ import { EditCourseModalComponent } from '../edit-course-modal/edit-course-modal
 })
 export class LecturerDashboardComponent implements OnInit {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
-  @ViewChild(EditCourseModalComponent)
-  public readonly modal: EditCourseModalComponent;
-  public courses: FirebaseListObservable<any>;
 
-  // used for modal
+  // Lets us access the metodes from the edit-course-modal component, the metodes from <app-edit-course-modal>
+  @ViewChild(EditCourseModalComponent)
+
+  // Variable for edit course modal
+  public readonly modal: EditCourseModalComponent;
+
+  // used for modal to show which course is beeing edited
   private course: string;
 
   constructor(public afService: AF, private router: Router) {
-
   }
 
   ngOnInit() {
   }
 
-  show(course: string) {
-    console.log(course)
+  // sets variable and shows modal
+  show(course: string): void {
     this.course = course;
     this.modal.show();
   }
 
-  hide() {
+  // sets variable to null and hides modal
+  hide(): void {
     this.course = null;
     this.modal.hide();
   }
 
-  getCourse() {
+  // @returns string
+  getCourse(): string {
     return this.course;
   }
 
-  addLCourse(event, courseName: string, courseCode: string, co_lecturer: string) {
+  // adds a new course for the lecturer
+  addLCourse(event, courseName: string, courseCode: string, co_lecturer: string): void {
     courseCode = courseCode.toUpperCase();
     if(courseName != "" && courseCode != "") {
       if (!this.afService.user.courseList.includes(courseCode)) {
@@ -52,30 +57,30 @@ export class LecturerDashboardComponent implements OnInit {
     }
   }
 
-  goToDashboard(course) {
+  // navigates to given dashboard
+  goToDashboard(course: string): void {
     this.afService.setCourse(course);
     this.router.navigate(['dashboard/'],{ queryParams:{ course: course }});
   }
 
-  removeLCourse(course) {
+  // removes a course, both from student and lecturer. Removes all messages for the course too
+  removeLCourse(course: string): void {
     this.afService.removeAllMessages(course);
     this.afService.removeLCourse(course);
-    console.log("course removed")
-    //husk at faget må fjernes hos studentene også
   }
 
-  addQuestion(question: string, answer: string, course: string) {
+  // adds question from inputs from modal
+  addQuestion(question: string, answer: string, course: string): void {
     if (question != "" && answer != "" && course != null) {
       this.afService.addQuestion(course, question, answer);
     }
   }
 
-  addLecturer(lecturer: string) {
+  // adds a co_lecturer, not in use yet
+  addLecturer(lecturer: string): void {
     if (lecturer != null) {
       console.log(lecturer)
     }
   }
 
-  //fikse slik at når man reloader siden så blir rollen i af satt til lecturer
-  //hvis man er logget inn, gjør det samme med student
 }

@@ -14,13 +14,18 @@ import { EditMessageModalComponent } from '../edit-message-modal/edit-message-mo
 
 export class DashboardComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+
+  // Lets us access the metodes from the edit-message-modal component, the metodes from <app-edit-message-modal>
   @ViewChild(EditMessageModalComponent)
+
+  // Variable for edit message modal
   public readonly modal: EditMessageModalComponent;
 
+  // Variables used for both inputfields
   public newMessage: string;
   public newQuestion: string;
-  public me: boolean;
 
+  // variables used by the ChatBot
   public bubbleLog;
   public bubbleCount;
   public previousResults;
@@ -31,13 +36,14 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   private modalMessageKey: string;
 
   constructor(public afService: AF, private router: Router, public af: AngularFire, private route: ActivatedRoute) {
+    // Initiates the first chatbot bubble
     this.bubbleLog = [new Bubble(0,"Please ask me a question",true)];
     this.bubbleCount = 1;
     this.hasAnswer = false;
     this.previousResults = [];
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     var sub = this.route
       .queryParams
       .subscribe(params => {
@@ -46,6 +52,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
       });
   }
 
+  // redirects to proper dashboard based on the isLecturer variable
   goBack(): void {
     if (this.afService.user) {
       if (this.afService.user.isLecturer) {
@@ -58,40 +65,48 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  show(key: string, message: string) {
+  // sets variables and shows modal
+  show(key: string, message: string): void {
     this.modalMessage = message;
     this.modalMessageKey = key;
     this.modal.show();
   }
 
-  hide() {
+  // sets variables to null and hides modal
+  hide(): void {
     this.modalMessage = null;
     this.modalMessageKey = null;
     this.modal.hide();
   }
 
+  // @returns string
   getModalMessageKey(): string {
     return this.modalMessageKey;
   }
 
+  // @returns string
   getModalMessage(): string {
     return this.modalMessage;
   }
 
-  delete(key: string) {
+  // removes message with givn key
+  delete(key: string): void {
     this.afService.removeMessage(key);
   }
 
-  sendMessage() {
+  // send message
+  sendMessage(): void {
     this.afService.sendMessage(this.newMessage);
     this.newMessage = '';
   }
 
-  setCourse(course){
+  // sets course
+  setCourse(course: string): void {
     this.afService.setCourse(course);
   }
 
-  askQuestion(){
+  // Asks question to chatbot
+  askQuestion(): void {
     if(this.newQuestion != ""){
       var result = this.afService.askQuestion(this.newQuestion);
       var answer = "";
@@ -113,7 +128,8 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  answeredQuestion(isAnswered){
+  // Answers question
+  answeredQuestion(isAnswered: boolean): void {
     console.log(this.previousResults);
     var answer = ""
     if(isAnswered){
@@ -145,23 +161,28 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     this.bubbleCount += 1;
   }
 
-  isYou(email) {
+  // @returns false if email is belonging to user
+  isYou(email: string): boolean {
     if(email == this.afService.user.email)
       return false;
     else
       return true;
   }
-  isMe(email) {
+
+  // @returns true if email is belonging to user
+  isMe(email: string): boolean {
     if(email == this.afService.user.email)
       return true;
     else
       return false;
   }
 
-  ngAfterViewChecked() {
+  // Lifecycle hook that is called after every check of a component's view
+  ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
 
+  // Scrolls component to bottom
   scrollToBottom(): void {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
@@ -170,61 +191,37 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  upvote(key: string, votes: number) {
+  // Adds 1 to a given message vote variabel, if user hasen't voted before
+  upvote(key: string, votes: number): void {
     this.afService.upvote(key);
-    /**
-    var sub = this.afService.getMessages(key).subscribe(items => {
-      items.forEach(item => {
-        if (item.$key == "likes") {
-          item.forEach(user => {
-            if (user == this.afService.user.email) {
-              console.log("kan ikke like to ganger!!")
-              sub.unsubscribe;
-            }
-          })
-          // in the forEach item loop and if item.$key == "likes"
-          this.afService.messages.update(key, {votes: votes + 1});
-          item.push(this.afService.user.email);
-          this.afService.messages.update(key, {likes: item})
-          console.log("Du er ikke i listen 'likes'")
-          sub.unsubscribe;
-        }
-      })
-      // in the items subscription
-      this.afService.messages.update(key, {votes: votes + 1});
-      console.log("Ingen lister med nøkkel 'likes'")
-      this.afService.messages.update(key, {likes: [this.afService.user.email]});
-      sub.unsubscribe;
-    })
-    */
   }
 
-  sendEdit(key: string, message: string) {
+  // Update a given messages based on the value from edit-message-modal
+  sendEdit(key: string, message: string): void {
     this.afService.messages.update(key, {message: message});
     this.modal.hide();
   }
 
-  isStudent() {
+  // @returns true if user is student
+  isStudent(): boolean {
     if (!this.afService.user.isLecturer) {
       return true;
     } else
       return false;
   }
 
-  isLecturer() {
+  // @returns true if user is lecturer
+  isLecturer(): boolean {
     if (this.afService.user.isLecturer) {
       return true;
     } else
       return false;
   }
 
-  endSession() {
+  // Methode only availible for lecturer, deletes all messages from chat view and navigates to lecturer dashboard
+  endSession(): void {
     this.router.navigate(['lecturerDashboard']);
     this.afService.removeAllMessages(this.afService.course);
   }
-
-  //må fikse så at vi får en større inputfelt når vi trykker på edit
-  //eller så må alt flyttes ned i send og vi sletter meldingen, men votes beholdes fortsatt
-  //flytt alle funksjoner som har med firebase og gjøre over i af.ts!!!!
 
 }

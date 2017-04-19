@@ -96,7 +96,8 @@ export class AF {
      });
    }
 
-   upvote(key){
+   // uppdates the like couter for a given messages
+   upvote(key: string): void {
      var message = this.messageList[key];
      if(message.likes != undefined){
        if(!message.likes.includes(this.user.email)){
@@ -280,30 +281,6 @@ export class AF {
   removeAllMessages(course) {
     console.log(course)
     this.af.database.list("chats/" + course).remove();
-  }
-
-  // uppdates the like couter for a given messages
-  likeMessage(key: string, votes: number): void {
-    const sub = this.af.database.object("chats/" + this.course + "/" + key);
-    sub.subscribe(item => {
-      if (item.likes) {
-        if (item.likes.includes(this.user.email)) {
-          console.log("kan ikke like to ganger!!")
-          return;
-        } else {
-          this.messages.update(key, {votes: votes + 1});
-          item.likes.push(this.user.email)
-          console.log(item.likes)
-          this.messages.update(key, {likes: item.likes})
-          return;
-        }
-      } else {
-        this.messages.update(key, {votes: votes + 1});
-        this.messages.update(key, {likes: [this.user.email]});
-        console.log("Ingen lister med nøkkel 'likes'")
-        return;
-      }
-    })
   }
 
   removeStopWords(words){

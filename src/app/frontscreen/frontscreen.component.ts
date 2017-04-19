@@ -12,6 +12,7 @@ export class FrontscreenComponent implements OnInit {
 
   constructor(public afService: AF, private router: Router) { }
 
+  // TODO: fikse slik at hvis man er logget inn og søker opp hovedsiden så blir man sendt til rett dashboard!!!
   ngOnInit() {
     if (this.afService.user) {
       if (this.afService.user.isLecturer) {
@@ -22,7 +23,8 @@ export class FrontscreenComponent implements OnInit {
     }
   }
 
-  register() {
+  // Navigates to register view
+  register(): void {
     this.router.navigate(['register']);
   }
 }
