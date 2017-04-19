@@ -15,6 +15,8 @@ import { FrontscreenComponent } from './frontscreen/frontscreen.component';
 import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
 import { LecturerDashboardComponent } from './lecturer-dashboard/lecturer-dashboard.component';
 import { firebaseConfig } from './config';
+import { EditCourseModalComponent } from './edit-course-modal/edit-course-modal.component';
+import { EditMessageModalComponent } from './edit-message-modal/edit-message-modal.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -34,7 +36,9 @@ const routes: Routes = [
     DashboardComponent,
     FrontscreenComponent,
     StudentDashboardComponent,
-    LecturerDashboardComponent
+    LecturerDashboardComponent,
+    EditCourseModalComponent,
+    EditMessageModalComponent
   ],
   imports: [
     BrowserModule,
