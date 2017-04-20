@@ -9,11 +9,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent {
+  // variable used to show error, if any
   public error: any;
 
   constructor(public afService: AF, private router: Router) {}
 
-  redirectAfterLogin(){
+  // Redirects user after loged in
+  redirectAfterLogin(): void{
     if(this.afService.user.isLecturer){
       this.router.navigate(['lecturerDashboard']);
     }
@@ -23,7 +25,7 @@ export class LoginPageComponent {
   }
 
   // logs the user inn with email and password
-  loginWithEmail(event, email, password) {
+  loginWithEmail(event, email: string, password: string): void {
     event.preventDefault();
     /**
      * waits for answer from the database before

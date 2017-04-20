@@ -1,40 +1,58 @@
 <div class="container">
   <div class="row">
+
+    <!-- Start of Your Courses contaider -->
     <div class="col-lg-6 col-lg-offset-0">
       <h2>Your Courses</h2><br>
       <div class="myCourses">
         <div #scrollMe class="courses" id="myCourses">
           <div *ngIf="afService.user">
+
+            <!-- Gets courses from courseList list from user object -->
             <div *ngFor="let course of afService.user.courseList">
               <div class="btn-group btn-group" role="group">
                 <div class="btn-group" role="group">
+
+                  <!-- Button for navigating to a course -->
                   <button class="btn btn-group btn-md btn-primary btn-block" type="button" (click)="goToDashboard(course)">{{course}}
                   </button>
                 </div>
                 <div class="btn-group" role="group">
+
+                  <!-- Button for removing a course -->
                   <button type='button' class='btn btn-default' (click)="removeCourse(course)">Remove</button>
                 </div>
-              </div><br>
+              </div><hr>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Start of add course container -->
     <div class="col-md-6 col-lg-offset-0" >
       <div class="search-subject-container">
+
+        <!-- Start of form for searching through courses -->
         <form class="input-group" (search)="searchForCourse(courseCode.value)">
           <label for="course-code" class="sr-only">Course code</label>
           <input #courseCode type="subject-code" id="courseCode" class="form-control" placeholder="f.eks. TDT4120" required="">
           <span class="input-group-btn">
-            <button class="btn btn-md btn-primary btn-block" type="search" (click)="searchForCourse(courseCode.value)">Search!</button>
+
+            <!-- Search button -->
+            <button class="btn btn-md btn-primary btn-block" type="search" (click)="searchForCourse(courseCode.value)">Search</button>
           </span>
         </form><hr>
+
+        <!-- Lists up all courses in the searchedCourses list -->
         <div *ngFor="let searchedCourse of searchedCourses">
           <form class="form-inline">
             <div class="form-group">
               <label class="sr-only">Email</label>
               <p class="form-control-static">{{searchedCourse}}</p>
             </div>
+
+            <!-- Button for adding a course -->
             <button type="submit" class="btn btn-md btn-primary" (click)="addCourse(searchedCourse)">Add</button>
           </form><br>
       </div>

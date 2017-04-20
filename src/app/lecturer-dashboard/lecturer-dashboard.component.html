@@ -4,7 +4,7 @@
       <h2>Your Courses</h2><br>
       <div class="myCourses">
         <div #scrollMe class="courses" id="myCourses">
-          
+
           <!-- Only loads if there is a user -->
           <div *ngIf="afService.user">
 
@@ -41,7 +41,7 @@
                     </div>
                     <div class="app-modal-footer">
                       <button type="button" class="btn btn-default" (click)="hide()">Close</button>
-                      <button type="button" class="btn btn-primary" (click)="addQuestion(question.value, answer.value, modal.getCourse())">Add Question</button>
+                      <button type="button" class="btn btn-primary" (click)="addQuestion(question.value, answer.value, getCourse())">Add Question</button>
                       <button type="button" class="btn btn-primary" (click)="addLecturer(lecturer.value)">Add Lecturer</button>
                     </div>
                   </app-edit-course-modal>
@@ -52,7 +52,7 @@
                   <button type='button' class='btn btn-default' (click)="removeLCourse(course)">Remove
                   </button>
                 </div>
-              </div><br>
+              </div><hr>
             </div>
           </div>
         </div>

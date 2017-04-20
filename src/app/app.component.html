@@ -8,28 +8,39 @@
 
   <body>
 
+    <!-- Start of navbar -->
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
+
+          <!-- Shows if user object -->
           <div *ngIf="afService.user" >
+
+            <!-- Shows if isLecturer equals true -->
             <div *ngIf="afService.user.isLecturer" >
               <a class="navbar-brand" href="/lecturerDashboard">LectureQ</a>
             </div>
+
+            <!-- Shows if isLecturer equals false -->
             <div *ngIf="!afService.user.isLecturer" >
               <a class="navbar-brand" href="/studentDashboard">LectureQ</a>
             </div>
           </div>
+
+          <!-- Shows if user object is not present/null -->
           <div *ngIf="!afService.user" >
             <a class="navbar-brand" href="">LectureQ</a>
           </div>
         </div>
 
+        <!-- Shows if isLoggedIn equals true -->
         <div *ngIf="isLoggedIn" class="collapse navbar-collapse" >
           <ul class="nav navbar-nav navbar-right">
             <li><a (click)="logout()" style="cursor: pointer;">Logout</a></li>
           </ul>
         </div>
 
+        <!-- Shows if isLoggedIn equals false -->
         <div *ngIf="!isLoggedIn" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
             <li><a (click)="login()" style="cursor: pointer;">Sign In</a></li>
@@ -43,6 +54,10 @@
     </nav>
 
     <div class="app-content">
+      <!--
+      Router-outlet shows the current view (everything that goes under the navbar,
+      login, register, studentDashboard etc.) 
+      -->
       <router-outlet></router-outlet>
     </div>
 

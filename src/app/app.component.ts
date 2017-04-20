@@ -8,11 +8,12 @@ import { Router } from "@angular/router";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  // used for showing different sides of the navbar dependant on isLoggedIn
   public isLoggedIn: boolean;
 
   constructor(public afService: AF, private router: Router) {
     // This asynchronously checks if our user is logged in and will automatically
-    // redirect them to the Login page when the status changes.
+    // redirect them to the frontscreen page when the status changes.
     // This is just a small thing that Firebase does that makes it easy to use.
     this.afService.af.auth.subscribe(
       (auth) => {
@@ -33,15 +34,19 @@ export class AppComponent {
       }
     );
   }
-  logout() {
+
+  // Logs user out
+  logout(): void {
     this.afService.logout();
   }
 
-  login() {
+  // Navigates to login view
+  login(): void {
     this.router.navigate(['login']);
   }
 
-  register() {
+  // Navigates to register view
+  register(): void {
     this.router.navigate(['register']);
   }
 

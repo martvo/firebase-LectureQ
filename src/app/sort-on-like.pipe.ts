@@ -3,10 +3,10 @@ import {Pipe, PipeTransform} from '@angular/core';
 @Pipe({
     name: 'sortOnLike'
 })
-export class SortOnLikePipe {
+export class SortOnLikePipe{
 
  transform(array, orderBy, asc = true){
-
+   if (array) {
      if (!orderBy || orderBy.trim() == ""){
        return array;
      }
@@ -18,12 +18,12 @@ export class SortOnLikePipe {
        });
      }
      else{
-       //not asc
-       return Array.from(array).sort((item1: any, item2: any) => {
-         return this.orderByComparator(item2[orderBy], item1[orderBy]);
-       });
-     }
-
+      //not asc
+      return Array.from(array).sort((item1: any, item2: any) => {
+        return this.orderByComparator(item2[orderBy], item1[orderBy]);
+      });
+    }
+  }
  }
 
  orderByComparator(a:any, b:any):number{

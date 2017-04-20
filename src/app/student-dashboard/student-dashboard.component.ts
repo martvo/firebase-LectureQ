@@ -11,7 +11,8 @@ import { FirebaseListObservable, AngularFire } from 'angularfire2';
 export class StudentDashboardComponent implements OnInit {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   public courses: FirebaseListObservable<any>;
-  //public myCourses;
+
+  // variable for all courses that match the search parameter
   public searchedCourses;
 
   constructor(public afService: AF, private router: Router) {
@@ -21,35 +22,40 @@ export class StudentDashboardComponent implements OnInit {
 
   }
 
-  addCourse(course: string){
+  // Adds a course
+  addCourse(course: string): void {
     if(!(this.afService.user.courseList.includes(course))){
       this.afService.user.courseList.push(course);
       this.afService.updateCourse();
     }
   }
 
-  removeCourse(course: string){
+  // Removes a course
+  removeCourse(course: string): void {
     var index = this.afService.user.courseList.indexOf(course);
     this.afService.user.courseList.splice(index,1);
     this.afService.updateCourse();
   }
 
-  goToDashboard(course: string) {
+  // Navigates to correct course dashboard
+  goToDashboard(course: string): void {
     this.afService.setCourse(course);
     this.router.navigate(['dashboard/'],{ queryParams:{ course: course }});
   }
 
-  searchForCourse(course: string) {
-    this.searchedCourses = [];
-    var stringLength = course.length;
-    course = course.toUpperCase();
-    this.afService.courses.forEach(items => {
-      for (let item of items) {
-        console.log(item)
-        if (course == item.$key.slice(0, stringLength)) {
-          this.searchedCourses.push(item.$key);
+  // Search for courses matching the value of the search inputfield
+  searchForCourse(course: string): void {
+    if (course != "") {
+      this.searchedCourses = [];
+      var stringLength = course.length;
+      course = course.toUpperCase();
+      this.afService.courses.forEach(items => {
+        for (let item of items) {
+          if (course == item.$key.slice(0, stringLength)) {
+            this.searchedCourses.push(item.$key);
+          }
         }
-      }
-    });
+      });
+    }
   }
 }

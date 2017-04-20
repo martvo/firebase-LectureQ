@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {AngularFire, AuthProviders, AuthMethods, FirebaseListObservable} from 'angularfire2';
+import {AngularFire, AuthProviders, AuthMethods, FirebaseListObservable, FirebaseAuthState} from 'angularfire2';
 
 @Injectable()
 export class AF {
@@ -8,9 +8,6 @@ export class AF {
   // course variable is used to identify the current course for easy access to
   // that courses questions and chat
   public course: string;
-  public students: FirebaseListObservable<any>;
-  public lecturers: FirebaseListObservable<any>;
-  public userRoles: FirebaseListObservable<any>;
   public messages: FirebaseListObservable<any>;
   public questions: FirebaseListObservable<any>;
 
@@ -27,24 +24,22 @@ export class AF {
 
   constructor(public af: AngularFire) {
     this.questions = this.af.database.list('questions');
-    this.students = this.af.database.list('userRoles/students');
-    this.lecturers = this.af.database.list('userRoles/lecturers');
-    this.userRoles = this.af.database.list('userRoles');
     this.courses = this.af.database.list('courses');
     this.sCourses = this.af.database.list('userRoles/students');
   }
 
-  isLoggedIn(){
+  // returns the loged in user if loged in, undefined/null if not legged in
+  isLoggedIn() {
     return this.user;
   }
 
-  //Logsout the current user
-  logout() {
-    this.user;
+  // Logsout the current user
+  logout(): firebase.Promise<void> {
     return this.af.auth.logout();
   }
 
-  setUserObject(uid){
+  // Sets user object with all needed variables
+  setUserObject(uid: string): void {
     this.af.database.object('/newUsers/' + uid).subscribe(user => {
       this.user = user;
       var courseList = [];
@@ -58,7 +53,8 @@ export class AF {
     });
   }
 
-  updateCourse(){
+  // updatest the list of courses in the courses list for a given user object
+  updateCourse(): void {
     this.af.database.object("newUsers/" + this.user.uid + "/courses").set(this.user.courseList);
   }
 
@@ -66,7 +62,7 @@ export class AF {
    * pushes a new message to the messages array with nessasary fields
    * (FirebaseListObservable<any>)
    */
-  sendMessage(text) {
+  sendMessage(text: string): void {
     var message = {
       message: text,
       timestamp: Date.now(),
@@ -78,9 +74,9 @@ export class AF {
     this.messages.push(message);
   }
 
-  removeMessage(key){
+  //Removes a given messages from the database
+  removeMessage(key: string): void {
     this.af.database.object("chats/" + this.course + "/" + key).remove();
-    //this.messages.remove(key);
   }
 
   /**
@@ -88,8 +84,7 @@ export class AF {
    * @param model
    * @returns {firebase.Promise<void>}
    */
-   registerUser(email, password) {
-     console.log(email)
+   registerUser(email: string, password: string): firebase.Promise<FirebaseAuthState> {
      return this.af.auth.createUser({
        email: email,
        password: password
@@ -109,25 +104,23 @@ export class AF {
        message.likes = [this.user.email];
        message.votes = message.votes +1;
      }
-     //this.messageList[key] = message; //Maybe useless
      this.af.database.object("chats/" + this.course + "/" + key).update(message);
    }
 
-   //set the current course for easy access to propper chat and question
-   setCourse(course){
+   // set the current course for easy access to propper chat and question
+   setCourse(course: string): void {
      this.course = course;
      this.messages = this.af.database.list('chats/' + this.course);
-
-    this.af.database.object('chats/' + this.course).subscribe(item => {
-        this.messageList = item;
+     this.af.database.object('chats/' + this.course).subscribe(item => {
+        this.messageList = item; // sets messages for rigth course
      });
      this.af.database.list("/questions/" + this.course).subscribe(items =>{
-       this.items = items;
+       this.items = items; // sets questions for rigth course
      });
    }
 
-   // adds a question to the given course
-   addQuestion(course: string, question: string, answer: string){
+   // adds a question and answer to the given course
+   addQuestion(course: string, question: string, answer: string): void {
      if (course != null) {
        var words = this.removeStopWords(question);
        var q = {
@@ -138,10 +131,9 @@ export class AF {
      }
    }
 
-
-   askQuestion(question){
+   //
+   askQuestion(question: string ) {
      var words = this.removeStopWords(question);
-     console.log(words);
      var results = [];
 
      this.items.forEach(item => {
@@ -170,12 +162,11 @@ export class AF {
    * @param model
    * @returns {firebase.Promise<void>}
    */
-  saveUserInfoFromForm(uid, name, email,isLecturer) {
+  saveUserInfoFromForm(uid: string, name: string, email: string, isLecturer: boolean): firebase.Promise<void> {
     return this.af.database.object('newUsers/' + uid).set({
       name: name,
       email: email,
       isLecturer: isLecturer,
-      //courses: [] Not necesarry
     });
  }
 
@@ -185,7 +176,7 @@ export class AF {
  * @param password
  * @returns {firebase.Promise<FirebaseAuthState>}
  */
-  loginWithEmail(email, password) {
+  loginWithEmail(email: string, password: string): firebase.Promise<FirebaseAuthState> {
     return this.af.auth.login({
         email: email,
         password: password,
@@ -197,37 +188,16 @@ export class AF {
   }
 
   /**
-   * pushes a new userRole tupple to the userRoles array with nessasary fields
-   * {FirebaseListObservable<any>}
-   * used for differentiating lecturers from students etc.
+   * @returns {firebase.Promise<void>} so that we can make the methode wait for
+   * answer from the database
    */
-  registerRole(email, role) {
-    var userRole = {
-      email: email
-    }
-    if (role == "students") {
-      this.students.push(userRole);
-    }
-    if (role == "lecturers") {
-      this.lecturers.push(userRole);
-    }
-  }
-
-  /**
-   * @returns {firebase.Promise<void>}
-   */
-  getUsers(role) {
-    return this.af.database.list('userRoles/' + role);
-  }
-
-  /**
-   * @returns {firebase.Promise<void>}
-   */
-  getCourses() {
+  getCourses(): FirebaseListObservable<any> {
     return this.af.database.list('courses');
   }
 
-  addLCourse(email, name, code, co_lecturer) {
+  // Adds a course to the courses list in the database
+  addLCourse(email: string, name: string, code: string, co_lecturer: string) {
+    // Adds the course with a co_lecturer
     if (co_lecturer != "") {
       this.af.database.list("newUsers").subscribe(items => {
         items.forEach(item => {
@@ -243,6 +213,7 @@ export class AF {
         })
       })
     }
+    // Adds the course without a co_lecturer
     if (co_lecturer == "") {
       var course = {
         owner: email,
@@ -253,14 +224,14 @@ export class AF {
     }
   }
 
-  // @returns this.course<string>
-  getCurrentCourse() {
+  // Returns the courrent course
+  getCurrentCourse(): string {
     return this.course;
   }
 
   // mothode for lecturers to remove a course
   // removes the course for all students who is attendign the course aswell
-  removeLCourse(course) {
+  removeLCourse(course: string): void {
     this.courses.remove(course);
     // removing the course from every student
     this.af.database.list("newUsers").subscribe(items => {
@@ -278,12 +249,12 @@ export class AF {
   }
 
   // removes all messages from a given course
-  removeAllMessages(course) {
-    console.log(course)
+  removeAllMessages(course: string): void {
     this.af.database.list("chats/" + course).remove();
   }
 
-  removeStopWords(words){
+  // Removes all stopwords, and returns a array of strings
+  removeStopWords(words): string[] {
     words = words.toLowerCase();
     words = words.replace(/[-+()!?.,'*]/g, '');
     words = words.split(" ");
@@ -728,7 +699,7 @@ export class AF {
     return words;
   }
 
-  getMessages(key) {
+  getMessages(key: string): FirebaseListObservable<any> {
     return this.af.database.list('chats/' + this.course + '/' + key);
   }
 }
