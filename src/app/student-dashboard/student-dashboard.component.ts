@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FirebaseListObservable, AngularFire } from 'angularfire2';
 
 @Component({
+  moduleId: module.id.toString(),
   selector: 'app-student-dashboard',
   templateUrl: './student-dashboard.component.html',
   styleUrls: ['./student-dashboard.component.css']

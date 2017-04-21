@@ -1,20 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { } from 'jasmine';
 
-import { RegistratioPageComponent } from './registratio-page.component';
+import { RegistrationPageComponent } from './registration-page.component';
 
-describe('RegistratioPageComponent', () => {
-  let component: RegistratioPageComponent;
-  let fixture: ComponentFixture<RegistratioPageComponent>;
+describe('RegistrationPageComponent', () => {
+  let component: RegistrationPageComponent;
+  let fixture: ComponentFixture<RegistrationPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegistratioPageComponent ]
+      declarations: [ RegistrationPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegistratioPageComponent);
+    fixture = TestBed.createComponent(RegistrationPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -22,4 +23,20 @@ describe('RegistratioPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should check two unequal passwords', () => {
+    // Act
+    var x = component.checkPassword("martin", "Martin")
+
+    // Assert
+    expect(x).toBeFalsy();
+  });
+
+  it('should check two equal passwords', () => {
+    // Act
+    var x = component.checkPassword("martin", "martin")
+
+    // Assert
+    expect(x).toBeTruthy();
+  })
 });

@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { AF } from '../../providers/af';
 
 @Component({
+  moduleId: module.id.toString(),
   selector: 'app-frontscreen',
   templateUrl: './frontscreen.component.html',
   styleUrls: ['./frontscreen.component.css']

@@ -6,7 +6,7 @@ import { Bubble } from './bubble';
 import { EditMessageModalComponent } from '../edit-message-modal/edit-message-modal.component';
 
 @Component({
-  moduleId: module.id,
+  moduleId: module.id.toString(),
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']

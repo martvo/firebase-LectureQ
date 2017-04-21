@@ -3,6 +3,7 @@ import { AF } from "../providers/af";
 import { Router } from "@angular/router";
 
 @Component({
+  moduleId: module.id.toString(),
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
@@ -28,7 +29,6 @@ export class AppComponent {
           if(this.afService.user == null){
             this.afService.setUserObject(auth.auth.uid);
           }
-
           this.isLoggedIn = true;
         }
       }

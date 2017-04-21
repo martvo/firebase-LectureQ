@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  moduleId: module.id,
+  moduleId: module.id.toString(),
   selector: 'app-edit-message-modal',
   templateUrl: './edit-message-modal.component.html',
   styleUrls: ['./edit-message-modal.component.css']

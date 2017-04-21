@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AF} from "../../providers/af";
-import {Router} from "@angular/router";
+import { AF } from "../../providers/af";
+import { Router } from "@angular/router";
 
 @Component({
-  moduleId: module.id,
+  moduleId: module.id.toString(),
   selector: 'app-registration-page',
   templateUrl: './registration-page.component.html',
   styleUrls: ['./registration-page.component.css']

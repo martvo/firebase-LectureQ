@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 
 import { EditCourseModalComponent } from './edit-course-modal.component';
 
@@ -22,4 +22,21 @@ describe('EditCourseModalComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('var visible should be false', () => {
+    expect(component.visible).toBeFalsy();
+  });
+
+  it('var visible should be true', () => {
+    component.show();
+    expect(component.visible).toBeTruthy();
+  });
+
+  it('var visible should be false', fakeAsync(() => {
+    component.show();
+    component.hide();
+    tick(350);
+    expect(component.visible).toBeFalsy();
+  }));
+
 });

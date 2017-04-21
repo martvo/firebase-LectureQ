@@ -5,7 +5,7 @@ import { FirebaseListObservable, AngularFire } from 'angularfire2';
 import { EditCourseModalComponent } from '../edit-course-modal/edit-course-modal.component';
 
 @Component({
-  moduleId: module.id,
+  moduleId: module.id.toString(),
   selector: 'app-lecturer-dashboard',
   templateUrl: './lecturer-dashboard.component.html',
   styleUrls: ['./lecturer-dashboard.component.css']

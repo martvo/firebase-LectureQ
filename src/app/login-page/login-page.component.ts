@@ -3,7 +3,7 @@ import { AF } from '../../providers/af';
 import { Router } from '@angular/router';
 
 @Component({
-  moduleId: module.id,
+  moduleId: module.id.toString(),
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css']

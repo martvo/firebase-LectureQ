@@ -3,8 +3,6 @@ import {AngularFire, AuthProviders, AuthMethods, FirebaseListObservable, Firebas
 
 @Injectable()
 export class AF {
-  //public email: string;
-  //public displayName: string;
   // course variable is used to identify the current course for easy access to
   // that courses questions and chat
   public course: string;
@@ -13,10 +11,6 @@ export class AF {
 
   // courses is used for leturers
   public courses: FirebaseListObservable<any>;
-  // sCourses is used for students
-  public sCourses: FirebaseListObservable<any>;
-  // role variable used for identifying users role
-  public role: string;
 
   public items;
   public user;
@@ -25,7 +19,6 @@ export class AF {
   constructor(public af: AngularFire) {
     this.questions = this.af.database.list('questions');
     this.courses = this.af.database.list('courses');
-    this.sCourses = this.af.database.list('userRoles/students');
   }
 
   // returns the loged in user if loged in, undefined/null if not legged in

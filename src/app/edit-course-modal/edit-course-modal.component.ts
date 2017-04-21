@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  moduleId: module.id,
+  moduleId: module.id.toString(),
   selector: 'app-edit-course-modal',
   templateUrl: './edit-course-modal.component.html',
   styleUrls: ['./edit-course-modal.component.css']
