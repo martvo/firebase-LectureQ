@@ -9,7 +9,7 @@ nav a {
 }
 
 nav a:hover{
-  color: #e75225;
+  color: #428BCA;
 }
 
 .navbar-default{
@@ -18,4 +18,21 @@ nav a:hover{
   border: 0;
   border-radius: 0;
   color: DarkGrey;
+}
+
+.footer{
+  background-color: #333;
+  position: fixed;
+  bottom: 0;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  width: 100%;
+  margin-top: 0;
+}
+
+.footer p{
+  font-size: 11px;
+  text-transform: uppercase;
+  color: DarkGrey;
+  text-align: center;
 }

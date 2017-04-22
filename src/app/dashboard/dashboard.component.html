@@ -1,118 +1,128 @@
-<div *ngIf="afService.user">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="top">
-        <!-- Back button -->
-        <div class="col-md-1 col-lg-offset-0">
-          <button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
-        </div>
-        <!-- Top text for dashboard, will display the course variable from afService -->
-        <div class="col-md-7 col-lg-offset-4">
-          <h1>{{afService.course}}
-          </h1>
-        </div>
-      </div>
-      <!-- All inside this div will only be visible for users where the variable isLecturer is equalt to flase -->
-      <div *ngIf="isStudent()">
-        <div class="col-lg-5 col-lg-offset-1">
-          <div #scrollMe class="bs-example" id="questions">
-            <div *ngFor="let bubble of bubbleLog" >
-              <div *ngIf="bubble.isFrom == false">
-                <div class="question">
-                  <p>{{bubble.text}}</p>
-                </div>
-              </div>
-              <div *ngIf="bubble.isFrom == true" >
-                <div class="response">
-                  <p>{{bubble.text}}</p>
-                </div>
-              </div>
+<!DOCTYPE html>
+<html>
+  <head>
+      <link rel="stylesheet" type="text/css"
+            href="https://fonts.googleapis.com/css?family=Raleway">
+      <title>LectureQ</title>
+  </head>
+  <body>
+    <div *ngIf="afService.user">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="top">
+            <!-- Back button -->
+            <div class="col-md-1 col-lg-offset-0">
+              <button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
+            </div>
+            <!-- Top text for dashboard, will display the course variable from afService -->
+            <div class="col-md-7 col-lg-offset-4">
+              <h1>{{afService.course}}
+              </h1>
             </div>
           </div>
-          <figure class="highlight">
-
-            <!-- Inputfield for chatbot component, the enter key has the same functionality as the Ask Question button -->
-            <input type="textarea" class="question-text" [(ngModel)]="newQuestion" (keyup.enter)="askQuestion()">
-            <a class="ask-question" (click)="askQuestion()">Ask Question</a>
-            <div *ngIf="hasAnswer == true">
-              <p>Does this answer your question?</p>
-              <a class="ask-question" (click)="answeredQuestion(true)">Yes</a>
-              <a class="ask-question" (click)="answeredQuestion(false)">No</a>
-            </div>
-
-          </figure>
-        </div>
-
-        <!-- Question component where students can ask lecturer questions -->
-        <div class="col-md-5 col-lg-offset-0">
-          <div class='bs-example' id='messages'>
-
-            <!-- gets messages from afService, asynchronous -->
-            <div *ngFor="let message of afService.messages | async">
-
-              <!-- creates bubbles for each message -->
-              <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
-                <p class="message">{{ message.message }}
-
-                  <!-- upvote button -->
-                  <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">{{message.votes}}</span>
-                  </button>
-                </p>
-                <div class="author">
-                  {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
-                  <a *ngIf="isMe(message.email)" type='edit' class='edit-text' style="cursor: pointer;" (click)="show(message.$key, message.message)">Edit</a>
-
-                  <!-- Modal (popup) for editing messages belonging to you -->
-                  <app-edit-message-modal>
-                    <div class="app-modal-header">
-                      Edit message
+          <!-- All inside this div will only be visible for users where the variable isLecturer is equalt to flase -->
+          <div *ngIf="isStudent()">
+            <div class="col-lg-5 col-lg-offset-1">
+              <div #scrollMe class="bs-example" id="questions">
+                <div *ngFor="let bubble of bubbleLog" >
+                  <div *ngIf="bubble.isFrom == false">
+                    <div class="question">
+                      <p>{{bubble.text}}</p>
                     </div>
-                    <div class="app-modal-body">
-                      <label for="modalMessage" class="sr-only">Message</label>
-                      <input #modalMessage type="subject-message" id="modalMessage" class="form-control" required="" value="{{getModalMessage()}}" (keyup.enter)="sendEdit(getModalMessageKey(), modalMessage.value)">
+                  </div>
+                  <div *ngIf="bubble.isFrom == true" >
+                    <div class="response">
+                      <p>{{bubble.text}}</p>
                     </div>
-                    <div class="app-modal-footer">
-                      <button type="button" class="btn btn-default" (click)="hide()">Close</button>
-                      <button type="button" class="btn btn-primary" (click)="sendEdit(getModalMessageKey(), modalMessage.value)">Save Edit</button>
-                    </div>
-                  </app-edit-message-modal>
-                  <a *ngIf="isMe(message.email)" type='delete' class='delete-text' style="cursor: pointer;" (click)="delete(message.$key)">Delete</a>
+                  </div>
                 </div>
               </div>
+              <figure class="highlight">
+
+                <!-- Inputfield for chatbot component, the enter key has the same functionality as the Ask Question button -->
+                <input type="textarea" class="question-text" [(ngModel)]="newQuestion" (keyup.enter)="askQuestion()">
+                <a class="ask-question" (click)="askQuestion()">Ask Question</a>
+                <div *ngIf="hasAnswer == true">
+                  <p>Does this answer your question?</p>
+                  <a class="ask-question" (click)="answeredQuestion(true)">Yes</a>
+                  <a class="ask-question" (click)="answeredQuestion(false)">No</a>
+                </div>
+
+              </figure>
             </div>
-          </div>
-          <figure class="highlight">
 
-            <!-- Inputfield for messages, the enter key has the same functionality as the Send button -->
-            <input type="textarea" class="message-text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
-            <a class="send-message" (click)="sendMessage()">SEND</a>
+            <!-- Question component where students can ask lecturer questions -->
+            <div class="col-md-5 col-lg-offset-0">
+              <div class='bs-example' id='messages'>
 
-          </figure>
-        </div>
-      </div>
+                <!-- gets messages from afService, asynchronous -->
+                <div *ngFor="let message of afService.messages | async">
 
-      <!-- Everything in this div will only show for users where the isLecturer variable is equal to true -->
-      <div *ngIf="isLecturer()">
-        <div class="col-md-8 col-lg-offset-2">
-          <div #scrollMe class='bs-example' id='messages'>
+                  <!-- creates bubbles for each message -->
+                  <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
+                    <p class="message">{{ message.message }}
 
-            <!-- gets messages from afService, asynchronous -->
-            <div *ngFor="let message of afService.messages | async">
+                      <!-- upvote button -->
+                      <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">{{message.votes}}</span>
+                      </button>
+                    </p>
+                    <div class="author">
+                      {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
+                      <a *ngIf="isMe(message.email)" type='edit' class='edit-text' style="cursor: pointer;" (click)="show(message.$key, message.message)">Edit</a>
 
-              <!-- creates bubbles for each message -->
-              <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
-                <p class="message">{{ message.message }}
-                </p>
-                <div class="author">
-                  {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
+                      <!-- Modal (popup) for editing messages belonging to you -->
+                      <app-edit-message-modal>
+                        <div class="app-modal-header">
+                          Edit message
+                        </div>
+                        <div class="app-modal-body">
+                          <label for="modalMessage" class="sr-only">Message</label>
+                          <input #modalMessage type="subject-message" id="modalMessage" class="form-control" required="" value="{{getModalMessage()}}" (keyup.enter)="sendEdit(getModalMessageKey(), modalMessage.value)">
+                        </div>
+                        <div class="app-modal-footer">
+                          <button type="button" class="btn btn-default" (click)="hide()">Close</button>
+                          <button type="button" class="btn btn-primary" (click)="sendEdit(getModalMessageKey(), modalMessage.value)">Save Edit</button>
+                        </div>
+                      </app-edit-message-modal>
+                      <a *ngIf="isMe(message.email)" type='delete' class='delete-text' style="cursor: pointer;" (click)="delete(message.$key)">Delete</a>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <figure class="highlight">
+
+                <!-- Inputfield for messages, the enter key has the same functionality as the Send button -->
+                <input type="textarea" class="message-text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
+                <a class="send-message" (click)="sendMessage()">SEND</a>
+
+              </figure>
             </div>
           </div>
-          <!-- End Session Button -->
-          <button class="btn btn-md btn-primary btn-block" type="button" (click)="endSession()">End Session</button>
+
+          <!-- Everything in this div will only show for users where the isLecturer variable is equal to true -->
+          <div *ngIf="isLecturer()">
+            <div class="col-md-8 col-lg-offset-2">
+              <div #scrollMe class='bs-example' id='messages'>
+
+                <!-- gets messages from afService, asynchronous -->
+                <div *ngFor="let message of afService.messages | async">
+
+                  <!-- creates bubbles for each message -->
+                  <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
+                    <p class="message">{{ message.message }}
+                    </p>
+                    <div class="author">
+                      {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Session Button -->
+              <button class="btn btn-md btn-primary btn-block" type="button" (click)="endSession()">End Session</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
+  </body>
+</html>

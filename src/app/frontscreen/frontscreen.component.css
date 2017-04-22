@@ -3,12 +3,12 @@ html, body{
   padding: 0;
 }
 
-body {
+/*body {
   background: url(../img/background.jpg) no-repeat center center;
   width: 100%;
-  max-width: 3000px; /* YOUR BG MAX SIZE */
+  max-width: 3000px; /* YOUR BG MAX SIZE
   background-size: 100%;
-}
+} */
 
 * {
   font-family: "Raleway", sans-serif;
@@ -29,32 +29,20 @@ body {
 
 .main h1{
   font-weight: 600px;
-  font-size: 70px;
+  font-size: 55px;
   margin-top: 0;
   margin-bottom: 20px;
 }
 
 .main h2{
   font-weight: 600px;
-  font-size: 24px;
+  font-size: 2em;
   margin-top: 0;
   margin-bottom: 60px;
 }
 
-.btn-main{
-  background-color: #333;
-  border-radius: 13px;
-  color: #e75225;
-  font-weight: 600;
-  font-size: 24px;
-  letter-spacing: 1.3px;
-  padding: 16px 30px;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
 .info {
-  padding-top: 200px;
+  padding-top: 150px;
   padding-bottom: 100px;
 }
 
@@ -77,21 +65,14 @@ body {
   padding: 0 50px;
 }
 
-.footer{
-  background-color: #333;
-  position: fixed;
-  bottom: 0;
-  padding-top: 10px;
-  padding-bottom: 5px;
-  width: 100%;
-  margin-top: 0;
-}
-
-.footer p{
-  font-size: 11px;
+a {
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 1.3px;
+  padding: 20px 30px;
+  text-decoration: none;
   text-transform: uppercase;
-  color: DarkGrey;
-  text-align: center;
+
 }
 
 .clearfix{
