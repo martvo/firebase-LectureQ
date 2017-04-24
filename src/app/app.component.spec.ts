@@ -3,8 +3,15 @@ import { AppComponent } from './app.component';
 import { RouterTestingModule } from "@angular/router/testing";
 import { MockAF } from "../providers/mockAf";
 import { AF } from "../providers/af";
-import { AngularFire, FirebaseUrl, AngularFireAuth } from 'angularfire2';
+import { AngularFire, FirebaseUrl, AngularFireAuth, AngularFireModule } from 'angularfire2';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import { environment } from '../environments/environment';
 
+
+let AngularFireMock = {
+  auth: Observable.of({ uid: 'ABC123' })
+};
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -17,10 +24,11 @@ describe('AppComponent', () => {
         AppComponent
       ],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
       ],
       providers: [
-        { provide: AF, useClass: MockAF }
+        { provide: AngularFire, useClass: AngularFireMock },
+        { provide: AF, useClass: MockAF },
       ],
     });
     fixture = TestBed.createComponent(AppComponent);
@@ -29,8 +37,8 @@ describe('AppComponent', () => {
 
   it('should create the app', async(() => {
     expect(component).toBeTruthy();
-  })
-);
+    })
+  );
 
   /**
   it(`should have as title 'app works!'`, async(() => {

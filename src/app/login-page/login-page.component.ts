@@ -29,7 +29,7 @@ export class LoginPageComponent {
     event.preventDefault();
     /**
      * waits for answer from the database before
-     * continuing with the login process
+     * continuing with the login process, which happens from the app.component.ts
      */
      this.afService.loginWithEmail(email,password).then(() => {
      });

@@ -21,12 +21,22 @@ export class AF {
   private observer: Observer<boolean>;
 
   constructor(public af: AngularFire) {
-    this.questions = this.af.database.list('questions');
-    this.courses = this.af.database.list('courses');
     this.hasUser = new Observable<boolean>(observer =>{
       this.observer = observer;
       this.observer.next(false);
     });
+  }
+
+  searchForCourse(course: string, stringLenght: number): string[] {
+    var outList = [];
+    this.af.database.list('courses').subscribe(items => {
+      items.forEach(item => {
+        if (course == item.$key.slice(0, stringLenght)) {
+          outList.push(item.$key);
+        }
+      })
+    })
+    return outList;
   }
 
   // returns the loged in user if loged in, undefined/null if not legged in

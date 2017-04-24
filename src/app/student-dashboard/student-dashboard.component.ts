@@ -11,13 +11,11 @@ import { FirebaseListObservable, AngularFire } from 'angularfire2';
 })
 export class StudentDashboardComponent implements OnInit {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
-  public courses: FirebaseListObservable<any>;
 
   // variable for all courses that match the search parameter
   public searchedCourses;
 
   constructor(public afService: AF, private router: Router) {
-    this.afService.courses = this.afService.getCourses();
   }
 
   ngOnInit() {
@@ -48,15 +46,8 @@ export class StudentDashboardComponent implements OnInit {
   searchForCourse(course: string): void {
     if (course != "") {
       this.searchedCourses = [];
-      var stringLength = course.length;
       course = course.toUpperCase();
-      this.afService.courses.forEach(items => {
-        for (let item of items) {
-          if (course == item.$key.slice(0, stringLength)) {
-            this.searchedCourses.push(item.$key);
-          }
-        }
-      });
+      this.searchedCourses = this.afService.searchForCourse(course, course.length).sort();
     }
   }
 }

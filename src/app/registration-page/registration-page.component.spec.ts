@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { } from 'jasmine';
 
-import { RouterTestingModule } from "@angular/router/testing";
+import { Router } from "@angular/router";
 import { MockAF } from "../../providers/mockAf";
 import { AF } from "../../providers/af";
 import { RegistrationPageComponent } from './registration-page.component';
@@ -9,15 +9,17 @@ import { RegistrationPageComponent } from './registration-page.component';
 describe('RegistrationPageComponent', () => {
   let component: RegistrationPageComponent;
   let fixture: ComponentFixture<RegistrationPageComponent>;
+  let routerStub;
 
   beforeEach(async(() => {
+    routerStub = {
+      navigate: jasmine.createSpy('navigate')
+    };
     TestBed.configureTestingModule({
       declarations: [ RegistrationPageComponent ],
-      imports: [
-        RouterTestingModule
-      ],
       providers: [
-        { provide: AF, useClass: MockAF }
+        { provide: AF, useClass: MockAF },
+        { provide: Router, useValue: routerStub },
       ],
     })
     .compileComponents();
@@ -34,18 +36,35 @@ describe('RegistrationPageComponent', () => {
   });
 
   it('should check two unequal passwords', () => {
-    // Act
-    var x = component.checkPassword("martin", "Martin")
-
-    // Assert
-    expect(x).toBeFalsy();
+    // Act and Assert
+    expect(component.checkPassword("martin", "Martin")).toBeFalsy();
   });
 
   it('should check two equal passwords', () => {
-    // Act
-    var x = component.checkPassword("martin", "martin")
-
-    // Assert
-    expect(x).toBeTruthy();
+    // Act and Assert
+    expect(component.checkPassword("martin", "martin")).toBeTruthy();
   })
+
+  it('error variable should be undefined', () => {
+    expect(component.error).toBeUndefined();
+  })
+
+  it('should route to studentDashboard, when passwords are equal', async(() => {
+    component.register(new Event(null), 'martin', 'martin@martin.com', 'martin', 'martin', false);
+    expect(routerStub.navigate).toHaveBeenCalledWith(['studentDashboard']);
+    })
+  )
+
+  it('should route to studentDashboard, when passwords are equal', () => {
+
+  })
+
+  it('should route to studentDashboard, when passwords are equal', () => {
+
+  })
+
+  it('should route to studentDashboard, when passwords are equal', () => {
+
+  })
+
 });

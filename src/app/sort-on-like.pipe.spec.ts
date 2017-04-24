@@ -27,7 +27,7 @@ describe('SortOnLikePipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('creates an instance an sorts on votes desending', () => {
+  it('creates an instance and sorts on votes desending', () => {
     const pipe = new SortOnLikePipe();
     expect(pipe).toBeTruthy();
     const sortedList = pipe.transform(testArray, 'votes', false);
@@ -51,7 +51,7 @@ describe('SortOnLikePipe', () => {
     ]);
   })
 
-  it('creates an instance an sorts on votes acsending', () => {
+  it('creates an instance and sorts on votes acsending', () => {
     const pipe = new SortOnLikePipe();
     expect(pipe).toBeTruthy();
     const sortedList = pipe.transform(testArray, 'votes', true);
@@ -75,7 +75,7 @@ describe('SortOnLikePipe', () => {
     ]);
   })
 
-  it('creates an instance an sorts on email desending', () => {
+  it('creates an instance and sorts on email desending', () => {
     const pipe = new SortOnLikePipe();
     expect(pipe).toBeTruthy();
     const sortedList = pipe.transform(testArray, 'email', false);
@@ -99,7 +99,7 @@ describe('SortOnLikePipe', () => {
     ]);
   })
 
-  it('creates an instance an sorts email acsending', () => {
+  it('creates an instance and sorts email acsending', () => {
     const pipe = new SortOnLikePipe();
     expect(pipe).toBeTruthy();
     const sortedList = pipe.transform(testArray, 'email', true);
