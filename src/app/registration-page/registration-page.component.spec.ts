@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { } from 'jasmine';
 
+import { RouterTestingModule } from "@angular/router/testing";
+import { MockAF } from "../../providers/mockAf";
+import { AF } from "../../providers/af";
 import { RegistrationPageComponent } from './registration-page.component';
 
 describe('RegistrationPageComponent', () => {
@@ -9,7 +12,13 @@ describe('RegistrationPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegistrationPageComponent ]
+      declarations: [ RegistrationPageComponent ],
+      imports: [
+        RouterTestingModule
+      ],
+      providers: [
+        { provide: AF, useClass: MockAF }
+      ],
     })
     .compileComponents();
   }));

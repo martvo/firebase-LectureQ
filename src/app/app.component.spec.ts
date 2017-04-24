@@ -1,6 +1,7 @@
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { RouterTestingModule } from "@angular/router/testing";
+import { MockAF } from "../providers/mockAf";
 import { AF } from "../providers/af";
 import { AngularFire, FirebaseUrl, AngularFireAuth } from 'angularfire2';
 
@@ -9,30 +10,7 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
-  class AngularFireAuthMock extends AngularFireAuth {
-
-  }
-
-  class AngularFireMock extends AngularFire {
-
-  }
-
-  class AFMock extends AF {
-
-  }
-
-  class FirebaseUrlMock {
-
-  }
-
   beforeEach(() => {
-    const firebaseConfig = {
-      apiKey: 'xxx',
-      authDomain: 'xxx',
-      databaseURL: 'xxx',
-      storageBucket: 'xxx',
-      messagingSenderId: 'xxx',
-    };
 
     TestBed.configureTestingModule({
       declarations: [
@@ -42,10 +20,7 @@ describe('AppComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        { provide: AF, useClass: AFMock },
-        { provide: AngularFire, useClass: AngularFireMock },
-        { provide: FirebaseUrl, useClass: FirebaseUrlMock },
-        { provide: AngularFireAuth, useClass: AngularFireAuthMock },
+        { provide: AF, useClass: MockAF }
       ],
     });
     fixture = TestBed.createComponent(AppComponent);

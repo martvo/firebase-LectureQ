@@ -11,7 +11,7 @@ export class AF {
   public messages: FirebaseListObservable<any>;
   public questions: FirebaseListObservable<any>;
 
-  // courses is used for leturers
+  // courses is used for leturers and for search for students
   public courses: FirebaseListObservable<any>;
 
   public items;
@@ -233,7 +233,7 @@ export class AF {
   // mothode for lecturers to remove a course
   // removes the course for all students who is attendign the course aswell
   removeLCourse(course: string): void {
-    this.courses.remove(course);
+    this.af.database.list('courses').remove(course);
     // removing the course from every student
     this.af.database.list("newUsers").subscribe(items => {
       items.forEach(item => {
@@ -246,7 +246,7 @@ export class AF {
       })
     })
     // removing all the questions for the given course
-    this.questions.remove(course);
+    this.af.database.list('questions').remove(course);
   }
 
   // removes all messages from a given course
