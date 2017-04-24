@@ -126,7 +126,6 @@ export class AF {
    askQuestion(question: string ) {
      var words = this.removeStopWords(question);
      var results = [];
-
      this.items.forEach(item => {
        var localValue = 0;
        item.tags.forEach(tag => {
@@ -135,10 +134,10 @@ export class AF {
              localValue += 1;
            }
          });
-         if(localValue > 0){
-           results.push({question: item, score: localValue});
-         }
        });
+       if(localValue > 0){
+         results.push({question: item, score: localValue});
+       }
      });
 
     results.sort(function(a,b) {

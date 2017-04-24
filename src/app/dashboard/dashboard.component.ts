@@ -109,6 +109,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   askQuestion(): void {
     if(this.newQuestion != ""){
       var result = this.afService.askQuestion(this.newQuestion);
+      console.log(result);
       var answer = "";
       if(result.length == 0){
         answer = "No answer found :(";
@@ -126,6 +127,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
       this.bubbleCount += 1;
       this.newQuestion = "";
     }
+    console.log(result);
   }
 
   // Answers question
