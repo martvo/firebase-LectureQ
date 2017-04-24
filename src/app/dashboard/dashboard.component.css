@@ -39,6 +39,7 @@ html, body{
   background-color: #428BCA;
   text-decoration: none;
   padding: 10px 20px 10px 20px;
+  border-radius: 4px;
   display: inline-flex;
   cursor: pointer;
 }
@@ -48,6 +49,7 @@ html, body{
   background-color: #428BCA;
   text-decoration: none;
   padding: 10px 20px 10px 20px;
+  border-radius: 4px;
   display: inline-flex;
   cursor: pointer;
 }
@@ -181,4 +183,22 @@ p {
 .up-vote {
   position: right;
   float: right;
+  font-family: "Raleway", sans-serif;
+  color: #333;
+  background-color: #428BCA;
+  border-radius: 30px;
+  min-width: 40px;
+  min-height: 40px;
+  border-width: 0;
+}
+
+.courseTitle {
+  left: 50%;
+  text-align: center;
+}
+
+.backButton {
+  float: left;
+  padding-left: 20px;
+  position: absolute;
 }

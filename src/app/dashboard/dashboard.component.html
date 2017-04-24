@@ -9,14 +9,13 @@
         <div class="row">
           <div class="top">
             <!-- Back button -->
-            <div class="col-md-1 col-lg-offset-0">
+            <div class="backButton">
               <button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
             </div>
             <!-- Top text for dashboard, will display the course variable from afService -->
-            <div class="col-md-7 col-lg-offset-4">
-              <h1>{{afService.course}}
-              </h1>
-            </div>
+              <div class="courseTitle">
+                  <h1>{{afService.course}}</h1>
+              </div>
           </div>
           <!-- All inside this div will only be visible for users where the variable isLecturer is equalt to flase -->
           <div *ngIf="isStudent()">
@@ -61,7 +60,7 @@
                     <p class="message">{{ message.message }}
 
                       <!-- upvote button -->
-                      <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true">{{message.votes}}</span>
+                      <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"><br>{{message.votes}}</span>
                       </button>
                     </p>
                     <div class="author">

@@ -16,9 +16,12 @@ html, body{
   width: 50%;
   height: 50%;
   margin: 0 auto;
-  padding-top: 30px;
 }
 
 .myCourses {
   width: 80%;
+}
+
+.addButton{
+  float:right;
 }
