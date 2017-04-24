@@ -38,12 +38,12 @@ html, body{
   font-weight: 600px;
   font-size: 2em;
   margin-top: 0;
-  margin-bottom: 60px;
+  margin-bottom: 50px;
 }
 
 .info {
   padding-top: 150px;
-  padding-bottom: 100px;
+  padding-bottom: 80px;
 }
 
 .info .col{
