@@ -24,12 +24,4 @@
   </div>
 
   <!--  -->
-  <div *ngIf="afService.user!=null">
-    <div *ngIf="afService.user.isLecturer" >
-      <meta http-equiv="Refresh" content="1;url=/lecturerDashboard">
-    </div>
-    <div *ngIf="!afService.user.isLecturer" >
-      <meta http-equiv="Refresh" content="1;url=/studentDashboard">
-    </div>
-  </div>
 </div>

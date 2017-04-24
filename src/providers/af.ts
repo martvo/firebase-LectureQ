@@ -1,5 +1,7 @@
 import {Injectable} from "@angular/core";
 import {AngularFire, AuthProviders, AuthMethods, FirebaseListObservable, FirebaseAuthState} from 'angularfire2';
+import {Observable} from 'rxjs/Observable';
+import {Observer} from "rxjs/Observer";
 
 @Injectable()
 export class AF {
@@ -15,10 +17,16 @@ export class AF {
   public items;
   public user;
   public messageList;
+  public hasUser: Observable<boolean>;
+  private observer: Observer<boolean>;
 
   constructor(public af: AngularFire) {
     this.questions = this.af.database.list('questions');
     this.courses = this.af.database.list('courses');
+    this.hasUser = new Observable<boolean>(observer =>{
+      this.observer = observer;
+      this.observer.next(false);
+    });
   }
 
   // returns the loged in user if loged in, undefined/null if not legged in
@@ -43,6 +51,7 @@ export class AF {
       }
       this.user["courseList"] = courseList;
       this.user["uid"] = uid;
+      this.observer.next(true);
     });
   }
 
