@@ -17,10 +17,10 @@ export class StudentDashboardComponent implements OnInit {
   public searchedCourses;
 
   constructor(public afService: AF, private router: Router) {
+    this.afService.courses = this.afService.getCourses();
   }
 
   ngOnInit() {
-
   }
 
   // Adds a course
