@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   private modalMessage: string;
   private modalMessageKey: string;
 
-  constructor(public afService: AF, private router: Router, public af: AngularFire, private route: ActivatedRoute) {
+  constructor(public afService: AF, private router: Router, private route: ActivatedRoute) {
     // Initiates the first chatbot bubble
     this.bubbleLog = [new Bubble(0,"Please ask me a question",true)];
     this.bubbleCount = 1;

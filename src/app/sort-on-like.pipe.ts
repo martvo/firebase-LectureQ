@@ -3,7 +3,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 @Pipe({
     name: 'sortOnLike'
 })
-export class SortOnLikePipe{
+export class SortOnLikePipe {
 
  transform(array, orderBy, asc = true){
    if (array) {

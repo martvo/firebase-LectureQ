@@ -6,7 +6,6 @@ import { AF } from "../providers/af";
 import { AngularFire, FirebaseUrl, AngularFireAuth, AngularFireModule } from 'angularfire2';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { environment } from '../environments/environment';
 
 
 let AngularFireMock = {

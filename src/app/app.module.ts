@@ -1,11 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes }   from '@angular/router';
-
 import { AngularFireModule } from 'angularfire2';
-
 import { AppComponent } from './app.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
@@ -17,7 +15,7 @@ import { LecturerDashboardComponent } from './lecturer-dashboard/lecturer-dashbo
 import { firebaseConfig } from './config';
 import { EditCourseModalComponent } from './edit-course-modal/edit-course-modal.component';
 import { EditMessageModalComponent } from './edit-message-modal/edit-message-modal.component';
-import { SortOnLikePipe } from './sort-on-like.pipe';
+import { SortOnLikePipe } from './sort-on-like.pipe'
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -40,18 +38,17 @@ const routes: Routes = [
     LecturerDashboardComponent,
     EditCourseModalComponent,
     EditMessageModalComponent,
-    SortOnLikePipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    SortOnLikePipe,
   ],
   providers: [AF],
   bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 
 })
 export class AppModule { }

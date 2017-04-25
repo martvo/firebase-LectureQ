@@ -58,14 +58,14 @@ describe('StudentDashboardComponent', () => {
     expect(component.searchedCourses).toEqual([]);
   })
 
-  it('should redirect to dashboard for "TDT4001"', () => {
-    component.goToDashboard("TDT4001");
-    expect(routerStub.navigate).toHaveBeenCalledWith(['dashboard/'], { queryParams: {course: "TDT4001"}});
-  })
-
   it('search for "TDT" should set list "searchedCourses" equal to ["TDT4000","TDT4001","TDT4002"]', () => {
     component.searchForCourse("TDT");
     expect(component.searchedCourses).toEqual(["TDT4000","TDT4001","TDT4002"]);
   })
 
+  it('should redirect to dashboard for "TDT4001"', () => {
+    component.goToDashboard("TDT4001");
+    expect(routerStub.navigate).toHaveBeenCalledWith(['dashboard/'], { queryParams: {course: "TDT4001"}});
+  })
+  
 });
