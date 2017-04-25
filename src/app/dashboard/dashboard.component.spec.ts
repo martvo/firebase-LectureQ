@@ -6,15 +6,14 @@ import { AF } from "../../providers/af";
 import { DashboardComponent } from './dashboard.component';
 import { SortOnLikePipe } from '../sort-on-like.pipe'
 import { EditMessageModalComponent } from '../edit-message-modal/edit-message-modal.component';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import { MockActivatedRoute } from './mock-ActivatedRoute';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   let routerStub;
-
-  let MockActivatedRoute = {
-
-  };
 
   beforeEach(async(() => {
     routerStub = {

@@ -102,4 +102,19 @@ describe('LecturerDashboardComponent', () => {
     expect(component.afService.questions).toContain({tags: ["exam", "course"], answer: "17. of May"});
   });
 
+  it('should not add a question, missing question', () => {
+    component.addQuestion("", "17. of May", "TDT4001");
+    expect(component.afService.questions).toEqual([]);
+  });
+
+  it('should not add a question, missing course', () => {
+    component.addQuestion("When is the exam for this course", "17. of May", null);
+    expect(component.afService.questions).toEqual([]);
+  });
+
+  it('should not add a question, missing course', () => {
+    component.addQuestion("When is the exam for this course", "", "TDT4001");
+    expect(component.afService.questions).toEqual([]);
+  });
+
 });

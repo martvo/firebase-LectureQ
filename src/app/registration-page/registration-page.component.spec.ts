@@ -49,22 +49,15 @@ describe('RegistrationPageComponent', () => {
     expect(component.error).toBeUndefined();
   })
 
-  it('should route to studentDashboard, when passwords are equal', async(() => {
+  it('should not do anything if passwords are unequal', () => {
+    component.register(new Event(null), 'martin', 'martin@martin.com', 'Martin', 'martin', false);
+    expect(routerStub.navigate).not.toHaveBeenCalled();
+  })
+
+  it('error variable should not be equal to undefined, when registrerUser methond returns unexpected Promise', () => {
     component.register(new Event(null), 'martin', 'martin@martin.com', 'martin', 'martin', false);
-    expect(routerStub.navigate).toHaveBeenCalledWith(['studentDashboard']);
-    })
-  )
-
-  it('should route to studentDashboard, when passwords are equal', () => {
-
+    expect(component.error).not.toBeUndefined();
   })
 
-  it('should route to studentDashboard, when passwords are equal', () => {
-
-  })
-
-  it('should route to studentDashboard, when passwords are equal', () => {
-
-  })
 
 });

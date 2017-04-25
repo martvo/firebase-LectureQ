@@ -67,5 +67,25 @@ describe('StudentDashboardComponent', () => {
     component.goToDashboard("TDT4001");
     expect(routerStub.navigate).toHaveBeenCalledWith(['dashboard/'], { queryParams: {course: "TDT4001"}});
   })
-  
+
+  it('should add a course if not added before', () => {
+    component.addCourse("TMA4100");
+    expect(component.afService.user.courseList).toContain("TMA4100");
+  })
+
+  it('should not add a course if added before', () => {
+    component.addCourse("TDT4001");
+    expect(component.afService.user.courseList).toEqual(["TDT4000","TDT4001","TDT4002"]);
+  })
+
+  it('should remove a course if existing in user.courseList', () => {
+    component.removeCourse("TDT4001");
+    expect(component.afService.user.courseList).not.toContain("TDT4001");
+  })
+
+  it("should not do anything is course don't exist in user.courseList", () => {
+    component.removeCourse("TDT4005");
+    expect(component.afService.user.courseList).toEqual(["TDT4000","TDT4001","TDT4002"]);
+  })
+
 });

@@ -17,7 +17,7 @@ export class RegistrationPageComponent  {
 
   // registers the user as a student and logs them in
   register(event, name: string, email: string, password: string, repeatedpassword: string, isLecturer: boolean): void {
-    //event.preventDefault();
+    event.preventDefault();
     if (!this.checkPassword(password, repeatedpassword)) {
       console.log("passwords must be equal!")
       return;

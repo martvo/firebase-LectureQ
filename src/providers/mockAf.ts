@@ -12,6 +12,7 @@ export class MockAF extends AF {
   public user: any;
   public registratedUser: any;
   public questions: any;
+  public af: any;
 
   constructor() {
     super(null);
@@ -37,6 +38,9 @@ export class MockAF extends AF {
     }
 
     this.questions = [];
+    this.af = {
+      auth: new Promise<any>(null),
+    }
   }
 
   logout(): Promise<void> {
@@ -105,5 +109,7 @@ export class MockAF extends AF {
       this.questions.push(q);
     }
   }
+
+
 
 }

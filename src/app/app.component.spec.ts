@@ -7,14 +7,12 @@ import { AngularFire, FirebaseUrl, AngularFireAuth, AngularFireModule } from 'an
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
-
-let AngularFireMock = {
-  auth: Observable.of({ uid: 'ABC123' })
-};
-
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  let AngularFireMock = {
+    auth: Observable.of({ uid: 'ABC123' })
+  };
 
   beforeEach(() => {
 
