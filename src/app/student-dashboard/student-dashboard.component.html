@@ -26,6 +26,27 @@
             </div>
           </div>
         </div>
+        <div class="col-md-6 col-lg-offset-0" >
+          <div class="search-subject-container">
+            <form class="input-group" (search)="searchForCourse(courseCode.value)">
+              <label for="course-code" class="sr-only">Course code</label>
+              <input #courseCode type="subject-code" id="courseCode" class="form-control" placeholder="f.eks. TDT4120" required="">
+              <span class="input-group-btn">
+                <button class="btn btn-md btn-primary btn-block" type="search" (click)="searchForCourse(courseCode.value)">Search!</button>
+              </span>
+            </form><hr>
+            <div *ngFor="let searchedCourse of searchedCourses">
+              <form class="form-inline">
+                <div class="form-group">
+                  <label class="sr-only">Email</label>
+                  <p class="form-control-static">{{searchedCourse}}</p>
+                </div>
+                <div class="addButton">
+                  <button type="submit" class="btn btn-md btn-primary" (click)="addCourse(searchedCourse)">Add</button>
+                </div>
+              </form><br>
+          </div>
+        </div>
       </div>
     </div>
 
