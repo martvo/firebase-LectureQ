@@ -3,14 +3,13 @@
     <div class="row">
       <div class="top">
         <!-- Back button -->
-        <div class="col-md-1 col-lg-offset-0">
+        <div class="backButton">
           <button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
         </div>
         <!-- Top text for dashboard, will display the course variable from afService -->
-        <div class="col-md-7 col-lg-offset-4">
-          <h1>{{afService.course}}
-          </h1>
-        </div>
+          <div class="courseTitle">
+              <h1>{{afService.course}}</h1>
+          </div>
       </div>
       <!-- All inside this div will only be visible for users where the variable isLecturer is equalt to flase -->
       <div *ngIf="isStudent()">
@@ -85,7 +84,7 @@
 
             <!-- Inputfield for messages, the enter key has the same functionality as the Send button -->
             <input type="textarea" class="message-text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
-            <a class="send-message" (click)="sendMessage()">SEND</a>
+            <a class="send-message" (click)="sendMessage()">Send</a>
 
           </figure>
         </div>
