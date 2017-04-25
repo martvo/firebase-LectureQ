@@ -15,7 +15,7 @@ import { LecturerDashboardComponent } from './lecturer-dashboard/lecturer-dashbo
 import { firebaseConfig } from './config';
 import { EditCourseModalComponent } from './edit-course-modal/edit-course-modal.component';
 import { EditMessageModalComponent } from './edit-message-modal/edit-message-modal.component';
-import { SortOnLikePipe } from './sort-on-like.pipe'
+import { SortOnLikePipe } from './sort-on-like.pipe';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -38,6 +38,7 @@ const routes: Routes = [
     LecturerDashboardComponent,
     EditCourseModalComponent,
     EditMessageModalComponent,
+    SortOnLikePipe
   ],
   imports: [
     BrowserModule,
@@ -45,7 +46,6 @@ const routes: Routes = [
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
     RouterModule.forRoot(routes),
-    SortOnLikePipe,
   ],
   providers: [AF],
   bootstrap: [AppComponent],
