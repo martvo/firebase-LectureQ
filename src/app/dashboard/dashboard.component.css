@@ -180,7 +180,7 @@ p {
   border: 1px solid #e1e1e8;
   border-radius: 4px;
 }
-.up-vote, a {
+.up-vote, .up-vote2 {
   position: right;
   float: right;
   font-family: "Raleway", sans-serif;
@@ -190,6 +190,10 @@ p {
   min-width: 40px;
   min-height: 40px;
   border-width: 0;
+}
+
+.up-vote2:hover{
+  cursor: initial;
 }
 
 .courseTitle {
