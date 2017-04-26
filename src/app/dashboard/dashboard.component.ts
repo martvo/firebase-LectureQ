@@ -26,10 +26,10 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   public newQuestion: string;
 
   // variables used by the ChatBot
-  public bubbleLog;
-  public bubbleCount;
-  public previousResults;
-  public hasAnswer: boolean;
+  public bubbleLog; //chatlog between user and bot
+  public bubbleCount; //number of chatbubbles
+  public previousResults; //ranked results from asking the chatbot a question
+  public hasAnswer: boolean; //boolean which is set depending on the bot having an answer to a question
 
   // used for modal
   private modalMessage: string;
@@ -43,6 +43,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     this.previousResults = [];
   }
 
+  //init function
   ngOnInit(): void {
     var sub = this.route
       .queryParams
@@ -218,7 +219,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
       return false;
   }
 
-  // Methode only availible for lecturer, deletes all messages from chat view and navigates to lecturer dashboard
+  // Method only availible for lecturer, deletes all messages from chat view and navigates to lecturer dashboard
   endSession(): void {
     this.router.navigate(['lecturerDashboard']);
     this.afService.removeAllMessages(this.afService.course);

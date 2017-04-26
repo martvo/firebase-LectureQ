@@ -9,9 +9,10 @@ import { Router } from "@angular/router";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  // used for showing different sides of the navbar dependant on isLoggedIn
-  public isLoggedIn: boolean;
 
+  public isLoggedIn: boolean;   // used for showing different sides of the navbar dependant on isLoggedIn
+
+  //constructor
   constructor(public afService: AF, private router: Router) {
     // This asynchronously checks if our user is logged in and will automatically
     // redirect them to the frontscreen page when the status changes.

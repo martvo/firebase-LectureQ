@@ -5,21 +5,21 @@ import {Observer} from "rxjs/Observer";
 
 @Injectable()
 export class AF {
-  // course variable is used to identify the current course for easy access to
-  // that courses questions and chat
-  public course: string;
-  public messages: FirebaseListObservable<any>;
-  public questions: FirebaseListObservable<any>;
 
-  // courses is used for leturers and for search for students
-  public courses: FirebaseListObservable<any>;
+  public course: string;  // course variable is used to identify the current course for easy access to the corresponding Q&A questions and messages
+  public messages: FirebaseListObservable<any>; //List of messages for a course
+  public questions: FirebaseListObservable<any>; //List of questions for a course
 
-  public items;
-  public user;
-  public messageList;
-  public hasUser: Observable<boolean>;
-  private observer: Observer<boolean>;
 
+  public courses: FirebaseListObservable<any>;   // courses is used for leturers and for search for students
+
+  public items; //items returned from querying a question
+  public user; //user object which holds preferences values
+  public messageList; //List of messages
+  public hasUser: Observable<boolean>; //Observable boolean which tells if the provider has retrieved a user object
+  private observer: Observer<boolean>; //observer for observable object
+
+  //Constructor
   constructor(public af: AngularFire) {
     this.hasUser = new Observable<boolean>(observer =>{
       this.observer = observer;
@@ -27,6 +27,7 @@ export class AF {
     });
   }
 
+  //Queries for a course in the database
   searchForCourse(course: string, stringLenght: number): string[] {
     var outList = [];
     this.af.database.list('courses').subscribe(items => {
@@ -70,10 +71,7 @@ export class AF {
     this.af.database.object("newUsers/" + this.user.uid + "/courses").set(this.user.courseList);
   }
 
-  /**
-   * pushes a new message to the messages array with nessasary fields
-   * (FirebaseListObservable<any>)
-   */
+   //pushes a new message to the messages array with nessasary fields
   sendMessage(text: string): void {
     var message = {
       message: text,
@@ -91,11 +89,8 @@ export class AF {
     this.af.database.object("chats/" + this.course + "/" + key).remove();
   }
 
-  /**
-   * Calls the AngularFire2 service to register a new user
-   * @param model
-   * @returns {firebase.Promise<void>}
-   */
+
+   //Calls the AngularFire2 service to register a new user
    registerUser(email: string, password: string): firebase.Promise<FirebaseAuthState> {
      return this.af.auth.createUser({
        email: email,
@@ -143,7 +138,7 @@ export class AF {
      }
    }
 
-   //
+   //Queries a user question to the database
    askQuestion(question: string ) {
      var words = this.removeStopWords(question);
      var results = [];
@@ -167,12 +162,8 @@ export class AF {
     return results;
   }
 
-  /**
-   * Saves information to display to screen when user is logged in
-   * @param uid
-   * @param model
-   * @returns {firebase.Promise<void>}
-   */
+
+  //Saves information to display to screen when user is logged in
   saveUserInfoFromForm(uid: string, name: string, email: string, isLecturer: boolean): firebase.Promise<void> {
     return this.af.database.object('newUsers/' + uid).set({
       name: name,
@@ -181,12 +172,8 @@ export class AF {
     });
  }
 
- /**
- * Logs the user in using their Email/Password combo
- * @param email
- * @param password
- * @returns {firebase.Promise<FirebaseAuthState>}
- */
+
+ //Logs the user in using their Email/Password combo
   loginWithEmail(email: string, password: string): firebase.Promise<FirebaseAuthState> {
     return this.af.auth.login({
         email: email,
@@ -198,10 +185,8 @@ export class AF {
       });
   }
 
-  /**
-   * @returns {firebase.Promise<void>} so that we can make the methode wait for
-   * answer from the database
-   */
+
+  //@returns {firebase.Promise<void>} so that we can make the methode wait for answer from the database
   getCourses(): FirebaseListObservable<any> {
     return this.af.database.list('courses');
   }
@@ -264,7 +249,7 @@ export class AF {
     this.af.database.list("chats/" + course).remove();
   }
 
-  // Removes all stopwords, and returns a array of strings
+  // Removes all stopwords and unwanted characters, and returns a array of strings
   removeStopWords(words): string[] {
     words = words.toLowerCase();
     words = words.replace(/[-+()!?.,'*]/g, '');

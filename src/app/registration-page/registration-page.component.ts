@@ -10,9 +10,10 @@ import { Router } from "@angular/router";
 })
 
 export class RegistrationPageComponent  {
-  // variable used to show error, if any
-  public error: any;
 
+  public error: any;  // variable used to show error, if any
+
+  //constructor
   constructor(private afService: AF, private router: Router) {}
 
   // registers the user as a student and logs them in

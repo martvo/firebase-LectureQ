@@ -12,12 +12,13 @@ import { FirebaseListObservable, AngularFire } from 'angularfire2';
 export class StudentDashboardComponent implements OnInit {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
-  // variable for all courses that match the search parameter
-  public searchedCourses;
+  public searchedCourses;  // variable for all courses that match the search parameter
 
+  //constructor
   constructor(public afService: AF, private router: Router) {
   }
 
+  //init function
   ngOnInit() {
   }
 

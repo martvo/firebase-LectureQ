@@ -22,9 +22,11 @@ export class LecturerDashboardComponent implements OnInit {
   // used for modal to show which course is beeing edited
   private course: string;
 
+  //Constructor
   constructor(public afService: AF, private router: Router) {
   }
 
+  //init function
   ngOnInit() {
   }
 
