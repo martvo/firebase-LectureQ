@@ -20,13 +20,11 @@ export class AppComponent {
     this.afService.af.auth.subscribe(
       (auth) => {
         if(auth == null) {
-          console.log("Not Logged in.");
           this.isLoggedIn = false;
           this.afService.user = null;
           this.router.navigate(['']);
         }
         else {
-          console.log("Successfully Logged in.");
           if(this.afService.user == null){
             this.afService.setUserObject(auth.auth.uid);
           }

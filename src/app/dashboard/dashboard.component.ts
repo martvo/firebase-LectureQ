@@ -189,7 +189,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch(err) {
-    console.log("Scroll to bottom failed!")
+
     }
   }
 
