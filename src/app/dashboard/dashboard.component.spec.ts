@@ -6,9 +6,8 @@ import { AF } from "../../providers/af";
 import { DashboardComponent } from './dashboard.component';
 import { SortOnLikePipe } from '../sort-on-like.pipe'
 import { EditMessageModalComponent } from '../edit-message-modal/edit-message-modal.component';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import { MockActivatedRoute } from './mock-ActivatedRoute';
+import 'rxjs/Rx';
+import { MockModal } from '../edit-course-modal/mockEdit-course-modal.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -31,7 +30,8 @@ describe('DashboardComponent', () => {
       providers: [
         { provide: AF, useClass: MockAF },
         { provide: Router, useValue: routerStub },
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: EditMessageModalComponent, useClass: MockModal },
+        { provide: ActivatedRoute, useValue: { queryParams: Observable.from([{ course: "TDT4001" }]) }},
       ],
     })
     .compileComponents();
@@ -46,4 +46,37 @@ describe('DashboardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should go back to studentDashboard, user in mockAf is a student', () => {
+    component.goBack();
+    expect(routerStub.navigate).toHaveBeenCalledWith(['studentDashboard']);
+  })
+
+  it('should go back to lecturerDashboard, user in mockAf is changed to a lecturer', () => {
+    component.afService.user.isLecturer = true;
+    component.goBack();
+    expect(routerStub.navigate).toHaveBeenCalledWith(['lecturerDashboard']);
+  })
+
+  it('newMessage, newUsers, modalMessage, modalMessageKey should all be undefined at start', () => {
+    expect(component.newMessage).toBeUndefined();
+    expect(component.newQuestion).toBeUndefined();
+    expect(component.getModalMessage()).toBeUndefined();
+    expect(component.getModalMessageKey()).toBeUndefined();
+  })
+
+
+  it('should set modalMessage and modalMessageKey to "heihei" and "fjei3813fhuw" when editing a message', () => {
+    component.show("heihei", "fjei3813fhuw");
+    expect(component.getModalMessage()).toEqual("heihei");
+    expect(component.getModalMessageKey()).toEqual("fjei3813fhuw");
+  })
+
+  it('should set modalMessage and modalMessageKey to null when modal is hidden', () => {
+    component.show("heihei", "fjei3813fhuw");
+    component.hide();
+    expect(component.getModalMessage()).toBeNull();
+    expect(component.getModalMessageKey()).toBeNull();
+  })
+
 });

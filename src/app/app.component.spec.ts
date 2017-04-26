@@ -4,15 +4,12 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { MockAF } from "../providers/mockAf";
 import { AF } from "../providers/af";
 import { AngularFire, FirebaseUrl, AngularFireAuth, AngularFireModule } from 'angularfire2';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/observable/of';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let AngularFireMock = {
-    auth: Observable.of({ uid: 'ABC123' })
-  };
 
   beforeEach(() => {
 
@@ -24,7 +21,7 @@ describe('AppComponent', () => {
         RouterTestingModule,
       ],
       providers: [
-        { provide: AngularFire, useClass: AngularFireMock },
+        { provide: AngularFire, useValue: { auth: Observable.from([{ uid: "qwerty"}]) } },
         { provide: AF, useClass: MockAF },
       ],
     });

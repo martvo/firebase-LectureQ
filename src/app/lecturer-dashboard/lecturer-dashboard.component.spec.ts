@@ -112,7 +112,7 @@ describe('LecturerDashboardComponent', () => {
     expect(component.afService.questions).toEqual([]);
   });
 
-  it('should not add a question, missing course', () => {
+  it('should not add a question, missing answer', () => {
     component.addQuestion("When is the exam for this course", "", "TDT4001");
     expect(component.afService.questions).toEqual([]);
   });

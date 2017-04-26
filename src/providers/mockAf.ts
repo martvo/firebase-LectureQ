@@ -10,12 +10,39 @@ export class MockAF extends AF {
   public mockcourses: string[];
   public course: string;
   public user: any;
+  public lecturer: any;
   public registratedUser: any;
   public questions: any;
   public af: any;
+  public messages: any;
 
   constructor() {
     super(null);
+
+    let af = {
+      auth: Observable.from([{ auth: "qwerty"}])
+    }
+
+    this.messages = [
+      {
+        "TDT4001": [
+          {
+            key: "qwerty123",
+            message: "Hei du!",
+          },
+          {
+            key: "qwerty122",
+            message: "Hvordan går det"
+          }
+        ],
+        "TDT4002": [
+          {
+            key: "qwerty111",
+            message: "hei"
+          }
+        ],
+      }
+    ]
 
     this.mockcourses = [
       "TDT4001",
@@ -47,12 +74,16 @@ export class MockAF extends AF {
     return new Promise<void>(null);
   }
 
-  registerUser(email: string, password: string): Promise<FirebaseAuthState> {
-    return new Promise<FirebaseAuthState>(null);
+  registerUser(email: string, password: string): Promise<any> {
+    return new Promise((user) => {
+      user({uid: "qwerty"});
+    });
   }
 
-  saveUserInfoFromForm(uid: string, name: string, email: string, isLecturer: boolean): Promise<void> {
-    return new Promise<void>(null);
+  saveUserInfoFromForm(uid: string, name: string, email: string, isLecturer: boolean): Promise<any> {
+    return new Promise((resolve) => {
+      resolve(null);
+    });
   }
 
   searchForCourse(course: string, stringLenght: number): string[] {
@@ -110,6 +141,16 @@ export class MockAF extends AF {
     }
   }
 
-
+  removeMessage(key: string): void {
+    for (let entry of this.messages) {
+      if (entry == this.course) {
+        for (let item of entry) {
+          if (item.key = key) {
+            this.messages.entry.slice(entry.indexOf(item), 1);
+          }
+        }
+      }
+    }
+  }
 
 }

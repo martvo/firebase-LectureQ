@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { } from 'jasmine';
 
 import { Router } from "@angular/router";
@@ -49,15 +49,24 @@ describe('RegistrationPageComponent', () => {
     expect(component.error).toBeUndefined();
   })
 
-  it('should not do anything if passwords are unequal', () => {
+  it('should not do anything if passwords are unequal', fakeAsync(() => {
     component.register(new Event(null), 'martin', 'martin@martin.com', 'Martin', 'martin', false);
+    tick(500)
     expect(routerStub.navigate).not.toHaveBeenCalled();
-  })
+  }))
 
-  it('error variable should not be equal to undefined, when registrerUser methond returns unexpected Promise', () => {
+  it('should navigate to lecturerDashboard, no error caught', fakeAsync(() => {
+    component.register(new Event(null), 'martin', 'martin@martin.com', 'martin', 'martin', true);
+    tick(500);
+    expect(routerStub.navigate).toHaveBeenCalledWith(['lecturerDashboard']);
+    expect(component.error).toBeUndefined();
+  }))
+
+  it('should navigate to studentDashboard, no error caught', fakeAsync(() => {
     component.register(new Event(null), 'martin', 'martin@martin.com', 'martin', 'martin', false);
-    expect(component.error).not.toBeUndefined();
-  })
-
+    tick(500);
+    expect(routerStub.navigate).toHaveBeenCalledWith(['studentDashboard']);
+    expect(component.error).toBeUndefined();
+  }))
 
 });
