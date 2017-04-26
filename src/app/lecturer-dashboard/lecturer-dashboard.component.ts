@@ -22,7 +22,7 @@ export class LecturerDashboardComponent implements OnInit {
   // used for modal to show which course is beeing edited
   private course: string;
   private newQuestion: string;
-  private newAnwer: string;
+  private newAnswer: string;
   private courseName: string;
   private courseCode: string;
   private co_lecturer: string;
@@ -76,10 +76,12 @@ export class LecturerDashboardComponent implements OnInit {
     this.afService.removeLCourse(course);
   }
 
-  // adds question from inputs from modal
-  addQuestion(question: string, answer: string, course: string): void {
-    if (question != "" && answer != "" && course != null) {
-      this.afService.addQuestion(course, question, answer);
+  //Add new question to database
+  addQuestion(){
+    if (this.newQuestion != "" && this.newAnswer != "" && this.course  != null) {
+      this.afService.addQuestion(this.course, this.newQuestion, this.newAnswer);
+      this.newQuestion = "";
+      this.newAnswer = "";
     }
   }
 

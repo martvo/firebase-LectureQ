@@ -1,7 +1,7 @@
 <div class="container">
+  <h2>Your Courses</h2><br>
   <div class="row">
     <div class="col-lg-6 col-lg-offset-0">
-      <h2>Your Courses</h2><br>
       <div class="myCourses">
         <div #scrollMe class="courses" id="myCourses">
 
@@ -30,9 +30,9 @@
                       Add a question for the ChatBot here!
                       <hr>
                       <label for="question" class="sr-only">Question</label>
-                      <input #question type="subject-question" id="questios" class="form-control" placeholder="Question" required="">
+                      <input #question type="subject-question" id="questios" [(ngModel)]="newQuestion" class="form-control" placeholder="Question" required="">
                       <label for="answer" class="sr-only">Answer</label>
-                      <input #answer type="subject-answer" id="answer" class="form-control" placeholder="Answer" required="">
+                      <input #answer type="subject-answer" id="answer"  [(ngModel)]="newAnswer" class="form-control" placeholder="Answer" required="">
                       <hr>
                       Add a Co-lecturer
                       <hr>
