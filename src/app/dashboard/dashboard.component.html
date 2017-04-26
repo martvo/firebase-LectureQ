@@ -54,12 +54,12 @@
                 <p class="message">{{ message.message }}
 
                   <!-- upvote button -->
-                  <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true">{{message.votes}}</span>
-                  </button>
-                </p>
-                <div class="author">
-                  {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
-                  <a *ngIf="isMe(message.email)" type='edit' class='edit-text' style="cursor: pointer;" (click)="show(message.$key, message.message)">Edit</a>
+                    <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"><br>{{message.votes}}</span>
+                    </button>
+                  </p>
+                  <div class="author">
+                    {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
+                    <a *ngIf="isMe(message.email)" type='edit' class='edit-text' style="cursor: pointer;" (click)="show(message.$key, message.message)">Edit</a>
 
                   <!-- Modal (popup) for editing messages belonging to you -->
                   <app-edit-message-modal>
