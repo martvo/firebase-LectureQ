@@ -38,7 +38,7 @@ const routes: Routes = [
     LecturerDashboardComponent,
     EditCourseModalComponent,
     EditMessageModalComponent,
-    SortOnLikePipe
+    SortOnLikePipe,
   ],
   imports: [
     BrowserModule,
