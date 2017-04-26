@@ -19,16 +19,16 @@ export class LecturerDashboardComponent implements OnInit {
   // Variable for edit course modal
   public readonly modal: EditCourseModalComponent;
 
-  // used for modal to show which course is beeing edited
-  private course: string;
 
-  private newQuestion: string;
-  private newAnswer: string;
-  private newLecturer: string;
+  private course: string; // used for modal to show which course is beeing edited
 
-  private newCourseName: string;
-  private newCourseCode: string;
-  private newCoLecturer: string;
+  private newQuestion: string; //holds new question value
+  private newAnswer: string; //holds new answer value
+  private newLecturer: string; //holds new co-lecturer value
+
+  private newCourseName: string; //holds new courseName
+  private newCourseCode: string; //holds new courseCode
+  private newCoLecturer: string; //holds new co-lecturer
 
   //Constructor
   constructor(public afService: AF, private router: Router) {
