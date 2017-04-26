@@ -3,6 +3,11 @@ html, body{
   padding: 0;
 }
 
+#endSession{
+  max-width: 200px;
+  margin-top: 20px;
+}
+
 .btn{
   font-family: "Raleway", sans-serif;
   color: #333;
