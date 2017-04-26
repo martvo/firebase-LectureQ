@@ -153,7 +153,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
         this.bubbleCount += 1;
       }
       else{
-        answer = "Your question does not match any existing questions";
+        answer = "I don't know that answer.. Try asking the lecturer!";
         this.hasAnswer = false;
       }
     }

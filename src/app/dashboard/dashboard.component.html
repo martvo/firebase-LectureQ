@@ -99,13 +99,14 @@
             <div *ngFor="let message of afService.messages | async | sortOnLike:'votes':false">
 
               <!-- creates bubbles for each message -->
+
               <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
+                <button type='button' class='up-vote'><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"><br>{{message.votes}}</span>
+                </button>
                 <p class="message">{{ message.message }}
                 </p>
                 <div class="author">
                   {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
-                  <div type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true">{{message.votes}}</span>
-                  </div>
                 </div>
               </div>
             </div>

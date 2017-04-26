@@ -180,7 +180,7 @@ p {
   border: 1px solid #e1e1e8;
   border-radius: 4px;
 }
-.up-vote {
+.up-vote, a {
   position: right;
   float: right;
   font-family: "Raleway", sans-serif;
