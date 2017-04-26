@@ -1,25 +1,20 @@
-<div *ngIf="afService.user">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="top">
-        <!-- Back button -->
-        <div class="backButton">
-          <button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
-        </div>
-        <!-- Top text for dashboard, will display the course variable from afService -->
-          <div class="courseTitle">
-              <h1>{{afService.course}}</h1>
-          </div>
-      </div>
-      <!-- All inside this div will only be visible for users where the variable isLecturer is equalt to flase -->
-      <div *ngIf="isStudent()">
-        <div class="col-lg-5 col-lg-offset-1">
-          <div #scrollMe class="bs-example" id="questions">
-            <div *ngFor="let bubble of bubbleLog" >
-              <div *ngIf="bubble.isFrom == false">
-                <div class="question">
-                  <p>{{bubble.text}}</p>
-                </div>
+  <head>
+      <script src="https://use.fontawesome.com/958fdf525e.js"></script>
+      <link rel="stylesheet" type="text/css"
+            href="https://fonts.googleapis.com/css?family=Raleway">
+      <title>LectureQ</title>
+  </head>
+    <div *ngIf="afService.user">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="top">
+            <!-- Back button -->
+            <div class="backButton">
+              <button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
+            </div>
+            <!-- Top text for dashboard, will display the course variable from afService -->
+              <div class="courseTitle">
+                  <h1>{{afService.course}}</h1>
               </div>
           </div>
           <!-- All inside this div will only be visible for users where the variable isLecturer is equalt to flase -->
@@ -93,15 +88,9 @@
               </div>
               <figure class="highlight">
 
-<<<<<<< HEAD
                 <!-- Inputfield for messages, the enter key has the same functionality as the Send button -->
                 <input type="textarea" class="message-text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
                 <a class="send-message" (click)="sendMessage()">SEND</a>
-=======
-            <!-- Inputfield for messages, the enter key has the same functionality as the Send button -->
-            <input type="textarea" class="message-text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
-            <a class="send-message" (click)="sendMessage()">Send</a>
->>>>>>> 2de02bb60f9b8e07be39969087e8a8ecea69b84b
 
               </figure>
             </div>

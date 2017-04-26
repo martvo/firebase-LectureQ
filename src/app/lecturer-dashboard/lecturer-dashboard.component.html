@@ -14,31 +14,9 @@
                   <div class="btn-group btn-group" role="group" aria-label="...">
                     <div class="btn-group" role="group">
 
-<<<<<<< HEAD
                       <!-- Button for accessing course dashboard -->
                       <button class="btn btn-group btn-md btn-primary btn-block" type="button" (click)="goToDashboard(course)">{{course}}
                       </button>
-=======
-                  <!-- Button for accessing edit-course-modal -->
-                  <button type='button' class='btn btn-default' (click)="show(course)">Edit
-                  </button>
-                  <app-edit-course-modal>
-                    <div class="app-modal-header">
-                      <label for="header">Edit {{getCourse()}}</label>
-                    </div>
-                    <div class="app-modal-body">
-                      Add a question for the ChatBot here!
-                      <hr>
-                      <label for="question" class="sr-only">Question</label>
-                      <input #question type="subject-question" id="questios" [(ngModel)]="newQuestion" class="form-control" placeholder="Question" required="">
-                      <label for="answer" class="sr-only">Answer</label>
-                      <input #answer type="subject-answer" id="answer"  [(ngModel)]="newAnswer" class="form-control" placeholder="Answer" required="">
-                      <hr>
-                      Add a Co-lecturer
-                      <hr>
-                      <label for="lecturer" class="sr-only">Lecturer</label>
-                      <input #lecturer type="subject-lecturer" id="lecturer" class="form-control" placeholder="f.eks: martin@stud.no" required="">
->>>>>>> 2de02bb60f9b8e07be39969087e8a8ecea69b84b
                     </div>
                     <div class="app-modal-footer">
                       <button type="button" class="btn btn-default" (click)="hide()">Close</button>
