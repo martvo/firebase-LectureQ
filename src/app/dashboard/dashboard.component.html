@@ -54,7 +54,7 @@
                 <p class="message">{{ message.message }}
 
                   <!-- upvote button -->
-                  <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">{{message.votes}}</span>
+                  <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true">{{message.votes}}</span>
                   </button>
                 </p>
                 <div class="author">
@@ -104,7 +104,7 @@
                 </p>
                 <div class="author">
                   {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
-                  <div type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">{{message.votes}}</span>
+                  <div type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true">{{message.votes}}</span>
                   </div>
                 </div>
               </div>

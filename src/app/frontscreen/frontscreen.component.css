@@ -3,12 +3,6 @@ html, body{
   padding: 0;
 }
 
-body {
-  background: url(../img/background.jpg) no-repeat center center;
-  width: 100%;
-  max-width: 3000px; /* YOUR BG MAX SIZE */
-  background-size: 100%;
-}
 
 * {
   font-family: "Raleway", sans-serif;
@@ -44,13 +38,17 @@ body {
 .btn-main{
   background-color: #333;
   border-radius: 13px;
-  color: #e75225;
+  color: white;
   font-weight: 600;
   font-size: 24px;
   letter-spacing: 1.3px;
   padding: 16px 30px;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+.btn-main:hover{
+  color: #428bca;
 }
 
 .info {
