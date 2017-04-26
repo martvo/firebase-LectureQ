@@ -21,6 +21,11 @@ export class LecturerDashboardComponent implements OnInit {
 
   // used for modal to show which course is beeing edited
   private course: string;
+  private newQuestion: string;
+  private newAnwer: string;
+  private courseName: string;
+  private courseCode: string;
+  private co_lecturer: string;
 
   //Constructor
   constructor(public afService: AF, private router: Router) {
