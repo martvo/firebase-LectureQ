@@ -30,18 +30,18 @@
                       Add a question for the ChatBot here!
                       <hr>
                       <label for="question" class="sr-only">Question</label>
-                      <input #question type="subject-question" id="questios" [(ngModel)]="newQuestion" class="form-control" placeholder="Question" required="">
+                      <input #question type="subject-question" id="questions" [(ngModel)]="newQuestion" class="form-control" placeholder="Question" required="">
                       <label for="answer" class="sr-only">Answer</label>
                       <input #answer type="subject-answer" id="answer"  [(ngModel)]="newAnswer" class="form-control" placeholder="Answer" required="">
                       <hr>
                       Add a Co-lecturer
                       <hr>
                       <label for="lecturer" class="sr-only">Lecturer</label>
-                      <input #lecturer type="subject-lecturer" id="lecturer" class="form-control" placeholder="f.eks: martin@stud.no" required="">
+                      <input #lecturer type="subject-lecturer" id="lecturer" [(ngModel)]="newLecturer"  class="form-control" placeholder="f.eks: martin@stud.no" required="">
                     </div>
                     <div class="app-modal-footer">
                       <button type="button" class="btn btn-default" (click)="hide()">Close</button>
-                      <button type="button" class="btn btn-primary" (click)="addQuestion(question.value, answer.value, getCourse())">Add Question</button>
+                      <button type="button" class="btn btn-primary" (click)="addQuestion()">Add Question</button>
                       <button type="button" class="btn btn-primary" (click)="addLecturer(lecturer.value)">Add Lecturer</button>
                     </div>
                   </app-edit-course-modal>
@@ -64,11 +64,11 @@
       <div class="add-subject-container">
         <form class="form-signin" (addSubject)="addCourse($event, courseName.value, courseCode.value, email.value)">
           <label for="course-name" class="sr-only">Course name</label>
-          <input #courseName type="subject-name" id="courseName" class="form-control" placeholder="f.eks. Algoritmer og Datastrukturer" required="">
+          <input #courseName type="subject-name" id="courseName" class="form-control" name = "courseName" [(ngModel)]="newCourseName" placeholder="f.eks. Algoritmer og Datastrukturer">
           <label for="course-code" class="sr-only">Course code</label>
-          <input #courseCode type="subject-code" id="courseCode" class="form-control" placeholder="f.eks. TDT4120" required="">
+          <input #courseCode type="subject-code" id="courseCode" class="form-control" name = "couseCode" [(ngModel)]="newCourseCode"  placeholder="f.eks. TDT4120">
           <label for="email" class="sr-only">Co-Lecturer</label>
-          <input #email type="coop-email" id="email" class="form-control" placeholder="f.eks. lecture@ntnu.no (optional)">
+          <input #email type="coop-email" id="email" class="form-control"  name = "coLecturer" [(ngModel)]="newCoLecturer"  placeholder="f.eks. lecture@ntnu.no (optional)" >
           <br>
           <button class="btn btn-md btn-primary btn-block" type="addSubject" (click)="addLCourse($event, courseName.value, courseCode.value, email.value)">Add Course</button>
         </form>

@@ -21,11 +21,14 @@ export class LecturerDashboardComponent implements OnInit {
 
   // used for modal to show which course is beeing edited
   private course: string;
+
   private newQuestion: string;
   private newAnswer: string;
-  private courseName: string;
-  private courseCode: string;
-  private co_lecturer: string;
+  private newLecturer: string;
+
+  private newCourseName: string;
+  private newCourseCode: string;
+  private newCoLecturer: string;
 
   //Constructor
   constructor(public afService: AF, private router: Router) {
@@ -53,13 +56,17 @@ export class LecturerDashboardComponent implements OnInit {
   }
 
   // adds a new course for the lecturer
-  addLCourse(event, courseName: string, courseCode: string, co_lecturer: string): void {
-    courseCode = courseCode.toUpperCase();
-    if(courseName != "" && courseCode != "") {
-      if (!this.afService.user.courseList.includes(courseCode)) {
-        this.afService.user.courseList.push(courseCode);
-        this.afService.addLCourse(this.afService.user.email, courseName, courseCode, co_lecturer);
+  addLCourse(): void {
+    this.newCourseCode = this.newCourseCode.toUpperCase();
+    if(this.newCourseName != "" && this.newCourseCode != "") {
+      if (!this.afService.user.courseList.includes(this.newCourseCode)) {
+        this.afService.user.courseList.push(this.newCourseCode);
+        this.afService.addLCourse(this.afService.user.email, this.newCourseName, this.newCourseCode, this.newCoLecturer);
         this.afService.updateCourse();
+
+        this.newCourseName = "";
+        this.newCourseCode = "";
+        this.newCoLecturer = "";
       }
     }
   }
@@ -86,9 +93,9 @@ export class LecturerDashboardComponent implements OnInit {
   }
 
   // adds a co_lecturer, not in use yet
-  addLecturer(lecturer: string): void {
-    if (lecturer != null) {
-      console.log(lecturer)
+  addLecturer(): void {
+    if (this.newLecturer != "") {
+      this.newLecturer = "";
     }
   }
 
