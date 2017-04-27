@@ -11,7 +11,6 @@ import { Router } from "@angular/router";
 export class AppComponent {
 
   public isLoggedIn: boolean;   // used for showing different sides of the navbar dependant on isLoggedIn
-
   //constructor
   constructor(public afService: AF, private router: Router) {
     // This asynchronously checks if our user is logged in and will automatically
@@ -57,6 +56,20 @@ export class AppComponent {
   // Navigates to register view
   register(): void {
     this.router.navigate(['register']);
+  }
+
+  redirect(){
+      if(this.afService.user){
+        if(this.afService.user.isLecturer){
+          this.router.navigate(['lecturerDashboard']);
+        }
+        else{
+          this.router.navigate(['studentDashboard']);
+        }
+      }
+      else{
+        this.router.navigate(['']);
+      }
   }
 
 }

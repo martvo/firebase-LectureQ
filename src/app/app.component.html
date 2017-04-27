@@ -13,24 +13,8 @@
       <div class="container-fluid">
         <div class="navbar-header">
 
+          <a class = "navbar-brand" (click)="redirect()" style="cursor: pointer;">LectureQ</a>
           <!-- Shows if user object -->
-          <div *ngIf="afService.user" >
-
-            <!-- Shows if isLecturer equals true -->
-            <div *ngIf="afService.user.isLecturer" >
-              <a class="navbar-brand" href="/lecturerDashboard">LectureQ</a>
-            </div>
-
-            <!-- Shows if isLecturer equals false -->
-            <div *ngIf="!afService.user.isLecturer" >
-              <a class="navbar-brand" href="/studentDashboard">LectureQ</a>
-            </div>
-          </div>
-
-          <!-- Shows if user object is not present/null -->
-          <div *ngIf="!afService.user" >
-            <a class="navbar-brand" href="">LectureQ</a>
-          </div>
         </div>
 
         <!-- Shows if isLoggedIn equals true -->
@@ -56,7 +40,7 @@
     <div class="app-content">
       <!--
       Router-outlet shows the current view (everything that goes under the navbar,
-      login, register, studentDashboard etc.) 
+      login, register, studentDashboard etc.)
       -->
       <router-outlet></router-outlet>
     </div>
