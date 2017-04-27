@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { EditCourseModalComponent } from '../edit-course-modal/edit-course-modal.component';
 import { Router } from "@angular/router";
 import { MockAF } from "../../providers/mockAf";
@@ -21,6 +22,9 @@ describe('LecturerDashboardComponent', () => {
       declarations: [
         LecturerDashboardComponent,
         EditCourseModalComponent,
+      ],
+      import: [
+        FormsModule,
       ],
       providers: [
         { provide: AF, useClass: MockAF },
@@ -62,25 +66,25 @@ describe('LecturerDashboardComponent', () => {
   });
 
   it('should add a course to user courseList and to courses list, without a co lecturer',() => {
-    component.addLCourse(new Event(null), "algdat", "TDT4100", "");
+    component.addLCourse();
     expect(component.afService.user.courseList).toContain("TDT4100");
     expect(component.afService.getCourses()).toContain("TDT4100");
   });
 
   it('should not add a course, missing course name', () => {
-    component.addLCourse(new Event(null), "", "TDT4100", "");
+    component.addLCourse();
     expect(component.afService.user.courseList).not.toContain("TDT4100");
     expect(component.afService.getCourses()).not.toContain("TDT4100");
   });
 
   it('should not add a course, missing course code', () => {
-    component.addLCourse(new Event(null), "algdat", "", "");
+    component.addLCourse();
     expect(component.afService.user.courseList).not.toContain("TDT4100");
     expect(component.afService.getCourses()).not.toContain("TDT4100");
   });
 
   it('should add a course with a co_lecturer', () => {
-    component.addLCourse(new Event(null), "algdat", "TDT4100", "");
+    component.addLCourse();
     expect(component.afService.user.courseList).toContain("TDT4100");
     expect(component.afService.getCourses()).toContain("TDT4100");
   });
@@ -98,22 +102,22 @@ describe('LecturerDashboardComponent', () => {
   });
 
   it('should add a question', () => {
-    component.addQuestion("When is the exam for this course", "17. of May", "TDT4001");
+    component.addQuestion();
     expect(component.afService.questions).toContain({tags: ["exam", "course"], answer: "17. of May"});
   });
 
   it('should not add a question, missing question', () => {
-    component.addQuestion("", "17. of May", "TDT4001");
+    component.addQuestion();
     expect(component.afService.questions).toEqual([]);
   });
 
   it('should not add a question, missing course', () => {
-    component.addQuestion("When is the exam for this course", "17. of May", null);
+    component.addQuestion();
     expect(component.afService.questions).toEqual([]);
   });
 
   it('should not add a question, missing answer', () => {
-    component.addQuestion("When is the exam for this course", "", "TDT4001");
+    component.addQuestion();
     expect(component.afService.questions).toEqual([]);
   });
 

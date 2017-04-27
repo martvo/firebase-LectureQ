@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { AF } from '../../providers/af';
 import { Router } from '@angular/router';
 import { FirebaseListObservable, AngularFire } from 'angularfire2';
@@ -85,7 +86,7 @@ export class LecturerDashboardComponent implements OnInit {
 
   //Add new question to database
   addQuestion(){
-    if (this.newQuestion != "" && this.newAnswer != "" && this.course  != null) {
+    if (this.newQuestion != null && this.newAnswer != null && this.course  != null) {
       this.afService.addQuestion(this.course, this.newQuestion, this.newAnswer);
       this.newQuestion = "";
       this.newAnswer = "";

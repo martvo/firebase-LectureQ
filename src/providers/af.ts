@@ -19,6 +19,8 @@ export class AF {
   public hasUser: Observable<boolean>; //Observable boolean which tells if the provider has retrieved a user object
   private observer: Observer<boolean>; //observer for observable object
 
+  private sub: any;
+
   //Constructor
   constructor(public af: AngularFire) {
     this.hasUser = new Observable<boolean>(observer =>{
@@ -194,7 +196,7 @@ export class AF {
   // Adds a course to the courses list in the database
   addLCourse(email: string, name: string, code: string, co_lecturer: string) {
     // Adds the course with a co_lecturer
-    if (co_lecturer != "") {
+    if (co_lecturer != null) {
       this.af.database.list("newUsers").subscribe(items => {
         items.forEach(item => {
           if (item.isLecturer && item.email == co_lecturer && co_lecturer != this.user.email) {
@@ -208,9 +210,8 @@ export class AF {
           }
         })
       })
-    }
-    // Adds the course without a co_lecturer
-    if (co_lecturer == "") {
+    } else {
+      // Adds the course without a co_lecturer
       var course = {
         owner: email,
         courseName: name,
@@ -228,9 +229,9 @@ export class AF {
   // mothode for lecturers to remove a course
   // removes the course for all students who is attendign the course aswell
   removeLCourse(course: string): void {
-    this.af.database.list('courses').remove(course);
     // removing the course from every student
-    this.af.database.list("newUsers").subscribe(items => {
+    this.sub = this.af.database.list("newUsers");
+    this.sub.subscribe(items => {
       items.forEach(item => {
         if (item.courses) {
           if (item.courses.includes(course)) {
@@ -240,8 +241,11 @@ export class AF {
         }
       })
     })
+    // remoing the course from courses
+    this.af.database.list('courses').remove(course);
     // removing all the questions for the given course
     this.af.database.list('questions').remove(course);
+    this.sub.unsubscribe;
   }
 
   // removes all messages from a given course

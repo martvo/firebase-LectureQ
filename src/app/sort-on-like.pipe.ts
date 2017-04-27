@@ -5,6 +5,8 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class SortOnLikePipe {
 
+ // Transforms/sorts the given array, in ascending or decending order base on a boolean,
+ // ascending is true. Orders the array on a given value of the objects in array
  transform(array, orderBy, asc = true){
    if (array) {
      if (!orderBy || orderBy.trim() == ""){
@@ -26,6 +28,9 @@ export class SortOnLikePipe {
   }
  }
 
+
+ // Check if the comparator is a float or a string/char and sorts
+ // Sort chars on value
  orderByComparator(a:any, b:any):number{
 
      if((isNaN(parseFloat(a)) || !isFinite(a)) || (isNaN(parseFloat(b)) || !isFinite(b))){

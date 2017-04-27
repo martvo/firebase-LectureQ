@@ -31,7 +31,7 @@ export class AppComponent {
           this.isLoggedIn = true;
         }
         this.afService.hasUser.subscribe(observer=>{
-          if(observer && !this.router.url.includes("/dashboard")){
+          if(observer && !this.router.url.includes("/dashboard") && this.afService.user.uid == auth.uid){
             if(this.afService.user.isLecturer){
               router.navigate(['lecturerDashboard']);
             }
