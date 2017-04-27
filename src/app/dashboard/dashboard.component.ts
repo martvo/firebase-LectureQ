@@ -35,6 +35,8 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   private modalMessage: string;
   private modalMessageKey: string;
 
+  private sub: any;
+
   constructor(public afService: AF, private router: Router, private route: ActivatedRoute) {
     // Initiates the first chatbot bubble
     this.bubbleLog = [new Bubble(0,"Please ask me a question",true)];
@@ -44,12 +46,16 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    var sub = this.route
+    this.sub = this.route
       .queryParams
       .subscribe(params => {
         // Defaults to error if no query param provided.
         this.afService.setCourse(params['course'] || "error");
       });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   // redirects to proper dashboard based on the isLecturer variable

@@ -6,6 +6,8 @@ import { AF } from "../../providers/af";
 import { DashboardComponent } from './dashboard.component';
 import { SortOnLikePipe } from '../sort-on-like.pipe'
 import { EditMessageModalComponent } from '../edit-message-modal/edit-message-modal.component';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/observable/of';
 import 'rxjs/Rx';
 import { MockModal } from '../edit-course-modal/mockEdit-course-modal.component';
 
@@ -13,6 +15,13 @@ describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   let routerStub;
+
+  class MockActivatedRoute extends ActivatedRoute {
+    constructor() {
+        super();
+        this.queryParams = Observable.of({ 'course': "TDT4001" });
+    }
+  }
 
   beforeEach(async(() => {
     routerStub = {
@@ -31,7 +40,13 @@ describe('DashboardComponent', () => {
         { provide: AF, useClass: MockAF },
         { provide: Router, useValue: routerStub },
         { provide: EditMessageModalComponent, useClass: MockModal },
-        { provide: ActivatedRoute, useValue: { queryParams: Observable.from([{ course: "TDT4001" }]) }},
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        /**{
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: Observable.of({ course: "TDT4001" })
+          }
+        },**/
       ],
     })
     .compileComponents();
