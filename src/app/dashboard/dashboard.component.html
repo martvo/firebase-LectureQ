@@ -3,14 +3,13 @@
     <div class="row">
       <div class="top">
         <!-- Back button -->
-        <div class="col-md-1 col-lg-offset-0">
+        <div class="backButton">
           <button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
         </div>
         <!-- Top text for dashboard, will display the course variable from afService -->
-        <div class="col-md-7 col-lg-offset-4">
-          <h1>{{afService.course}}
-          </h1>
-        </div>
+          <div class="courseTitle">
+              <h1>{{afService.course}}</h1>
+          </div>
       </div>
       <!-- All inside this div will only be visible for users where the variable isLecturer is equalt to flase -->
       <div *ngIf="isStudent()">
@@ -55,12 +54,12 @@
                 <p class="message">{{ message.message }}
 
                   <!-- upvote button -->
-                  <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">{{message.votes}}</span>
-                  </button>
-                </p>
-                <div class="author">
-                  {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
-                  <a *ngIf="isMe(message.email)" type='edit' class='edit-text' style="cursor: pointer;" (click)="show(message.$key, message.message)">Edit</a>
+                    <button type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"><br>{{message.votes}}</span>
+                    </button>
+                  </p>
+                  <div class="author">
+                    {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
+                    <a *ngIf="isMe(message.email)" type='edit' class='edit-text' style="cursor: pointer;" (click)="show(message.$key, message.message)">Edit</a>
 
                   <!-- Modal (popup) for editing messages belonging to you -->
                   <app-edit-message-modal>
@@ -85,7 +84,7 @@
 
             <!-- Inputfield for messages, the enter key has the same functionality as the Send button -->
             <input type="textarea" class="message-text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
-            <a class="send-message" (click)="sendMessage()">SEND</a>
+            <a class="send-message" (click)="sendMessage()">Send</a>
 
           </figure>
         </div>
@@ -102,17 +101,19 @@
               <!-- creates bubbles for each message -->
               <div class="bubble" [class.you]="isYou(message.email)" [class.me]="isMe(message.email)">
                 <p class="message">{{ message.message }}
-                </p>
-                <div class="author">
-                  {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
-                  <div type='button' class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">{{message.votes}}</span>
+
+                  <!-- upvote button -->
+                    <button type='button' disabled class='up-vote' (click)="upvote(message.$key, message.votes)"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"><br>{{message.votes}}</span>
+                    </button>
+                  </p>
+                  <div class="author">
+                    {{ message.timestamp | date:"MM/dd/yy hh:mm a" }}
                   </div>
                 </div>
-              </div>
             </div>
           </div>
           <!-- End Session Button -->
-          <button class="btn btn-md btn-primary btn-block" type="button" (click)="endSession()">End Session</button>
+          <button id = "endSession" class="btn btn-md btn-primary btn-block center-block" type="button" (click)="endSession()">End Session</button>
         </div>
       </div>
     </div>

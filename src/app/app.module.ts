@@ -17,6 +17,7 @@ import { EditCourseModalComponent } from './edit-course-modal/edit-course-modal.
 import { EditMessageModalComponent } from './edit-message-modal/edit-message-modal.component';
 import { SortOnLikePipe } from './sort-on-like.pipe';
 
+//Routes for the entire system
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'dashboard:course', component: DashboardComponent },

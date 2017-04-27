@@ -19,12 +19,22 @@ export class LecturerDashboardComponent implements OnInit {
   // Variable for edit course modal
   public readonly modal: EditCourseModalComponent;
 
-  // used for modal to show which course is beeing edited
-  private course: string;
 
+  private course: string; // used for modal to show which course is beeing edited
+
+  private newQuestion: string; //holds new question value
+  private newAnswer: string; //holds new answer value
+  private newLecturer: string; //holds new co-lecturer value
+
+  private newCourseName: string; //holds new courseName
+  private newCourseCode: string; //holds new courseCode
+  private newCoLecturer: string; //holds new co-lecturer
+
+  //Constructor
   constructor(public afService: AF, private router: Router) {
   }
 
+  //init function
   ngOnInit() {
   }
 
@@ -46,13 +56,17 @@ export class LecturerDashboardComponent implements OnInit {
   }
 
   // adds a new course for the lecturer
-  addLCourse(event, courseName: string, courseCode: string, co_lecturer: string): void {
-    courseCode = courseCode.toUpperCase();
-    if(courseName != "" && courseCode != "") {
-      if (!this.afService.user.courseList.includes(courseCode)) {
-        this.afService.user.courseList.push(courseCode);
-        this.afService.addLCourse(this.afService.user.email, courseName, courseCode, co_lecturer);
+  addLCourse(): void {
+    this.newCourseCode = this.newCourseCode.toUpperCase();
+    if(this.newCourseName != "" && this.newCourseCode != "") {
+      if (!this.afService.user.courseList.includes(this.newCourseCode)) {
+        this.afService.user.courseList.push(this.newCourseCode);
+        this.afService.addLCourse(this.afService.user.email, this.newCourseName, this.newCourseCode, this.newCoLecturer);
         this.afService.updateCourse();
+
+        this.newCourseName = "";
+        this.newCourseCode = "";
+        this.newCoLecturer = "";
       }
     }
   }
@@ -69,17 +83,19 @@ export class LecturerDashboardComponent implements OnInit {
     this.afService.removeLCourse(course);
   }
 
-  // adds question from inputs from modal
-  addQuestion(question: string, answer: string, course: string): void {
-    if (question != "" && answer != "" && course != null) {
-      this.afService.addQuestion(course, question, answer);
+  //Add new question to database
+  addQuestion(){
+    if (this.newQuestion != "" && this.newAnswer != "" && this.course  != null) {
+      this.afService.addQuestion(this.course, this.newQuestion, this.newAnswer);
+      this.newQuestion = "";
+      this.newAnswer = "";
     }
   }
 
   // adds a co_lecturer, not in use yet
-  addLecturer(lecturer: string): void {
-    if (lecturer != null) {
-      console.log(lecturer)
+  addLecturer(): void {
+    if (this.newLecturer != "") {
+      this.newLecturer = "";
     }
   }
 

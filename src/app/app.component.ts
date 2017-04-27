@@ -9,9 +9,10 @@ import { Router } from "@angular/router";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  // used for showing different sides of the navbar dependant on isLoggedIn
-  public isLoggedIn: boolean;
 
+  public isLoggedIn: boolean;   // used for showing different sides of the navbar dependant on isLoggedIn
+
+  //constructor
   constructor(public afService: AF, private router: Router) {
     // This asynchronously checks if our user is logged in and will automatically
     // redirect them to the frontscreen page when the status changes.
@@ -19,13 +20,11 @@ export class AppComponent {
     this.afService.af.auth.subscribe(
       (auth) => {
         if(auth == null) {
-          console.log("Not Logged in.");
           this.isLoggedIn = false;
           this.afService.user = null;
           this.router.navigate(['']);
         }
         else {
-          console.log("Successfully Logged in.");
           if(this.afService.user == null){
             this.afService.setUserObject(auth.auth.uid);
           }

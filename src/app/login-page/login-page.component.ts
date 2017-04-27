@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent {
-  // variable used to show error, if any
-  public error: any;
+  public error: any; // variable used to show error, if any
 
+  //constructor
   constructor(public afService: AF, private router: Router) {}
 
   // Redirects user after loged in
