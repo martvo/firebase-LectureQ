@@ -193,8 +193,17 @@ export class AF {
     return this.af.database.list('courses');
   }
 
-  // Adds a course to the courses list in the database
   addLCourse(email: string, name: string, code: string, co_lecturer: string) {
+    var course = {
+      owner: email,
+      courseName: name,
+      timestamp: Date.now(),
+    }
+    this.af.database.object("courses/" + code).set(course);
+  }
+
+  // Adds a course to the courses list in the database
+  addLCourse2(email: string, name: string, code: string, co_lecturer: string) {
     // Adds the course with a co_lecturer
     if (co_lecturer != null) {
       this.af.database.list("newUsers").subscribe(items => {

@@ -63,6 +63,7 @@ export class LecturerDashboardComponent implements OnInit {
       if (!this.afService.user.courseList.includes(this.newCourseCode)) {
         this.afService.user.courseList.push(this.newCourseCode);
         this.afService.addLCourse(this.afService.user.email, this.newCourseName, this.newCourseCode, this.newCoLecturer);
+        this.afService.addQuestion(this.newCourseCode, "nnnnnnnnnnnn", "fuck");
         this.afService.updateCourse();
 
         this.newCourseName = "";
